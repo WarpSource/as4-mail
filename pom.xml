@@ -110,7 +110,7 @@
         <org.apache.santuario.xmlsec.version>2.1.5</org.apache.santuario.xmlsec.version>        
         <org.bouncycastle.version>1.68</org.bouncycastle.version>
 
-        <cxf-rt.version>3.4.2</cxf-rt.version>
+        <cxf-rt.version>3.4.3</cxf-rt.version>
         <org.apache.activemq.artemis-jms-client.version>2.17.0</org.apache.activemq.artemis-jms-client.version>
         
         <org.primefaces.version>8.0</org.primefaces.version>
