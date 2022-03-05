@@ -54,19 +54,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <!-- PLUGINS -->
         <codehaus.buildnumber.plugin.version>1.4</codehaus.buildnumber.plugin.version>
         <codehaus.cobertura.plugin.version>2.6</codehaus.cobertura.plugin.version>
-        <codehaus.jaxb2.plugin.version>2.5.8</codehaus.jaxb2.plugin.version>
+        <codehaus.jaxb2.plugin.version>2.5.0</codehaus.jaxb2.plugin.version>
         <codehaus.jaxws.plugin.version>2.6</codehaus.jaxws.plugin.version>
         <codehaus.jdepend.plugin.version>2.0</codehaus.jdepend.plugin.version>
         <codehaus.findbugs.plugin.version>3.0.5</codehaus.findbugs.plugin.version>        
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>        
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>                       
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>        
-        <maven.dependency.plugin.version>3.1.2</maven.dependency.plugin.version>
+        <maven.dependency.plugin.version>3.2.0</maven.dependency.plugin.version>
         <maven.ear.plugin.version>3.2.0</maven.ear.plugin.version>
         <maven.ejb.plugin.version>3.1.0</maven.ejb.plugin.version>
         <maven.war.plugin.version>3.3.1</maven.war.plugin.version>     
@@ -82,19 +82,33 @@
              The last open source Saxon release to offer this feature is Saxon 9.7, which of course is still available
              Latest: 9.7.0-14 9.8.0-5
         -->     
-        <net.sf.saxon.version>10.3</net.sf.saxon.version>
+        <net.sf.saxon.version>10.5</net.sf.saxon.version>
         <javax.javaee-api.version>8.0.1</javax.javaee-api.version>
         <javax.annotation.version>1.3.2 </javax.annotation.version>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.17.2</log4j.version>
         <org.apache.xmlgraphics.fop.version>2.6</org.apache.xmlgraphics.fop.version>
-        <org.apache.pdfbox.version>2.0.22</org.apache.pdfbox.version>
+        <org.apache.pdfbox.version>2.0.25</org.apache.pdfbox.version>
 
         <javax.xml.ws.jaxws-api.version>2.3.1</javax.xml.ws.jaxws-api.version>
         <com.sun.xml.ws.jaxws-rt.version>2.3.1</com.sun.xml.ws.jaxws-rt.version>
         <javax.xml.bind.jaxb-api.version>2.4.0-b180830.0359</javax.xml.bind.jaxb-api.version>
         <javax.xml.soap-api.version>1.4.0</javax.xml.soap-api.version>
-       
-        <!-- wildfly 10.1 dependecies / latest  21.10.2017
+        <!-- jaxb -->
+        <glassfish.jaxb-runtime.version>2.3.3</glassfish.jaxb-runtime.version>
+        <glassfish.jaxb-core.version>2.3.0.1</glassfish.jaxb-core.version>
+        <glassfish.jaxb-xjc.version>2.3.3</glassfish.jaxb-xjc.version>
+        <javax.activation.version>1.2.0</javax.activation.version>
+        <!--
+          <glassfish.jaxb-runtime.version>2.3.3</glassfish.jaxb-runtime.version>
+        <glassfish.jaxb-core.version>2.3.0.1</glassfish.jaxb-core.version>
+        <glassfish.jaxb-xjc.version>2.3.3</glassfish.jaxb-xjc.version>
+        <javax.activation.version>1.2.0</javax.activation.version>
+        <javax.xml.ws.jaxws-api.version>2.3.1</javax.xml.ws.jaxws-api.version>
+        <com.sun.xml.ws.jaxws-rt.version>2.3.1</com.sun.xml.ws.jaxws-rt.version>
+        <javax.xml.bind.jaxb-api.version>2.4.0-b180830.0359</javax.xml.bind.jaxb-api.version>
+        <javax.xml.soap-api.version>1.4.0</javax.xml.soap-api.version>
+
+        wildfly 10.1 dependecies / latest  21.10.2017
             - org.bouncycastle: 1.52/ latest 1.58     
             - org.apache.santuario.xmlsec: 2.0.6 / latest 2.1.0
             - org.apache.cxf.*: 3.1.6 / latest 3.2.0
@@ -107,10 +121,10 @@
             - org.apache.cxf.*: 3.1.12 / latest 3.2.0
             - org.apache.activemq.artemis.jms.client: 1.5.5  / latest 2.3.0
         -->
-        <org.apache.santuario.xmlsec.version>2.1.5</org.apache.santuario.xmlsec.version>        
-        <org.bouncycastle.version>1.68</org.bouncycastle.version>
+        <org.apache.santuario.xmlsec.version>2.3.0</org.apache.santuario.xmlsec.version>
+        <org.bouncycastle.version>1.70</org.bouncycastle.version>
 
-        <cxf-rt.version>3.4.3</cxf-rt.version>
+        <cxf-rt.version>3.5.1</cxf-rt.version>
         <org.apache.activemq.artemis-jms-client.version>2.17.0</org.apache.activemq.artemis-jms-client.version>
         
         <org.primefaces.version>8.0</org.primefaces.version>
@@ -119,8 +133,8 @@
         -->      
         <org.apache.derby.version>10.15.2.0</org.apache.derby.version>
         <!--org.hibernate.version>4.2.6.Final</org.hibernate.version -->
-        <org.hibernate.version>5.4.29.Final</org.hibernate.version>
-        <junit.version>4.13.1</junit.version>
+        <org.hibernate.version>5.6.5.Final</org.hibernate.version>
+        <junit.version>4.13.2</junit.version>
         <org.apache.activemq.junit.version>5.16.1</org.apache.activemq.junit.version>      
         <org.apache.activemq.core.version>5.7.0</org.apache.activemq.core.version> 
         <org.hamcrest.version>2.2</org.hamcrest.version>
@@ -328,7 +342,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>jaxb2-maven-plugin</artifactId>
-                    <version>2.5.0</version>
+                    <version>${codehaus.jaxb2.plugin.version}</version>
                     <executions>
                         <execution>
                             <id>xjc</id>
@@ -353,23 +367,23 @@
                         <dependency>
                             <groupId>com.sun.activation</groupId>
                             <artifactId>javax.activation</artifactId>
-                            <version>1.2.0</version>
+                            <version>${javax.activation.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.glassfish.jaxb</groupId>
                             <artifactId>jaxb-runtime</artifactId>
-                            <version>2.3.3</version>
+                            <version>${glassfish.jaxb-runtime.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.glassfish.jaxb</groupId>
                             <artifactId>jaxb-core</artifactId>
-                            <version>3.0.0</version>
+                            <version>${glassfish.jaxb-core.version}</version>
                         </dependency>
 
                         <dependency>
                             <groupId>org.glassfish.jaxb</groupId>
                             <artifactId>jaxb-xjc</artifactId>
-                            <version>2.3.3</version>
+                            <version>${glassfish.jaxb-xjc.version}</version>
                         </dependency>
 
                     </dependencies>
@@ -525,7 +539,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.21.0</version>
+                <version>2.22.2</version>
                 <configuration>
                     <reportsDirectory>${sonar.jacoco.codeCoveragePath}/surefire-reports</reportsDirectory>
                 </configuration>
@@ -613,7 +627,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>6.1.2</version>
+                        <version>7.0.0</version>
                         <inherited>false</inherited>
                         <configuration>
                             <skipProvidedScope>true</skipProvidedScope>
