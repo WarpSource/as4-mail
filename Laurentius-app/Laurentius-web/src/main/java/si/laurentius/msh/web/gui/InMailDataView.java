@@ -153,8 +153,13 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
         if (inpart != null) {
             try {
                 File f = StorageUtils.getFile(inpart.getFilepath());
-                return new DefaultStreamedContent(new FileInputStream(f), inpart.getMimeType(),
-                        inpart.getFilename());
+                FileInputStream fis = new FileInputStream(f);
+                return DefaultStreamedContent.builder()
+                        .stream(() -> fis)
+                        .contentType(MimeValue.getMimeTypeByFileName(f.getName()))
+                        .name( f.getName())
+                        .build();
+
             } catch (FileNotFoundException ex) {
                 LOG.logError(l, ex);
                 addError("File '" + inpart.getFilepath() + "' reading error: " + ex.getMessage());
@@ -174,9 +179,12 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
         File f = StorageUtils.getFile(filePath);
         if (f.exists()) {
             try {
-                return new DefaultStreamedContent(new FileInputStream(f), MimeValue.getMimeTypeByFileName(
-                        f.getName()),
-                        f.getName());
+                FileInputStream fis = new FileInputStream(f);
+                return DefaultStreamedContent.builder()
+                        .stream(() -> fis)
+                        .contentType(MimeValue.getMimeTypeByFileName(f.getName()))
+                        .name( f.getName())
+                        .build();
             } catch (FileNotFoundException ex) {
                 LOG.logError(l, ex);
             }

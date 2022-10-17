@@ -31,9 +31,6 @@ certificate validation tools.</description>
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -53,6 +50,12 @@ certificate validation tools.</description>
             <artifactId>Laurentius-msh-xsd</artifactId>
             <version>${project.version}</version>		
             <!-- scope>provided</scope -->	
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
@@ -97,9 +100,8 @@ certificate validation tools.</description>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.xml.soap</groupId>
-            <artifactId>javax.xml.soap-api</artifactId>
-            <version>1.4.0</version>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

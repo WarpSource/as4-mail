@@ -15,6 +15,8 @@
 package si.laurentius.msh.web.gui;
 
 import java.math.BigInteger;
+import java.util.Objects;
+
 import si.laurentius.commons.enums.SEDTaskStatus;
 import si.laurentius.cron.SEDTaskExecution;
 import si.laurentius.commons.interfaces.SEDDaoInterface;
@@ -47,8 +49,8 @@ public class CronExecutionModel extends AbstractMailDataModel<SEDTaskExecution> 
    * @return
    */
   @Override
-  public Object getRowKey(SEDTaskExecution inMail) {
-    return inMail.getId();
+  public String getRowKey(SEDTaskExecution inMail) {
+    return String.valueOf(inMail.getId());
   }
 
   /**

@@ -32,9 +32,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -73,6 +70,58 @@
             <version>${project.version}</version>		
             <scope>provided</scope>
         </dependency>
+
+        <!-- JAKARTA APIs-->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     
       
         <dependency>
@@ -91,19 +140,13 @@
             <artifactId>cxf-rt-transports-http</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- GUI uses prifeaces componens --> 
+        <!-- GUI components-->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <scope>provided</scope>
         </dependency>	
-        
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>            
-            <scope>provided</scope>
-        </dependency>
-        
+
       
         <dependency>
             <groupId>junit</groupId>

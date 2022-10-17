@@ -33,9 +33,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -70,19 +67,18 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <type>pom</type>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

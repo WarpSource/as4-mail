@@ -30,9 +30,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -58,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
+            <artifactId>hibernate-core</artifactId>
         </dependency>
         
         

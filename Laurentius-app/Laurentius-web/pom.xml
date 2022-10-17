@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -31,9 +32,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -48,6 +46,7 @@
 
     <properties>
         <war.final.name>laurentius-web</war.final.name>
+        <dev.deployment.folder>test-deploy-example/wildfly/standalone/deployments/</dev.deployment.folder>
     </properties>
 
     <dependencies>
@@ -55,34 +54,74 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-commons</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>            
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-plugin-interfaces</artifactId>
-            <version>${project.version}</version>		
-            <scope>provided</scope>	
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-lce</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>            
+            <scope>provided</scope>
+        </dependency>
+        <!-- jakarta APIS-->
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+        <dependency>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <!-- scope>provided</scope-->
         </dependency>
 
+
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
-            <scope>provided</scope>
-            <type>pom</type>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <!-- scope>provided</scope-->
         </dependency>
-        
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <!-- scope>provided</scope-->
+        </dependency>
+
         <!-- GUI uses primefaces components -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <scope>provided</scope>
-        </dependency>	
+        </dependency>
         <!-- dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>primefaces-extensions</artifactId>
@@ -91,19 +130,13 @@
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>resources-codemirror</artifactId>
         </dependency -->
-        
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-       
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>		
+            <artifactId>log4j-core</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
 
     </dependencies>
 
@@ -111,24 +144,24 @@
         <finalName>${war.final.name}</finalName>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>               
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <configuration> 
+                <configuration>
                     <!-- for missing WEB-INF/web.xml-->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <archive>                        
-                        <manifestEntries>                            
-                            <implementation-version>${project.version}</implementation-version>             
-                            <Implementation-Build>${buildNumber}</Implementation-Build>                            
-                            <Dependencies>org.apache.logging.log4j, si.laurentius,org.primefaces</Dependencies>
+                    <archive>
+                        <manifestEntries>
+                            <implementation-version>${project.version}</implementation-version>
+                            <Implementation-Build>${buildNumber}</Implementation-Build>
+                            <Dependencies>org.apache.logging.log4j, si.laurentius</Dependencies>
                         </manifestEntries>
-                        
-                    </archive>                                 
+
+                    </archive>
                 </configuration>
-                 
-            </plugin>            
+
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
@@ -141,11 +174,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <format> {0}.{1} - {2,date, dd.MM.yyyy HH:mm}</format>
+                    <format>{0}.{1} - {2,date, dd.MM.yyyy HH:mm}</format>
                     <items>
                         <item>${project.version}</item>
                         <item>scmVersion</item>
-                        <item>timestamp</item>                        
+                        <item>timestamp</item>
                     </items>
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
@@ -154,4 +187,42 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>development-deploy</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-installed</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>${project.groupId}</groupId>
+                                            <artifactId>${project.artifactId}</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>${project.packaging}</type>
+                                            <destFileName>${war.final.name}.war</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${dev.deployment.folder}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

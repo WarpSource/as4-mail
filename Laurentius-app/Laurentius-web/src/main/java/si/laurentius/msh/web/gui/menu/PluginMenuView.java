@@ -32,8 +32,8 @@ public class PluginMenuView implements Serializable {
     @EJB(mappedName = SEDJNDI.JNDI_PLUGIN)
     private SEDPluginManagerInterface mPluginManager;
 
-    private TreeNode selectedNode;
-    TreeNode mtnRootNode = null;
+    private TreeNode<MenuItem> selectedNode;
+    TreeNode<MenuItem> mtnRootNode = null;
 
     public MainWindow getMainWindow() {
         return mainWindow;
@@ -50,7 +50,7 @@ public class PluginMenuView implements Serializable {
 
     public TreeNode getSelectedNode() {
         if (selectedNode == null && mtnRootNode != null && mtnRootNode.getChildCount() > 0) {
-            selectedNode = mtnRootNode.getChildren().get(0);
+            selectedNode =  mtnRootNode.getChildren().get(0);
         }
         return selectedNode;
     }

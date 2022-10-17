@@ -27,7 +27,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.rmi.PortableRemoteObject;
 import org.apache.cxf.Bus;
 import org.apache.cxf.common.logging.LogUtils;
 import org.apache.cxf.message.Message;
@@ -126,8 +125,7 @@ public class SMTPConduit extends AbstractConduit {
       super.close();
       try {
         
-        Session session = (Session) PortableRemoteObject.narrow(new InitialContext().lookup(
-            setJNDISession), Session.class);
+        Session session = (Session) new InitialContext().lookup(setJNDISession);
         
         MSHOutMail mo = SoapUtils.getMSHOutMail(outMessage);
         EBMSMessageContext moc = SoapUtils.getEBMSMessageOutContext(outMessage);

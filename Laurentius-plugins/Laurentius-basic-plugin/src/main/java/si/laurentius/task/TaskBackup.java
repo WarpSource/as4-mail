@@ -16,10 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -29,6 +26,7 @@ import javax.xml.bind.JAXBException;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.exception.StorageException;
 import si.laurentius.commons.interfaces.SEDDaoInterface;
+import si.laurentius.commons.interfaces.SEDDaoSort;
 import si.laurentius.commons.interfaces.SEDInitDataInterface;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
@@ -160,7 +158,7 @@ public class TaskBackup implements TaskExecutionInterface {
 
       List<MSHInMail> lst
               = mdao.getDataList(MSHInMail.class, (iPage++) * iChunkSize,
-                      iChunkSize, "Id", "ASC", sp);
+                      iChunkSize, Collections.singletonList(SEDDaoSort.SORT_ID_ASC), sp);
       if (!lst.isEmpty()) {
         noList.setCount(lst.size());
         for (MSHInMail m : lst) {
@@ -246,7 +244,7 @@ public class TaskBackup implements TaskExecutionInterface {
 
       List<MSHOutMail> lst
               = mdao.getDataList(MSHOutMail.class, (iPage++) * iChunkSize,
-                      iChunkSize, "Id", "ASC", sp);
+                      iChunkSize, Collections.singletonList(SEDDaoSort.SORT_ID_ASC), sp);
       if (!lst.isEmpty()) {
         noList.setCount(lst.size());
         for (MSHOutMail m : lst) {

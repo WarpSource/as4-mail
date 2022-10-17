@@ -94,7 +94,7 @@
             <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:name" valueSource="name"/>
             <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:sed-box" valueSource="address"/>
             <TransportProtocol id="defalut" isTwoWayProtocol="true">
-                <Address connectionTimeout="120000" receiveTimeout="180000" chunked="false">https://127.0.0.1:8443/laurentius/msh</Address>
+                <Address connectionTimeout="120000" receiveTimeout="180000" chunked="false">http://127.0.0.1:8081/laurentius/msh</Address>
                 <TLS serverTrustCertAlias="localhost" disableCNAndHostnameCheck="true"/>
                 <SOAPVersion>1.2</SOAPVersion>
             </TransportProtocol>

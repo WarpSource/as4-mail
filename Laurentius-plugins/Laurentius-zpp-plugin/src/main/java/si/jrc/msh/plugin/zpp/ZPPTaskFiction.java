@@ -9,14 +9,13 @@ import java.io.StringWriter;
 import java.security.Key;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.xml.bind.JAXBException;
+
+import si.laurentius.commons.interfaces.*;
 import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.msh.outbox.payload.MSHOutPart;
@@ -34,16 +33,12 @@ import si.laurentius.commons.exception.HashException;
 import si.laurentius.commons.exception.PModeException;
 import si.laurentius.commons.exception.SEDSecurityException;
 import si.laurentius.commons.exception.StorageException;
-import si.laurentius.commons.interfaces.JMSManagerInterface;
-import si.laurentius.commons.interfaces.PModeInterface;
-import si.laurentius.commons.interfaces.SEDDaoInterface;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.lce.KeystoreUtils;
 import si.laurentius.msh.inbox.payload.MSHInPart;
 import si.laurentius.msh.inbox.payload.MSHInPayload;
 import si.laurentius.msh.pmode.PartyIdentitySet;
-import si.laurentius.commons.interfaces.SEDCertStoreInterface;
 import si.laurentius.plugin.crontask.CronTaskDef;
 import si.laurentius.plugin.crontask.CronTaskPropertyDef;
 import si.laurentius.plugin.interfaces.PropertyListType;
@@ -129,7 +124,7 @@ public class ZPPTaskFiction implements TaskExecutionInterface {
     mi.setService(ZPPConstants.S_ZPP_SERVICE);
     mi.setSentDateTo(cDatFict.getTime());
     List<MSHOutMail> lst = mDB.getDataList(MSHOutMail.class, -1, maxMailProc,
-            "Id", "ASC", mi);
+            Collections.singletonList(SEDDaoSort.SORT_ID_ASC), mi);
     sw.append("got " + lst.size() + " mail!");
 
     for (MSHOutMail m : lst) {

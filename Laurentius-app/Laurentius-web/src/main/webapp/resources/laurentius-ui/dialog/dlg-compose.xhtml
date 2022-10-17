@@ -100,19 +100,13 @@
                                          editable="true"
                                          editMode="cell"
                                          saveOnCellBlur="true"
-
                                          >
-
                                 <f:facet name="header">
                                     <strong>#{msg['MessageProperties']}</strong>
                                 </f:facet>
-
-
                                 <p:column headerText="#{msg['Name']}" >
                                     <h:outputText value="#{sp.name}" />
                                 </p:column>
-
-
                                 <p:column headerText="#{msg['value']}" >
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{sp.value}" /></f:facet>

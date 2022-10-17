@@ -19,7 +19,9 @@ package si.laurentius.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.Authenticator;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -32,18 +34,14 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import si.laurentius.SEDException_Exception;
-import si.laurentius.SEDMailBoxWS;
-import si.laurentius.SedMailbox;
-import si.laurentius.SubmitMailRequest;
-import si.laurentius.SubmitMailResponse;
+
+import si.laurentius.*;
 import si.laurentius.control.Control;
 import si.laurentius.outbox.mail.OutMail;
 import si.laurentius.outbox.payload.OutPart;
 import si.laurentius.outbox.payload.OutPayload;
 import si.laurentius.outbox.property.OutProperties;
 import si.laurentius.outbox.property.OutProperty;
-import si.laurentius.commons.MimeValues;
 import si.laurentius.commons.utils.SEDLogger;
 
 /**
@@ -52,9 +50,13 @@ import si.laurentius.commons.utils.SEDLogger;
  */
 public class TestLoad {
 
+    public static final String APPL_ID = "appl_1";
+    // This is just example. Secure password in production use
+    //NOSONAR
+    public static final String APPL_PASSWORD = "appl1234";
     public static String MAILBOX_ADDRESS =
-            "http://10.48.0.101:8580/Laurentius-ws/mailbox?wsdl";
-    public static String BLOB_FOLDER = "/sluzba/code/data/test-pdf/";
+            "http://localhost:8080/laurentius-ws/mailbox";
+    public static String BLOB_FOLDER = "/waso/test/pdf/";
 
     public static String[] SENDER_NAMES = new String[]{
         "Vrhovno sodišče - Informacijski sistem eIzvršba Okrajno sodišče v Trebnjem",
@@ -240,7 +242,7 @@ public class TestLoad {
         "sklep ustavitev premičnine   odredba seznam premoženja +sklep stroški 4.12.2015 s prilogo",
         "2x vloga 16.2.2016 (Ab) in vloga 16.2.2016"};
 
-    public static String SENDER_BOX = "izvrsba@sed-court.si";
+    public static String SENDER_BOX = "a.department@mb-laurentius.si";
 
     public static final SEDLogger LOG = new SEDLogger(TestLoad.class);
 
@@ -258,11 +260,17 @@ public class TestLoad {
     public SEDMailBoxWS getService() {
         if (mTestInstance == null) {
             try {
-                SedMailbox msb = new SedMailbox(new URL(MAILBOX_ADDRESS));
+                Authenticator.setDefault(new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(APPL_ID, APPL_PASSWORD.
+                                toCharArray());
+                    }
+                });
+                Mailbox msb = new Mailbox(new URL(MAILBOX_ADDRESS));
                 mTestInstance = msb.getSEDMailBoxWSPort();
             } catch (MalformedURLException ex) {
-                LogManager.getLogger(TestLoad.class.getName()).log(Level.SEVERE,
-                        null, ex);
+                ex.printStackTrace();
             }
         }
         return mTestInstance;
@@ -272,9 +280,9 @@ public class TestLoad {
     public static void main(String... args) {
         TestLoad tl = new TestLoad();
         try {
-            tl.testLoad_a(50);
+            tl.testLoad_a(10);
         } catch (SEDException_Exception ex) {
-            LogManager.getLogger(TestLoad.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -285,7 +293,7 @@ public class TestLoad {
     public void testLoad_a(int imsgs)
             throws SEDException_Exception {
 
-        String recBox = "izvrsba@sed-bk.si";
+        String recBox = "a.department@mb-laurentius.si";
         String recName = "Banka Koper, Izvršilni oddelek";
         String service = "DeliveryWithReceipt";
         String action = "Delivery";
@@ -370,11 +378,10 @@ public class TestLoad {
                 op.setFilename(f.getName());
                 op.setDescription(i++ == 0 ? "Sklep" : "Priloga");
                 op.setBin(Files.readAllBytes(f.toPath()));
-                op.setMimeType(MimeValues.MIME_PDF.getMimeType());
+                op.setMimeType("application/pdf");
                 om.getOutPayload().getOutParts().add(op);
             } catch (IOException ex) {
-                LogManager.getLogger(TestLoad.class.getName()).log(Level.SEVERE,
-                        null, ex);
+                ex.printStackTrace();
             }
         }
 
@@ -385,8 +392,8 @@ public class TestLoad {
     private Control createControl() {
 
         Control c = new Control();
-        c.setApplicationId("ApplicationId");
-        c.setUserId("UserId");
+        c.setApplicationId("appl_1");
+        c.setUserId("appl_1");
         return c;
 
     }

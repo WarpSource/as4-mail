@@ -52,8 +52,8 @@ public class OutMailDataModel extends AbstractMailDataModel<TableOutMail> {
    * @return
    */
   @Override
-  public Object getRowKey(TableOutMail inMail) {
-    return inMail.getId();
+  public String getRowKey(TableOutMail inMail) {
+    return String.valueOf(inMail.getId());
   }
 
   /**

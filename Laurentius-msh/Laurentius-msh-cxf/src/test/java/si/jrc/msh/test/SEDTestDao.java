@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import si.laurentius.commons.interfaces.SEDDaoSort;
 import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.cron.SEDTaskExecution;
@@ -22,213 +24,208 @@ import si.laurentius.msh.outbox.payload.MSHOutPart;
 import si.laurentius.msh.pmode.PMode;
 
 /**
- *
  * @author Jože Rihtaršič
  */
-public class SEDTestDao implements SEDDaoInterface{
+public class SEDTestDao implements SEDDaoInterface {
 
-  @Override
-  public <T> List<T> getDataList(Class<T> type, String hql,
-          Map<String, Object> params) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public Date setStatusToInMail(BigInteger id, SEDInboxMailStatus status,
-          String desc, String userID, String applicationId, String filePath,
-          String mime) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  
-
-  @Override
-  public boolean addExecutionTask(SEDTaskExecution ad)
-      throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public Date sendOutMessage(BigInteger id, SEDOutboxMailStatus status,
-          int retry, long delay,int priority, String userId, String applicationId) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public boolean addInMailPayload(MSHInMail mi, List<MSHInPart> lstParts,
-          SEDInboxMailStatus status, String statusdesc, String userId, String applicationId) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public boolean addOutMailPayload(MSHOutMail mi, List<MSHOutPart> lstParts,
-          SEDOutboxMailStatus status,  String statusdesc, String userId, String applicationId) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> List<T> getDataList(Class<T> type, int startingAt, int maxResultCnt, String sortField,
-      String sortOrder, Object filters) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T, D> List<T> getDataList(Class<T> resultType, int startingAt,
-          int maxResultCnt, String sortField, String sortOrder, Object filters,
-          Class<D> filterType) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> long getDataListCount(Class<T> type, Object filters) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public List<MSHInMail> getInMailConvIdAndAction(String action, String convId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public SEDTaskExecution getLastSuccesfullTaskExecution(BigInteger cronId, String type)
-      throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> T getMailById(Class<T> type, BigInteger mailId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> List<T> getMailByMessageId(Class<T> type, String mailId) {
-    return Collections.emptyList();
-  }
-
-  @Override
-  public <T> List<T> getMailBySenderMessageId(Class<T> type, String mailSenderId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> List<T> getMailEventList(Class<T> type, BigInteger mailId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public <T> List<T> getMailPartList(Class<T> type, BigInteger mailId) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void removeInMail(BigInteger bi)
-      throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void removeOutMail(BigInteger bi)
-      throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void sendOutMessage(MSHOutMail mail, int retry, long delay,int priority, String userId,
-      String applicationId)
-      throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public void serializeInMail(MSHInMail mail, String applicationId)
-      throws StorageException {
-    
-  }
-
-  @Override
-  public void serializeOutMail(MSHOutMail mail, String userID, String applicationId, PMode pmodeId)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public void serializeInOutMail(MSHInMail inMail, MSHOutMail outMail,
-          String applicationId, PMode pmode) throws StorageException {
-      // no implementation
-  }
-
-  @Override
-  public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc,
-      String userID, String applicationId)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc,
-      String userID, String applicationId, String filePath, String mime)
-      throws StorageException {
-  // no implementation
-  }
-
-  @Override
-  public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc,
-      String userID, String applicationId)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc,
-      String userID, String applicationId, String filePath, String mime)
-      throws StorageException {
-    // no implementation
-  }
-
-  @Override
-  public Date setStatusToOutMail(BigInteger id, String senderMessageID,
-          Date sentDate, Date receivedDate, Date deliveredDate,
-          SEDOutboxMailStatus status, String desc, String userID,
-          String applicationId, String filePath, String mime) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @Override
-  public boolean updateExecutionTask(SEDTaskExecution ad)
-      throws StorageException {
-    // no implementation
-    return false;
-  }
-
-  @Override
-  public void updateInMail(MSHInMail mail, String statusDesc, String userID)
-      throws StorageException {
-    
-  }
-
-  @Override
-  public void updateOutMail(MSHOutMail mail, String statusDesc, String userID)
-      throws StorageException {
+    @Override
+    public <T> List<T> getDataList(Class<T> type, String hql,
+                                   Map<String, Object> params) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  @Override
-  public boolean updateOutMailPayload(MSHOutMail mi,
-          List<MSHOutPart> lstAddParts, List<MSHOutPart> lstUpdateParts,
-          List<MSHOutPart> lstDeleteParts, SEDOutboxMailStatus status,
-          String statusdesc, String userId, String applicationId) throws StorageException {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
+    @Override
+    public Date setStatusToInMail(BigInteger id, SEDInboxMailStatus status,
+                                  String desc, String userID, String applicationId, String filePath,
+                                  String mime) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public boolean addExecutionTask(SEDTaskExecution ad)
+            throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Date sendOutMessage(BigInteger id, SEDOutboxMailStatus status,
+                               int retry, long delay, int priority, String userId, String applicationId) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean addInMailPayload(MSHInMail mi, List<MSHInPart> lstParts,
+                                    SEDInboxMailStatus status, String statusdesc, String userId, String applicationId) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean addOutMailPayload(MSHOutMail mi, List<MSHOutPart> lstParts,
+                                     SEDOutboxMailStatus status, String statusdesc, String userId, String applicationId) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> List<T> getDataList(Class<T> type, int startingAt, int maxResultCnt, List<SEDDaoSort> sortList, Object filters) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T, D> List<T> getDataList(Class<T> resultType, int startingAt, int maxResultCnt, List<SEDDaoSort> sortList, Object filters, Class<D> filterType) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> long getDataListCount(Class<T> type, Object filters) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<MSHInMail> getInMailConvIdAndAction(String action, String convId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public SEDTaskExecution getLastSuccesfullTaskExecution(BigInteger cronId, String type)
+            throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> T getMailById(Class<T> type, BigInteger mailId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> List<T> getMailByMessageId(Class<T> type, String mailId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public <T> List<T> getMailBySenderMessageId(Class<T> type, String mailSenderId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> List<T> getMailEventList(Class<T> type, BigInteger mailId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> List<T> getMailPartList(Class<T> type, BigInteger mailId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeInMail(BigInteger bi)
+            throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeOutMail(BigInteger bi)
+            throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void sendOutMessage(MSHOutMail mail, int retry, long delay, int priority, String userId,
+                               String applicationId)
+            throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void serializeInMail(MSHInMail mail, String applicationId)
+            throws StorageException {
+
+    }
+
+    @Override
+    public void serializeOutMail(MSHOutMail mail, String userID, String applicationId, PMode pmodeId)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void serializeInOutMail(MSHInMail inMail, MSHOutMail outMail,
+                                   String applicationId, PMode pmode) throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc,
+                                  String userID, String applicationId)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status, String desc,
+                                  String userID, String applicationId, String filePath, String mime)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc,
+                                   String userID, String applicationId)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status, String desc,
+                                   String userID, String applicationId, String filePath, String mime)
+            throws StorageException {
+        // no implementation
+    }
+
+    @Override
+    public Date setStatusToOutMail(BigInteger id, String senderMessageID,
+                                   Date sentDate, Date receivedDate, Date deliveredDate,
+                                   SEDOutboxMailStatus status, String desc, String userID,
+                                   String applicationId, String filePath, String mime) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean updateExecutionTask(SEDTaskExecution ad)
+            throws StorageException {
+        // no implementation
+        return false;
+    }
+
+    @Override
+    public void updateInMail(MSHInMail mail, String statusDesc, String userID)
+            throws StorageException {
+
+    }
+
+    @Override
+    public void updateOutMail(MSHOutMail mail, String statusDesc, String userID)
+            throws StorageException {
+    }
+
+    @Override
+    public boolean updateOutMailPayload(MSHOutMail mi,
+                                        List<MSHOutPart> lstAddParts, List<MSHOutPart> lstUpdateParts,
+                                        List<MSHOutPart> lstDeleteParts, SEDOutboxMailStatus status,
+                                        String statusdesc, String userId, String applicationId) throws StorageException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

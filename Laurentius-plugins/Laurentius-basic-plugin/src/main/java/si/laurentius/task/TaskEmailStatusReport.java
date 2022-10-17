@@ -6,18 +6,13 @@ package si.laurentius.task;
 
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import si.laurentius.commons.SEDSystemProperties;
 import si.laurentius.commons.SEDValues;
 import si.laurentius.commons.exception.StorageException;
+import si.laurentius.commons.interfaces.SEDDaoSort;
 import si.laurentius.commons.utils.StringFormater;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.cron.SEDTaskExecution;
@@ -337,7 +332,7 @@ public class TaskEmailStatusReport extends TaskEmailReport {
         }
 
         List<MSHInMail> lstInMail = mdao.
-                getDataList(MSHInMail.class, -1, 500, "Id", "ASC", srimf);
+                getDataList(MSHInMail.class, -1, 500, Collections.singletonList(SEDDaoSort.SORT_ID_ASC), srimf);
 
         swBody.append(System.lineSeparator());
         swBody.append("Seznam dohodne pošte (do 500 pošiljk): ");
@@ -375,7 +370,7 @@ public class TaskEmailStatusReport extends TaskEmailReport {
         
         
         List<MSHOutMail> lstOutMail = mdao.
-                getDataList(MSHOutMail.class, -1, 500, "Id", "ASC", sromf);
+                getDataList(MSHOutMail.class, -1, 500, Collections.singletonList(SEDDaoSort.SORT_ID_ASC), sromf);
         swBody.append(System.lineSeparator());
         swBody.append("Seznam izhodne pošte (do 500 pošiljk): ");
         swBody.append("St pošiljk: '" + lstOutMail.size() + "'");

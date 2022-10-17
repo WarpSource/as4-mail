@@ -21,11 +21,6 @@
                           description="#{msg['OutboxDefDesc']}"
                           icon="ui-icon-svg-outbox"
                           >
-            <script>
-                $(window).resize(function () {
-                    adjustTableColumns('OutMailTable', 'OutMailTableContainer', true);
-                });
-            </script>
             <div id="OutMailDataMain" class="p-grid p-dir-col" style="min-width:400px;min-height:400px;height: 100%;width: 100%">
 
                 <div id="OutMailTableContainer" class="p-col" style="height: calc(100% - 220px);width: 100%">
@@ -106,7 +101,7 @@
 
                             </f:facet>
 
-                            <p:outputPanel id="OutMailData" >
+                            <p:outputPanel id="OutMailData" lazy="true" >
                                 <p:panelGrid styleClass="ui-noborder" style=" width: 100%" >
 
                                     <p:row>
@@ -166,9 +161,12 @@
                                 <h:outputText value="#{msg['Payloads']}" />
                             </f:facet>
                             <p:outputPanel id="OutMailDocuments" style="text-align:center;">
-                                <p:dataTable var="plpart" value="#{OutMailDataView.currentMail.MSHOutPayload.MSHOutParts}"
+                                <p:dataTable var="plpart"
+                                             lazy="true"
+                                             rowKey="#{plpart.id}"
+                                             value="#{OutMailDataView.currentMail.MSHOutPayload.MSHOutParts}"
                                              scrollable="true"
-                                             scrollHeight="140" >
+                                             scrollHeight="140">
                                     <p:column style="width:16px">
                                         <p:rowToggler />
                                     </p:column>
@@ -228,13 +226,15 @@
                                 </p:dataTable>
                             </p:outputPanel>
                         </p:tab>
-                        <p:tab >
+                        <p:tab>
                             <f:facet name="title">
                                 <h:graphicImage value="#{resource['images:/event.svg']}" width="22" height="22" />
                                 <h:outputText value="#{msg['Events']}" />                                 
                             </f:facet>
                             <p:outputPanel id="OutMailEvents" style="text-align:center;">
-                                <p:dataTable var="mailEvents" 
+                                <p:dataTable var="mailEvents"
+                                             lazy="true"
+                                             rowKey="#{mailEvents.id}"
                                              value="#{OutMailDataView.mailEvents}"
                                              scrollable="true"
                                              scrollHeight="140">
@@ -275,9 +275,12 @@
                             <p:outputPanel id="InMailProperties" style="text-align:center;">
 
 
-                                <p:dataTable var="mp" value="#{OutMailDataView.currentMail.MSHOutProperties.MSHOutProperties}"
+                                <p:dataTable var="mp"
+                                             lazy="true"
+                                             rowKey="#{mp.id}"
+                                             value="#{OutMailDataView.currentMail.MSHOutProperties.MSHOutProperties}"
                                              scrollable="true"
-                                             scrollHeight="140" >
+                                             scrollHeight="140">
                                     <p:column width="150" headerText="#{msg['Key']}">
                                         <h:outputText value="#{mp.name}" />
                                     </p:column>
@@ -287,7 +290,6 @@
                                     </p:column>
 
                                 </p:dataTable>
-
                             </p:outputPanel>
                         </p:tab>
                     </p:tabView>

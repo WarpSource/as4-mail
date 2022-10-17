@@ -132,11 +132,17 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
         long l = LOG.logStart();
         File f = StorageUtils.getFile(filePath);
         if (f.exists()) {
+            // create a file input stream!
+
+
             try {
-                return new DefaultStreamedContent(new FileInputStream(f), MimeValue.
-                        getMimeTypeByFileName(
-                                f.getName()),
-                        f.getName());
+
+                FileInputStream fis = new FileInputStream(f);
+                return DefaultStreamedContent.builder()
+                        .stream(() -> fis)
+                        .contentType(MimeValue.getMimeTypeByFileName(f.getName()))
+                        .name( f.getName())
+                        .build();
             } catch (FileNotFoundException ex) {
                 LOG.logError(l, ex);
             }
@@ -170,9 +176,13 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
         if (part != null) {
             try {
                 File f = StorageUtils.getFile(part.getFilepath());
-                return new DefaultStreamedContent(new FileInputStream(f), part.
-                        getMimeType(),
-                        part.getFilename());
+                FileInputStream fis = new FileInputStream(f);
+                return DefaultStreamedContent.builder()
+                        .stream(() -> fis)
+                        .contentType(MimeValue.getMimeTypeByFileName(f.getName()))
+                        .name( f.getName())
+                        .build();
+
             } catch (FileNotFoundException ex) {
                 LOG.logError(l, ex);
                 addError("File '" + part.getFilepath() + "' reading error: " + ex.getMessage());

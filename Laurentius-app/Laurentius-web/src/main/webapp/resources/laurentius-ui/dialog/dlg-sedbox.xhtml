@@ -24,8 +24,8 @@
                             updateOnSave=":forms:SettingsSEDBoxes:sedboxPanel:TblSedBox"
                             onConfirmAction="#{adminSEDBoxView.addOrUpdateEditable()}"
                             >
-            <p:layout style="width:100%;height:100%;">
-                <p:layoutUnit position="center">
+            <div style="width:100%;height:100%;">
+                <div >
                     <p:panelGrid  columns="2" columnClasses="grid-label,value" style="width: 100%">
 
                         <h:outputText value="Local box name:" />
@@ -43,8 +43,8 @@
                         <p:calendar class="searchDate" value="#{adminSEDBoxView.editable.activeToDate}" pattern="dd.MM.yyyy" mask="true" navigator="true" showOn="button" />
                     </p:panelGrid>
 
-                </p:layoutUnit>
-                <p:layoutUnit position="east" rendered="#{not empty adminSEDBoxView.editable}"  size="400" maxSize="400" minSize="400" >
+                </div>
+                <div rendered="#{not empty adminSEDBoxView.editable}"  size="400" maxSize="400" minSize="400" >
                     <p:panelGrid style="width: 100%; height: 100%" columns="2">
                         <p:dataTable var="usr" value="#{adminSEDBoxView.editableUsers}"
                                      style="padding: 0px; margin: 0px;height: 190px"
@@ -71,8 +71,8 @@
 
                         </p:dataTable>
                     </p:panelGrid>
-                </p:layoutUnit>
-            </p:layout>               
+                </div>
+            </div>
         </dlg:dlg-abstract>
     </composite:implementation>
 </html>

@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        
+
         <groupId>si.vsrs.cif.sed</groupId>
         <artifactId>Laurentius</artifactId>
         <version>2.1.0-SNAPSHOT</version>
@@ -14,8 +15,9 @@
     <packaging>war</packaging>
 
     <name>Laurentius-basic-plugin</name>
-    <description> basic tasks:  backup task, arhive task, email report task, 
-        basic processes: xslt, export, execution proccesses</description>
+    <description>basic tasks: backup task, arhive task, email report task,
+        basic processes: xslt, export, execution proccesses
+    </description>
     <organization>
         <name>Supreme Court Republic of Slovenia</name>
         <url>http://www.sodisce.si/</url>
@@ -33,9 +35,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -51,55 +50,94 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-commons</artifactId>
-            <version>${project.version}</version>		
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-lce</artifactId>
-            <version>${project.version}</version>		
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-plugin-interfaces</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>	        
+            <scope>provided</scope>
+        </dependency>
+        <!-- JAKARTA APIs-->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-rt</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
             <scope>provided</scope>
-            <type>pom</type>
         </dependency>
-         <dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>		
+            <artifactId>log4j-core</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- GUI uses prifeaces componens --> 
+        <!-- GUI components -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <scope>provided</scope>
-            
+
         </dependency>
-         <dependency>
-                <groupId>net.sf.saxon</groupId>
-                <artifactId>Saxon-HE</artifactId>
-            </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>javax</groupId>            
-            <artifactId>javaee-api</artifactId>            
-            <scope>provided</scope>
-        </dependency>
-        
-      
     </dependencies>
 
     <build>
@@ -111,21 +149,22 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>           
+            </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <configuration> 
+                <configuration>
                     <!-- for missing WEB-INF/web.xml-->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <archive>                        
-                        <manifestEntries>                            
-                            <implementation-version>${project.version}</implementation-version>             
-                            <Implementation-Build>${buildNumber}</Implementation-Build>                            
-                            <Dependencies>org.apache.logging.log4j, si.laurentius, org.primefaces, org.apache.pdfbox</Dependencies>
+                    <archive>
+                        <manifestEntries>
+                            <implementation-version>${project.version}</implementation-version>
+                            <Implementation-Build>${buildNumber}</Implementation-Build>
+                            <Dependencies>org.apache.logging.log4j, si.laurentius, org.primefaces, org.apache.pdfbox
+                            </Dependencies>
                         </manifestEntries>
-                    </archive>                                 
-                </configuration>                 
-            </plugin>     
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

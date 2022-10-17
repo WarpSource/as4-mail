@@ -39,6 +39,7 @@ import si.laurentius.msh.pmode.Security;
 import si.laurentius.msh.pmode.Service;
 import si.laurentius.msh.web.abst.AbstractAdminJSFView;
 import si.laurentius.msh.web.gui.entities.PluginTreeItem;
+import si.laurentius.msh.web.gui.menu.MenuItem;
 import si.laurentius.plugin.crontask.CronTaskDef;
 import si.laurentius.plugin.def.DefaultInitData;
 import si.laurentius.plugin.def.Plugin;
@@ -79,7 +80,7 @@ public class AdminSEDPluginView extends AbstractAdminJSFView<Plugin> {
     boolean adminView = false;
 
     private TreeNode[] selectedPluginItems;
-    TreeNode rootPluginItems = null;
+    TreeNode<MenuItem> rootPluginItems = null;
 
     public List<Plugin> getPluginWitGUI() {
         List<Plugin> lst = new ArrayList<>();
@@ -103,9 +104,9 @@ public class AdminSEDPluginView extends AbstractAdminJSFView<Plugin> {
     public void initializeSelectedPluginDataItems() {
         if (rootPluginItems != null) {
             // pmode/plugin
-            for (TreeNode pType : rootPluginItems.getChildren()) {
+            for (TreeNode<MenuItem> pType : rootPluginItems.getChildren()) {
                 // type
-                for (TreeNode itemType : pType.getChildren()) {
+                for (TreeNode<MenuItem> itemType : pType.getChildren()) {
                     itemType.getChildren().clear();
                 }
                 pType.getChildren().clear();

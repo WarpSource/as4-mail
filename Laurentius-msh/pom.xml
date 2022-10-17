@@ -31,9 +31,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -44,6 +41,6 @@
     <modules>
         <module>Laurentius-msh-cxf</module>
         <module>Laurentius-msh-ws</module>
-        <module>Laurentius-msh-ear</module>	
+        <module>Laurentius-msh-ear</module>
     </modules>
 </project>

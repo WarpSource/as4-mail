@@ -50,8 +50,8 @@ public class InMailDataModel extends AbstractMailDataModel<TableInMail> {
    * @return
    */
   @Override
-  public Object getRowKey(TableInMail inMail) {
-    return inMail.getId();
+  public String getRowKey(TableInMail inMail) {
+    return String.valueOf(inMail.getId());
   }
 
   /**

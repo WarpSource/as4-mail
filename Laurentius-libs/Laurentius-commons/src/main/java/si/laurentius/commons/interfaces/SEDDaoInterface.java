@@ -37,24 +37,21 @@ import si.laurentius.msh.pmode.PMode;
 @Local
 public interface SEDDaoInterface {
 
+
   /**
    *
    * @param <T>
    * @param type
    * @param startingAt
    * @param maxResultCnt
-   * @param sortField
-   * @param sortOrder
+   * @param sortList
    * @param filters
    * @return
    */
-  <T> List<T> getDataList(Class<T> type, int startingAt, int maxResultCnt,
-          String sortField,
-          String sortOrder, Object filters);
+  <T> List<T> getDataList(Class<T> type, int startingAt, int maxResultCnt, List<SEDDaoSort> sortList, Object filters);
 
   <T, D> List<T> getDataList(Class<T> resultType, int startingAt,
-          int maxResultCnt, String sortField,
-          String sortOrder, Object filters, Class<D> filterType);
+          int maxResultCnt, List<SEDDaoSort> sortList, Object filters, Class<D> filterType);
   
   
    <T> List<T> getDataList(Class<T> type, String hql , Map<String, Object> params);
@@ -108,7 +105,7 @@ public interface SEDDaoInterface {
    *
    * @param <T>
    * @param type
-   * @param mailId
+   * @param mailSenderId
    * @return
    */
   <T> List<T> getMailBySenderMessageId(Class<T> type, String mailSenderId);
