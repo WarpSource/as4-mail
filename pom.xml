@@ -90,9 +90,10 @@
         <org.apache.pdfbox.version>2.0.25</org.apache.pdfbox.version>
 
         <javax.xml.ws.jaxws-api.version>2.3.1</javax.xml.ws.jaxws-api.version>
-        <com.sun.xml.ws.jaxws-rt.version>2.3.1</com.sun.xml.ws.jaxws-rt.version>
+        <com.sun.xml.ws.jaxws-rt.version>2.3.5</com.sun.xml.ws.jaxws-rt.version>
         <javax.xml.bind.jaxb-api.version>2.3.1</javax.xml.bind.jaxb-api.version>
-        <javax.xml.soap-api.version>1.4.0</javax.xml.soap-api.version>
+        <javax.xml.bind.jaxb-impl.version>3.0.2</javax.xml.bind.jaxb-impl.version>
+       <javax.xml.soap-api.version>1.4.0</javax.xml.soap-api.version>
         <!-- jaxb -->
         <glassfish.jaxb-runtime.version>2.3.3</glassfish.jaxb-runtime.version>
         <glassfish.jaxb-core.version>2.3.0.1</glassfish.jaxb-core.version>
@@ -157,7 +158,29 @@
                 <artifactId>javaee-api</artifactId>
                 <version>${javax.javaee-api.version}</version>
                 <scope>provided</scope>
-            </dependency>       
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.activation</groupId>
+                <artifactId>javax.activation</artifactId>
+                <version>${javax.activation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${glassfish.jaxb-runtime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${glassfish.jaxb-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>${glassfish.jaxb-xjc.version}</version>
+            </dependency>
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>javax.annotation-api</artifactId>
@@ -511,18 +534,6 @@
                         </items>
                         <doCheck>false</doCheck>
                         <doUpdate>false</doUpdate>
-                        <revisiononscmfailure>     
-                            <!--
-                             Generate sequence build number based on:
-                             build number and timestamp     
-                            -->
-                            <format> {0}.{1} - {2,date, dd.MM.yyyy HH:mm}</format>
-                            <items>
-                                <item>${project.version}</item>
-                                <item>scmVersion</item>
-                                <item>timestamp</item>
-                            </items>
-                        </revisiononscmfailure>
                          
                     </configuration>
                 </plugin>        
@@ -627,7 +638,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>7.0.0</version>
+                        <version>7.3.2</version>
                         <inherited>false</inherited>
                         <configuration>
                             <skipProvidedScope>true</skipProvidedScope>

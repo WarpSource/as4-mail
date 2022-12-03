@@ -28,13 +28,10 @@ import static org.junit.Assert.assertTrue;
 public class XAdESignatureBuilderTest {
   TestUtils mtuUtils = new TestUtils();
 
-  public XAdESignatureBuilderTest() {
-  }
 
   /**
    * Test of createXAdESQualifyingProperties method, of class XAdESignatureBuilder.
    *
-   * @throws java.lang.Exception
    */
   @Test
   public void testCreateXAdESQualifyingProperties()

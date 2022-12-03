@@ -12,7 +12,7 @@ FOLDER_DEPLOY="test-deploy"
 
 
 #AS_WILDFLY_10_1="wildfly-10.1"
-AS_WILDFLY_19_1="wildfly-19.1"
+AS_WILDFLY_19_1="wildfly-26.0"
 AS_JBOSS_EAP_7_0="jboss-eap-7.0"
 
 AS_ARRAY=($AS_WILDFLY_19_1 $AS_JBOSS_EAP_7_0)
