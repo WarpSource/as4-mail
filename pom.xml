@@ -122,7 +122,7 @@
             - org.apache.cxf.*: 3.1.12 / latest 3.2.0
             - org.apache.activemq.artemis.jms.client: 1.5.5  / latest 2.3.0
         -->
-        <org.apache.santuario.xmlsec.version>2.3.0</org.apache.santuario.xmlsec.version>
+        <org.apache.santuario.xmlsec.version>2.3.4</org.apache.santuario.xmlsec.version>
         <org.bouncycastle.version>1.70</org.bouncycastle.version>
 
         <cxf-rt.version>3.5.1</cxf-rt.version>
