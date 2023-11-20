@@ -132,7 +132,7 @@
         <org.primefaces.extensions.version>8.0.2</org.primefaces.extensions.version>        
         <!-- unit testing
         -->      
-        <org.apache.derby.version>10.15.2.0</org.apache.derby.version>
+        <org.apache.derby.version>10.17.1.0</org.apache.derby.version>
         <!--org.hibernate.version>4.2.6.Final</org.hibernate.version -->
         <org.hibernate.version>5.6.5.Final</org.hibernate.version>
         <junit.version>4.13.2</junit.version>
