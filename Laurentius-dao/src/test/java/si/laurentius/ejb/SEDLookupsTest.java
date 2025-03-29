@@ -69,7 +69,8 @@ public class SEDLookupsTest extends TestUtils {
     mTestInstance.memEManager.clear();
 
     SEDBox res = mTestInstance.getSEDBoxByLocalName(init.getLocalBoxName());
-    assertNotEquals(init, res);
+    // different references
+    assertTrue(init != res);
     assertNotNull(res);
     assertEquals(init.getLocalBoxName(), res.getLocalBoxName());
     assertEquals(init.getActiveFromDate(), res.getActiveFromDate());
@@ -90,7 +91,8 @@ public class SEDLookupsTest extends TestUtils {
     mTestInstance.memEManager.clear();
 
     SEDCronJob res = mTestInstance.getSEDCronJobByName(init.getName());
-    assertNotEquals(init, res);
+    // different references
+    assertTrue(init != res);
 
     assertNotNull(res);
     assertNotNull(res.getId());
@@ -143,7 +145,8 @@ public class SEDLookupsTest extends TestUtils {
 
     SEDInterceptor res = mTestInstance.getSEDInterceptorByName(init.
             getName());
-    assertNotEquals(init, res);
+    // different references
+    assertTrue(init != res);
 
     assertNotNull(res);
     assertNotNull(res.getId());
@@ -206,7 +209,8 @@ public class SEDLookupsTest extends TestUtils {
     SEDProcessor res = mTestInstance.getSEDProcessorByName(init.
             getName());
     // check if cached object
-    assertNotEquals(init, res);
+    // different references
+    assertTrue(init != res);
 
     assertNotNull(res);
     assertNotNull(res.getId());
@@ -262,7 +266,7 @@ public class SEDLookupsTest extends TestUtils {
     mTestInstance.memEManager.clear();
 
     SEDUser res = mTestInstance.getSEDUserByUserId(init.getUserId());
-    assertNotEquals(init, res);
+    assertTrue(init != res);
     assertNotNull(res);
     assertEquals(init.getName(), res.getName());
     assertEquals(init.getUserId(), res.getUserId());
@@ -292,7 +296,8 @@ public class SEDLookupsTest extends TestUtils {
 
     SEDApplication res = mTestInstance.getSEDApplicationById(init.
             getApplicationId());
-    assertNotEquals(init, res);
+    // different references
+    assertTrue(init != res);
     assertNotNull(res);
     assertEquals(init.getName(), res.getName());
     assertEquals(init.getApplicationId(), res.getApplicationId());

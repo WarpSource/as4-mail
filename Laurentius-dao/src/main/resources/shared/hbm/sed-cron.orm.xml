@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query name="si.laurentius.cron.SEDCronJob.getAll">
+        <query><![CDATA[SELECT p FROM SEDCronJob p order by id asc]]></query>
+    </named-query>
+    <named-query name="si.laurentius.cron.SEDCronJob.getById">
+        <query><![CDATA[SELECT p FROM SEDCronJob p WHERE p.id = :id]]></query>
+    </named-query>
+    <entity class="si.laurentius.cron.SEDCronJob" access="FIELD">
+        <table name="LAU_CRON" />
+        <sequence-generator name="SequenceCronJob" sequence-name="SEQ_LAU_CRON" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceCronJob"/>
+            </id>
+            <basic name="name">
+                <column name="NAME" length="128" unique="true"/>
+            </basic>
+            <basic name="active">
+                <column name="ACTIVE"/>
+            </basic>
+            <basic name="second">
+                <column name="CRON_SECOND" length="64"/>
+            </basic>
+            <basic name="minute">
+                <column name="CRON_MINUTE" length="64"/>
+            </basic>
+            <basic name="hour">
+                <column name="CRON_HOUR" length="64"/>
+            </basic>
+            <basic name="dayOfMonth">
+                <column name="CRON_DAY_OF_MONTH" length="64"/>
+            </basic>
+            <basic name="month">
+                <column name="CRON_MONTH" length="64"/>
+            </basic>
+            <basic name="dayOfWeek">
+                <column name="CRON_DAY_OF_WEEK" length="64"/>
+            </basic>
+            <basic name="ignoreOnWorkFreeDays">
+                <column name="CRON_IGNORE_ON_WORK_FREE_DAYS"/>
+            </basic>
+            <one-to-many name="SEDTasks"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <order-column name="IDX"/>
+                <join-column name="CRON_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+
+    <entity class="si.laurentius.cron.SEDTask" access="FIELD">
+        <table name="LAU_TASK_INSTANCE">
+        </table>
+        <sequence-generator name="SequenceTask" sequence-name="SEQ_LAU_TASK_INSTANCE" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="TASK_ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceTask"/>
+            </id>
+
+            <basic name="type">
+                <column name="TASK_TYPE" length="64"/>
+            </basic>
+            <basic name="plugin">
+                <column name="TASK_PLUGIN" length="64"/>
+            </basic>
+            <basic name="pluginVersion">
+                <column name="TASK_PLUGIN_VERSION" length="32"/>
+            </basic>
+            <basic name="name">
+                <column name="TASK_NAME" length="512"/>
+            </basic>
+            <basic name="active">
+                <column name="TASK_ACTIVE"/>
+            </basic>
+            <one-to-many name="SEDTaskProperties"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="TASK_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="si.laurentius.cron.SEDTaskProperty" access="FIELD">
+        <table name="LAU_TASK_PROPERTY">
+        </table>
+        <sequence-generator name="SequenceTaskProperty" sequence-name="SEQ_LAU_TASK_PROPERTY" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceTaskProperty"/>
+            </id>
+
+            <basic name="key">
+                <column name="TASK_PROP_KEY" length="64"/>
+            </basic>
+            <basic name="value">
+                <column name="TASK_PROP_VALUE" length="512"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+        <!--?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+        <hibernate-mapping>
+            <class name="si.laurentius.cron.SEDCronJob"
+                   table="LAU_CRON">
+                <id name="Id" type="java.math.BigInteger" >
+                    <column name="ID" scale="0" />
+                    <generator class="sequence">
+                        <param name="sequence_name">SEQ_LAU_CRON</param>
+                    </generator>
+                </id>
+                <property column="NAME" name="name"  length="128" type="java.lang.String" unique="true"/>
+                <property column="ACTIVE" name="Active"   type="java.lang.Boolean"/>
+                <property column="CRON_SECOND" name="Second"  length="64" type="java.lang.String"/>
+                <property column="CRON_MINUTE" name="Minute"  length="64" type="java.lang.String"/>
+                <property column="CRON_HOUR" name="Hour"  length="64" type="java.lang.String"/>
+                <property column="CRON_DAY_OF_MONTH" name="DayOfMonth"  length="64" type="java.lang.String"/>
+                <property column="CRON_MONTH" name="Month"  length="64" type="java.lang.String"/>
+                <property column="CRON_DAY_OF_WEEK" name="DayOfWeek"  length="64" type="java.lang.String"/>
+                <property column="CRON_IGNORE_ON_WORK_FREE_DAYS" name="IgnoreOnWorkFreeDays" type="java.lang.Boolean"/>
+
+                 <list name="sedTasks" access="field" cascade="all, delete-orphan" lazy="false" >
+                    <key column="CRON_ID" />
+                    <list-index column="IDX"/>
+                    <one-to-many class="si.laurentius.cron.SEDTask"/>
+                </list>
+
+            </class>
+
+             <class name="si.laurentius.cron.SEDTask" table="LAU_TASK_INSTANCE">
+                <id name="Id" type="java.math.BigInteger">
+                    <column name="TASK_ID" scale="0" />
+                    <generator class="sequence">
+                        <param name="sequence_name"> SEQ_LAU_TASK_INSTANCE</param>
+                    </generator>
+                </id>
+                <property column="TASK_TYPE" name="Type"  length="64" type="java.lang.String"/>
+                    <property column="TASK_PLUGIN" name="Plugin"  length="64" type="java.lang.String"/>
+                    <property column="TASK_PLUGIN_VERSION" name="PluginVersion"  length="32" type="java.lang.String"/>
+                    <property column="TASK_NAME" name="Name"  length="128" type="java.lang.String" />
+                    <property column="TASK_ACTIVE" name="Active"   type="java.lang.Boolean"/>
+                    <bag name="sedTaskProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+                        <key not-null="true">
+                            <column name="TASK_ID" scale="0" />
+                        </key>
+                        <one-to-many class="si.laurentius.cron.SEDTaskProperty" />
+                    </bag>
+            </class>
+            <class name="si.laurentius.cron.SEDTaskProperty" table="LAU_TASK_PROPERTY">
+                <id name="Id" type="java.math.BigInteger">
+                    <column name="ID" scale="0" />
+                    <generator class="sequence">
+                        <param name="sequence_name"> SEQ_LAU_TASK_PROP</param>
+                    </generator>
+                </id>
+                <property column="TASK_PROP_KEY" name="Key" type="java.lang.String"  length="64" />
+                <property column="TASK_PROP_VALUE" name="Value" type="java.lang.String" length="512" />
+            </class>
+            <query name="si.laurentius.cron.SEDCronJob.getById" ><![CDATA[SELECT p FROM SEDCronJob p WHERE p.Id = :id]]></query>
+            <query name="si.laurentius.cron.SEDCronJob.getAll" ><![CDATA[SELECT p FROM SEDCronJob p order by id asc]]></query>
+        </hibernate-mapping-->

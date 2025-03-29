@@ -5,7 +5,7 @@
 package si.laurentius.plugin.interfaces;
 
 import java.io.File;
-import javax.ejb.EJB;
+import jakarta.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import si.laurentius.commons.SEDJNDI;

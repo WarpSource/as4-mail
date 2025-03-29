@@ -6,11 +6,11 @@ package si.jrc.msh.plugin.zpp;
 
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.Local;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.xml.bind.JAXBException;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.Local;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.commons.pmode.PModeUtils;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.xml.XMLUtils;

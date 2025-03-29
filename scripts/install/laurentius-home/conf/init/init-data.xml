@@ -178,6 +178,8 @@
     <SEDBoxes>
         <ns5:SEDBox localBoxName="a.department" activeFromDate="2010-04-20+02:00"/>
         <ns5:SEDBox localBoxName="b.department" activeFromDate="2010-04-20+02:00"/>
+        <ns5:SEDBox localBoxName="domibus-red" activeFromDate="2010-04-20+02:00"/>
+
     </SEDBoxes>
     <SEDProperties>
         <ns6:SEDProperty key="laurentius.network.test.addresses" value="www.google.com,www.amazon.com" group="SED"/>
@@ -187,10 +189,12 @@
     </SEDProperties>
     <SEDUsers>
         <ns7:SEDUser userId="user" activeFromDate="2010-04-20+02:00">
+            <ns5:SEDBox localBoxName="domibus-red" activeFromDate="2010-04-20+02:00"/>
             <ns5:SEDBox localBoxName="a.department" activeFromDate="2010-04-20+02:00"/>
             <ns5:SEDBox localBoxName="b.department" activeFromDate="2010-04-20+02:00"/>
         </ns7:SEDUser>
         <ns7:SEDUser userId="admin" adminRole="true" activeFromDate="2010-04-20+02:00">
+            <ns5:SEDBox localBoxName="domibus-red" activeFromDate="2010-04-20+02:00"/>
             <ns5:SEDBox localBoxName="a.department" activeFromDate="2010-04-20+02:00"/>
             <ns5:SEDBox localBoxName="b.department" activeFromDate="2010-04-20+02:00"/>
         </ns7:SEDUser>
@@ -207,9 +211,19 @@
     <SEDCertPassword>
         <ns9:SEDCertPassword alias="keystore" password="passwd1234" keyPassword="false"/>
         <ns9:SEDCertPassword alias="rootCA" password="passwd1234" keyPassword="false"/>
-        <ns9:SEDCertPassword alias="test-as4mail" password="key1234" keyPassword="true"/>
-        <ns9:SEDCertPassword alias="test-zpp-sign" password="key1234" keyPassword="true"/>
-        <ns9:SEDCertPassword alias="test-tls" password="key1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="test-as4mail" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="test-zpp-sign" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="test-tls" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="ed25519" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="ed448" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="x25519" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="x448" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="secp256r1" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="secp384r1" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="secp521r1" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="issuer-ca" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="as4mail-secp256r1-enc" password="passwd1234" keyPassword="true"/>
+        <ns9:SEDCertPassword alias="as4mail-secp256r1-sign" password="passwd1234" keyPassword="true"/>
     </SEDCertPassword>
     <SEDCertCRLs/>
 </SedLookups>

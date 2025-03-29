@@ -16,7 +16,7 @@ package si.laurentius.plugin.interfaces;
 
 import java.io.File;
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.plugin.def.DefaultInitData;
 import si.laurentius.plugin.def.MenuItem;
 import si.laurentius.plugin.def.Plugin;

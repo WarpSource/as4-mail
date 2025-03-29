@@ -1,12 +1,12 @@
 /*
  * Copyright 2015, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,37 +14,9 @@
  */
 package si.jrc.msh.interceptor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.activation.DataHandler;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.datatype.Duration;
-import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import jakarta.activation.DataHandler;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.xml.soap.*;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.SoapVersion;
@@ -58,24 +30,20 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.ws.security.wss4j.CryptoCoverageChecker;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
-import si.laurentius.msh.inbox.mail.MSHInMail;
-import si.laurentius.msh.inbox.payload.MSHInPart;
-import si.laurentius.msh.pmode.PartyIdentitySet;
 import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Messaging;
 import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.SignalMessage;
 import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.UserMessage;
-import si.laurentius.ebox.SEDBox;
 import si.jrc.msh.client.sec.SecurityUtils;
-import si.laurentius.commons.ebms.EBMSError;
 import si.jrc.msh.exception.EBMSErrorCode;
 import si.jrc.msh.exception.EBMSErrorMessage;
 import si.jrc.msh.utils.EBMSBuilder;
-import si.jrc.msh.utils.EBMSValidation;
-import si.laurentius.commons.cxf.EBMSConstants;
 import si.jrc.msh.utils.EBMSParser;
-import si.laurentius.commons.enums.MimeValue;
+import si.jrc.msh.utils.EBMSValidation;
 import si.laurentius.commons.SEDSystemProperties;
+import si.laurentius.commons.cxf.EBMSConstants;
 import si.laurentius.commons.cxf.SoapUtils;
+import si.laurentius.commons.ebms.EBMSError;
+import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.enums.SEDMailPartSource;
 import si.laurentius.commons.exception.HashException;
 import si.laurentius.commons.exception.StorageException;
@@ -85,18 +53,30 @@ import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.commons.utils.xml.XMLUtils;
+import si.laurentius.ebox.SEDBox;
 import si.laurentius.lce.DigestUtils;
+import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.msh.inbox.payload.IMPartProperty;
+import si.laurentius.msh.inbox.payload.MSHInPart;
 import si.laurentius.msh.inbox.payload.MSHInPayload;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
+import si.laurentius.msh.pmode.PartyIdentitySet;
 import si.laurentius.msh.pmode.ReceptionAwareness;
 import si.laurentius.msh.pmode.Security;
 
+import javax.xml.datatype.Duration;
+import javax.xml.namespace.QName;
+import java.io.*;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- *
  * @author Jože Rihtaršič
  */
-public class EBMSInInterceptor extends AbstractEBMSInterceptor {
+public class    EBMSInInterceptor extends AbstractEBMSInterceptor {
 
     static final Set<QName> HEADERS = new HashSet<>();
     static final SEDLogger LOG = new SEDLogger(EBMSInInterceptor.class);
@@ -122,7 +102,6 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     /**
-     *
      * @return
      */
     @Override
@@ -131,7 +110,6 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     /**
-     *
      * @param msg
      */
     @Override
@@ -181,7 +159,7 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
 
                 SignalMessage as4Receipt
                         = EBMSBuilder.generateAS4ReceiptSignal(messageId,
-                                SEDSystemProperties.getLocalDomain(), request.
+                        SEDSystemProperties.getLocalDomain(), request.
                                 getSOAPPart()
                                 .getDocumentElement(), Calendar.getInstance().getTime());
                 msg.getExchange().put(SignalMessage.class, as4Receipt);
@@ -332,7 +310,7 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
                 && inmctx.getReceptionAwareness() != null
                 && inmctx.getReceptionAwareness().getDuplicateDetection() != null
                 && inmctx.getReceptionAwareness().getDuplicateDetection().
-                        getWindowPeriode() != null) {
+                getWindowPeriode() != null) {
 
             ReceptionAwareness.DuplicateDetection dd
                     = inmctx.getReceptionAwareness().getDuplicateDetection();
@@ -383,10 +361,10 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
                     } else {
                         SignalMessage as4Receipt
                                 = EBMSBuilder.generateAS4ReceiptSignal(messageId,
-                                        SEDSystemProperties.getLocalDomain(), request.
+                                SEDSystemProperties.getLocalDomain(), request.
                                         getSOAPPart()
                                         .getDocumentElement(), Calendar.getInstance().
-                                                getTime());
+                                        getTime());
                         EBMSError warning = new EBMSError(EBMSErrorCode.DuplicateDeteced,
                                 messageId,
                                 warn + " Duplicate is eliminated.",
@@ -418,7 +396,7 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
 
                                 InterceptorChain chainOut
                                         = OutgoingChainInterceptor.getOutInterceptorChain(msg
-                                                .getExchange());
+                                        .getExchange());
 
                                 LOG.logWarn("got out interceptor:" + chainOut, null);
                                 responseMsg.setInterceptorChain(chainOut);
@@ -489,8 +467,8 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     public MSHInMail processUserMessageUnit(SoapMessage msg, UserMessage um,
-            EBMSMessageContext ectx,
-            String msgId, QName sv) {
+                                            EBMSMessageContext ectx,
+                                            String msgId, QName sv) {
         long l = LOG.logStart();
 
         SOAPMessage request = msg.getContent(SOAPMessage.class);
@@ -568,9 +546,9 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
                     if (!Utils.isEmptyString(prp.getName())
                             && !Utils.isEmptyString(prp.getValue())
                             && prp.getName().equalsIgnoreCase(
-                                    EBMSConstants.EBMS_PAYLOAD_COMPRESSION_TYPE)
+                            EBMSConstants.EBMS_PAYLOAD_COMPRESSION_TYPE)
                             && prp.getValue().equalsIgnoreCase(MimeValue.MIME_GZIP.
-                                    getMimeType())) {
+                            getMimeType())) {
                         // found property EBMS_PAYLOAD_COMPRESSION_TYPE 
                         isCmpr = true;
                         // remove property because is no longer needed
@@ -606,14 +584,13 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
         LOG.log("Generate AS4Receipt");
         SignalMessage as4Receipt
                 = EBMSBuilder.generateAS4ReceiptSignal(mMail.getMessageId(),
-                        SEDSystemProperties.getLocalDomain(), request.getSOAPPart()
+                SEDSystemProperties.getLocalDomain(), request.getSOAPPart()
                         .getDocumentElement(), dt);
         msg.getExchange().put(SignalMessage.class, as4Receipt);
 
         return mMail;
     }
-    
-    
+
 
     private File storeSoapPart(SOAPPart sp, MimeValue mv) throws StorageException {
         return XMLUtils.serializeSoapPart(sp, EBMSConstants.SOAP_PART_REQUEST_PREFIX, mv);
@@ -626,7 +603,7 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     private void handleMessageSecurity(SoapMessage msg, EBMSMessageContext ectx,
-            String messageId) {
+                                       String messageId) {
 
         PartyIdentitySet rPID = ectx.getReceiverPartyIdentitySet();
         PartyIdentitySet sPID = ectx.getSenderPartyIdentitySet();
@@ -635,8 +612,8 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
             WSS4JInInterceptor sc
                     = configureInSecurityInterceptors(ectx.getSecurity(), rPID.
                             getLocalPartySecurity(),
-                            sPID.getExchangePartySecurity(), messageId,
-                            SoapFault.FAULT_CODE_CLIENT);
+                    sPID.getExchangePartySecurity(), messageId,
+                    SoapFault.FAULT_CODE_CLIENT);
             sc.handleMessage(msg);
 
         } catch (Throwable tg) {
@@ -666,7 +643,6 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     /**
-     *
      * @param message
      */
     @Override
@@ -676,8 +652,8 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
     }
 
     private void serializeAttachments(MSHInPart p, Collection<Attachment> lstAttch,
-            boolean compressed,
-            String msgId, QName sv)
+                                      boolean compressed,
+                                      String msgId, QName sv)
             throws StorageException, HashException {
         DataHandler dh = null;
         for (Attachment a : lstAttch) {
@@ -708,7 +684,7 @@ public class EBMSInInterceptor extends AbstractEBMSInterceptor {
 
                     fout = msuStorageUtils.storeInFile(
                             p.getIsEncrypted() ? MimeValue.MIME_ENC.getMimeType() : p.
-                            getMimeType(), dh.getInputStream());
+                                    getMimeType(), dh.getInputStream());
                 } catch (IOException ex) {
                     throw new StorageException(String.format(
                             "Error storing attachment %s for message: %s.",

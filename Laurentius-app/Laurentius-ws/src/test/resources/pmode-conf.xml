@@ -97,7 +97,6 @@
 			<tns:ExchangePartySecurity encryptionCertAlias="cefsupport2gw" signatureCertAlias="cefsupport2gw" trustoreName="cef-truststore"/>
 		</tns:PartyIdentitySet>
 
-	
 		<tns:PartyIdentitySet id="court-sed" domain="court-sed.si" isLocalIdentity="false" >
 			<tns:PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:name" valueSource="name"/>
 			<tns:PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:address" valueSource="address"/>

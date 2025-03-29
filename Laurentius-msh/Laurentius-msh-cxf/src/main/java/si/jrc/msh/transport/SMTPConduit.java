@@ -14,17 +14,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.logging.Logger;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.BodyPart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
+import jakarta.mail.Part;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.apache.cxf.Bus;
@@ -151,7 +151,7 @@ public class SMTPConduit extends AbstractConduit {
         m.addHeader("id", emailid);
         m.setFrom(new InternetAddress(senderName));
         m.setSender(new InternetAddress(senderName));
-        m.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(receiverName));
+        m.setRecipient(jakarta.mail.Message.RecipientType.TO, new InternetAddress(receiverName));
         
         
         m.setSubject(mo.getSubject());

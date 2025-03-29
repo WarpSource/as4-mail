@@ -17,10 +17,10 @@ package si.laurentius.msh.web.pmode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.SessionScoped;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.interfaces.PModeInterface;
 import si.laurentius.commons.pmode.enums.MEPChannelBindingType;
@@ -229,8 +229,9 @@ public class PModeMEPView extends AbstractPModeJSFView<MEPType> {
   }
   
   public boolean enableMEPBinnding(MEPChannelBindingType mt) {
-    return mt.isImplemented() && Objects.
-            equals(mt.getMepType().getValue(), getEditable().getMEPType());
+    MEPType mepType = getEditable();
+    return mepType != null && mt.isImplemented() && Objects.
+            equals(mt.getMepType().getValue(), mepType);
   }
   
   public void setEditableMEPType(String val) {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <mapped-superclass class="si.laurentius.rule.SEDDecisionRule" access="FIELD">
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceDecisionRule"/>
+            </id>
+            <basic name="property">
+                <column name="RULE_PROPERTY" length="64"/>
+            </basic>
+            <basic name="predicate">
+                <column name="RULE_PREDICATE" length="32"/>
+            </basic>
+            <basic name="value">
+                <column name="RULE_VALUE" length="512"/>
+            </basic>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

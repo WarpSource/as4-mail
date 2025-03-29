@@ -198,7 +198,7 @@ public class SEDTestDao implements SEDDaoInterface{
   }
 
   @Override
-  public Date setStatusToOutMail(BigInteger id, String senderMessageID,
+  public Date setStatusToOutMail(BigInteger id,
           Date sentDate, Date receivedDate, Date deliveredDate,
           SEDOutboxMailStatus status, String desc, String userID,
           String applicationId, String filePath, String mime) throws StorageException {

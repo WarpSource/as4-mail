@@ -9,11 +9,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>Laurentius-msh-libs</artifactId>
+    <artifactId>Laurentius-libs</artifactId>
     <packaging>pom</packaging>
 
-    <name>Laurentius-msh-libs</name>
-    <url>www.sodisce.si</url>
+    <name>Laurentius-libs</name>
     <organization>
         <name>Supreme Court Republic of Slovenia</name>
         <url>http://www.sodisce.si/</url>
@@ -31,7 +30,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
             <organization>Supreme Court Republic of Slovenia</organization>
             <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
@@ -44,8 +42,8 @@
     <modules>
         <module>Laurentius-msh-xsd</module>                
         <module>Laurentius-wsdl</module>
-	<module>Laurentius-plugin-interfaces</module>
         <module>Laurentius-commons</module>
+        <module>Laurentius-plugin-interfaces</module>
         <module>Laurentius-lce</module>
         <module>Laurentius-viz</module>
     </modules>

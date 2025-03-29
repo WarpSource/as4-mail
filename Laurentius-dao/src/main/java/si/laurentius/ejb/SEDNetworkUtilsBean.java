@@ -6,12 +6,12 @@
 package si.laurentius.ejb;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.ejb.AccessTimeout;
-import javax.ejb.Local;
-import javax.ejb.Lock;
-import static javax.ejb.LockType.READ;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import jakarta.ejb.AccessTimeout;
+import jakarta.ejb.Local;
+import jakarta.ejb.Lock;
+import static jakarta.ejb.LockType.READ;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
 import si.laurentius.commons.interfaces.SEDNetworkUtilsInterface;
 import si.laurentius.commons.utils.SEDLogger;
 

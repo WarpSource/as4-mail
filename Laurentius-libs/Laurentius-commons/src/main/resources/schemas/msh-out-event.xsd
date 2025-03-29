@@ -32,7 +32,7 @@ Copyright 2015, Supreme Court Republic of Slovenia
 	<xs:complexType name="MSHOutEvent">
 		<xs:complexContent>
 			<xs:extension base="ns2:MSHEventType">
-				<xs:attribute name="senderMessageId" use="optional">
+				<!-- xs:attribute name="senderMessageId" use="optional">
 					<xs:annotation>
 						<xs:documentation xml:lang="sl">Enolična oznaka pošiljke pošiljatelja</xs:documentation>
 					</xs:annotation>
@@ -41,7 +41,7 @@ Copyright 2015, Supreme Court Republic of Slovenia
 							<xs:maxLength value="64"/>
 						</xs:restriction>
 					</xs:simpleType>
-				</xs:attribute>
+				</xs:attribute -->
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>

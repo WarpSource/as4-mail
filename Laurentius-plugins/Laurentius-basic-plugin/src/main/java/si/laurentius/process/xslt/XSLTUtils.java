@@ -17,7 +17,7 @@ package si.laurentius.process.xslt;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;

@@ -1,0 +1,45 @@
+= AS4Mail logging configuration
+Joze Riharsic
+0.1, 12.11.2022: Initial documentation
+:toc:
+:icons: font
+
+AS4Mail application is using SLF4J api to log messages. The default setup is using the wildfly logging sub-system and the configuratioin is made in the
+<subsystem xmlns="urn:jboss:domain:logging:2.0">
+
+For details see the:
+link:deployment.adoc[as4mail deployment]
+
+logs per module
+ - application logs
+ - security logs (as4mail-security.log)
+ - errors logs (as4mail-errors.log)
+-  metrics logs
+
+
+
+
+
+
+Modules to log
+- WEB Admin UI logging
+- WebService API logging
+- Sending/receiving logging.
+
+
+logs are devided to
+- security: logging all access/authirization
+- application/module logs
+- error logs (unexpeted errors)
+
+
+
+To disable deployment logging!
+
+....
+<subsystem xmlns="urn:jboss:domain:logging:2.0">
+<add-logging-api-dependencies value="false"/>
+<use-deployment-logging-config value="false"/>
+...
+</subsystem>
+....

@@ -16,19 +16,14 @@ package si.laurentius.msh.web.pmode;
 
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import org.apache.commons.lang3.StringUtils;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.interfaces.PModeInterface;
-import si.laurentius.commons.pmode.enums.SecEncryptionAlgorithm;
-import si.laurentius.commons.pmode.enums.SecEncryptionDigest;
-import si.laurentius.commons.pmode.enums.SecEncryptionKeyTransport;
-import si.laurentius.commons.pmode.enums.SecEncryptionMGFAlgorithm;
-import si.laurentius.commons.pmode.enums.SecHashFunction;
-import si.laurentius.commons.pmode.enums.SecSignatureAlgorithm;
-import si.laurentius.commons.pmode.enums.SecX509KeyIdentifier;
+import si.laurentius.commons.pmode.enums.*;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.msh.pmode.References;
 import si.laurentius.msh.pmode.Security;
@@ -373,7 +368,16 @@ public class PModeSecurityView extends AbstractPModeJSFView<Security> {
         dp.setEditable(xp, lstRef);
         dp.setUpdateTableId(updateTableId);
         showDialog("pModeXPathDialog",":dlgPModeXPath:pModeXPathDialog");
+    }
 
+    public boolean showKeyAgreement() {
+        String keyTransport = getEncryptionToEditableKeyTransport()?getEditableEncryption().getKeyTransport(): null;
+        if (StringUtils.isBlank(keyTransport)) {
+            return false;
+        }
+        return SecEncryptionKeyTransport.KW_AES128.getValue().equals(keyTransport)
+                || SecEncryptionKeyTransport.KW_AES192.getValue().equals(keyTransport)
+                || SecEncryptionKeyTransport.KW_AES256.getValue().equals(keyTransport);
     }
 
     public XPath getSelectedSignXPath() {
@@ -419,5 +423,10 @@ public class PModeSecurityView extends AbstractPModeJSFView<Security> {
     public SecEncryptionKeyTransport[] getEncryptionKeyTransport() {
         return SecEncryptionKeyTransport.values();
     }
-
+    public SecKeyAgreementMethod[] getKeyAgreementMethods() {
+        return SecKeyAgreementMethod.values();
+    }
+    public SecKeyDerivationFunction[] getKeyDerivationFunctions() {
+        return SecKeyDerivationFunction.values();
+    }
 }

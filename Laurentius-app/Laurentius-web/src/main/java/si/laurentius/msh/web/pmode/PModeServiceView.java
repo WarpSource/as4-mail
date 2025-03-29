@@ -16,10 +16,10 @@ package si.laurentius.msh.web.pmode;
 
 import java.math.BigInteger;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.SessionScoped;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.SEDSystemProperties;
 import si.laurentius.commons.enums.MimeValue;

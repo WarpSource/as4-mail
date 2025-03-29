@@ -319,6 +319,7 @@ public class TestLookupUtils {
 
     im.setMSHInPayload(new MSHInPayload());
     MSHInPart ip = new MSHInPart();
+
     ip.setFilename("Test.txt");
     ip.setDescription("test attachment");
     

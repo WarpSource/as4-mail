@@ -2,12 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:dlg="http://java.sun.com/jsf/composite/laurentius-ui/dialog"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:dlg="http://xmlns.jcp.org/jsf/composite/laurentius-ui/dialog"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
       >
      <h:head>
@@ -26,8 +26,8 @@
                             updateOnSave=":forms:SettingsPModesServices:pmodeServicePanel:TblPModeServices"
                             onConfirmAction="#{pModeServiceView.addOrUpdateEditable()}" >
 
-            <p:layout id="service">
-                <p:layoutUnit position="north">
+            <div id="service">
+                <div position="north">
                     <p:panelGrid  columns="4" columnClasses="grid-label, value,grid-label, value"  style="width:100%; height: 100% ">
                         <f:facet name="header">
                             <h:outputText value="#{msg['ServiceId']}" />
@@ -52,8 +52,8 @@
                         <h:selectBooleanCheckbox value="#{pModeServiceView.editable.useSEDProperties}" />
 
                     </p:panelGrid>      
-                </p:layoutUnit>
-                <p:layoutUnit position="center">
+                </div>
+                <div position="center">
 
 
                     <p:diagram  id="actionDiagram" value="#{pModeServiceGraphView.model}" style="height:600px" styleClass="ui-widget-content" var="el">
@@ -61,8 +61,8 @@
                             <h:outputText value="#{el}" style="display:block;margin-top:1em;"/>
                         </f:facet>
                     </p:diagram>
-                </p:layoutUnit>
-                <p:layoutUnit header="#{msg['Action']}" position="east" 
+                </div>
+                <div header="#{msg['Action']}" position="east"
                               size="500" minSize="500" maxSize="500"  >
              
                         <p:dataTable id="TblServiceAction" 
@@ -138,8 +138,8 @@
                             </p:rowExpansion>
 
                         </p:dataTable> 
-                </p:layoutUnit>  
-            </p:layout>
+                </div>
+            </div>
         </dlg:dlg-abstract>
     </composite:implementation>
 

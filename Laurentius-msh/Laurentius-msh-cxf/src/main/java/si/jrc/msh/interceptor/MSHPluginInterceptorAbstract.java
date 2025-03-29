@@ -123,6 +123,12 @@ public abstract class MSHPluginInterceptorAbstract extends AbstractSoapIntercept
                     getMailInterceptoDef(intc.getSEDInterceptorInstance().
                             getPlugin(), intc.getSEDInterceptorInstance().
                                     getType());
+            if (mid==null) {
+                LOG_PRIVATE.formatedWarning("No  MailInterceptorDef for : %s and type %s",
+                      intc.getSEDInterceptorInstance().getPlugin(),
+                      intc.getSEDInterceptorInstance().getType());
+              return;
+            }
             String jndiName = mid.getJndi();
             LOG_PRIVATE.formatedlog("Execute plugin: %s", jndiName);
             if (!Utils.isEmptyString(jndiName)) {

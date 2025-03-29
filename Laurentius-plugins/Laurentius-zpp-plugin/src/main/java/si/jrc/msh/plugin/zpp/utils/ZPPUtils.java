@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Objects;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import org.apache.cxf.binding.soap.SoapFault;
 import si.jrc.msh.plugin.zpp.ZPPConstants;
 import si.jrc.msh.plugin.zpp.enums.FopTransformation;

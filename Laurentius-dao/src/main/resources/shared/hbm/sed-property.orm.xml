@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query name="si.laurentius.property.SEDProperty.getAll">
+        <query><![CDATA[SELECT p FROM SEDProperty p]]></query>
+    </named-query>
+    <named-query name="si.laurentius.property.SEDProperty.getByKey">
+        <query><![CDATA[SELECT p FROM SEDProperty p where p.key=:key and p.group=:group]]></query>
+    </named-query>
+    <entity class="si.laurentius.property.SEDProperty" access="FIELD">
+        <table name="LAU_SETTINGS">
+        </table>
+        <attributes>
+            <id name="key">
+                <column name="PROP_KEY" length="512"/>
+            </id>
+            <basic name="value">
+                <column name="PROP_VALUE" length="1024"/>
+            </basic>
+            <basic name="group">
+                <column name="LAU_GROUP" length="32"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+
+<!-- ?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>    
+    <class name="si.laurentius.property.SEDProperty"
+           table="LAU_SETTINGS">
+        <id name="key" type="java.lang.String" >
+            <column name="PROP_KEY" length="512" />            
+        </id>        
+        <property column="PROP_VALUE" name="Value"  length="1024" type="java.lang.String" />       
+        <property column="LAU_GROUP" name="Group"  length="32" type="java.lang.String" />        
+    </class>    
+    <query name="si.laurentius.property.SEDProperty.getAll" ><![CDATA[SELECT p FROM SEDProperty p]]></query>
+    <query name="si.laurentius.property.SEDProperty.getByKey" ><![CDATA[SELECT p FROM SEDProperty p where p.key=:key and p.Group=:group]]></query>
+
+</hibernate-mapping -->

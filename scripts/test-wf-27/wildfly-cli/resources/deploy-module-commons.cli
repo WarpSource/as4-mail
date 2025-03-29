@@ -1,0 +1,4 @@
+module add  --name=si.laurentius \
+            --resource-delimiter=, \
+            --resources=${MODULE_PATH}Laurentius-msh-xsd-${AM_VERSION}.jar,${MODULE_PATH}Laurentius-wsdl-${AM_VERSION}.jar,${MODULE_PATH}Laurentius-commons-${AM_VERSION}.jar,${MODULE_PATH}Laurentius-lce-${AM_VERSION}.jar,${MODULE_PATH}Laurentius-plugin-interfaces-${AM_VERSION}.jar \
+            --dependencies=javax.annotation.api,javax.api,jakarta.ejb.api,jakarta.jws.api,jakarta.mail.api,jakarta.jms.api,javax.xml.soap.api,javax.xml.ws.api,org.apache.cxf,org.apache.cxf.impl,org.apache.pdfbox,org.apache.commons.io,org.apache.log4j,org.apache.santuario.xmlsec,org.apache.ws.security,org.hibernate,org.javassist,org.bouncycastle,org.apache.logging.log4j

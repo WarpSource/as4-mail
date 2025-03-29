@@ -20,7 +20,7 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.cert.SEDCertPassword;
 import si.laurentius.cert.SEDCertificate;
 import si.laurentius.cert.crl.SEDCertCRL;

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <mapped-superclass class="si.laurentius.msh.mail.MSHPartType" access="FIELD">
+        <attributes>
+            <id name="id" access="FIELD">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequencePayload"/>
+            </id>
+
+            <basic name="mailId">
+                <column name="MAIL_ID" scale="0"/>
+            </basic>
+            <basic name="ebmsId">
+                <column name="PART_EBMS_ID" length="256"/>
+            </basic>
+
+            <basic name="name">
+                <column name="PART_NAME" length="256"/>
+            </basic>
+            <basic name="description">
+                <column name="PART_DESCRIPTION" length="512"/>
+            </basic>
+            <basic name="type">
+                <column name="PART_TYPE" length="64"/>
+            </basic>
+            <basic name="filename">
+                <column name="PART_FILENAME" length="256"/>
+            </basic>
+            <basic name="filepath">
+                <column name="PART_FILEPATH" length="1024"/>
+            </basic>
+            <basic name="mimeType">
+                <column name="PART_MIME_TYPE" length="128"/>
+            </basic>
+            <basic name="encoding">
+                <column name="PART_ENCODING" length="128"/>
+            </basic>
+            <basic name="sha256Value">
+                <column name="PART_SHA256_VALUE" length="256"/>
+            </basic>
+            <basic name="size">
+                <column name="PART_SIZE" scale="0"/>
+            </basic>
+            <basic name="isEncrypted">
+                <column name="PART_IS_ENCRYPTED"/>
+            </basic>
+            <basic name="source">
+                <column name="PART_SOURCE" length="32"/>
+            </basic>
+            <basic name="isReceived">
+                <column name="PART_IS_RECEIVED"/>
+            </basic>
+            <basic name="isSent">
+                <column name="PART_IS_SENT"/>
+            </basic>
+            <basic name="generatedFromPartId">
+                <column name="PART_GENERATED_FROM_PART" scale="0"/>
+            </basic>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

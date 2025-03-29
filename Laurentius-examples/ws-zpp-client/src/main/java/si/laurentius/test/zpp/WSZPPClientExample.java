@@ -27,9 +27,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import si.laurentius.GetInMailRequest;
@@ -80,7 +80,7 @@ public class WSZPPClientExample {
   public static final String S_KEYSTORE_PASSWD = "passwd1234";
   // This is just example. Secure password in production use
   //NOSONAR
-  public static final String S_KEY_PASSWD = "key1234";
+  public static final String S_KEY_PASSWD = "passwd1234";
 
   public static final String APPL_ID = "appl_1";
   // This is just example. Secure password in production use

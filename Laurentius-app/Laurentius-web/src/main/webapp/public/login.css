@@ -1,10 +1,4 @@
 
-
-.panelGridNoBorder .ui-panelgrid-even, .panelGridNoBorder .ui-panelgrid-odd, .panelGridNoBorder .ui-panelgrid-cell {
-    border-style: none;
-    background-color: #E5E4E2
-}
-
 .LoginTitle {
     background:  url("first-page.svg")  no-repeat right top ;
     background-position: 0 0;
@@ -18,49 +12,39 @@
     flex-direction: column;
     flex-wrap: wrap; /* Optional. only if you want the items to wrap */
     justify-content: center; /* For horizontal alignment */
-    
-    padding: 20px 20px;
     color: black;
+}
+
+
+body .ui-panel .ui-panel-titlebar {
+    border-top-left-radius:  1.5em;
+    border-top-right-radius:  1.5em;
+}
+
+.LoginPanel {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+
     text-shadow: 0 4px 4px rgba(0, 0, 0, .3);
+    font-size: 1.2em;
+    line-height: 1.4em;
 
-    font-size: 16px;
-    line-height: 20px;
-    letter-spacing: 1px;
+    width:600px;
+    margin: auto;
+    background-color: gray;
+    border: 2px solid #888888;
+    border-top-left-radius:  1.5em;
+    border-top-right-radius:  1.5em;
+    padding: 1em;
 
-    background: white;
-
+    box-shadow: 0.5em 1.2em 1em #888888;
 }
 
-
-.ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon {
-
-    top:0;
-    margin:  2px;
-    padding: 2px 2px 2px 4px;
-    left: 0;
-
-}
-
-.ui-button-text-icon-left .ui-button-text {
-    padding: 2px 4px 2px 28px;
-}
-
-
-.ui-icon-size-22 {
-    width:  22px !important;
-    height:  22px !important;
-    background-size: 22px 22px !important;
-}
-.ui-icon-size-32 {
-       
-    width:  32px !important;
-    height:  32px !important;
-    background-size: 32px 32px !important;
-}
-.ui-icon-svg-ok {
-    background-image: url('ok.svg') !important;    
-}
-
-.image-Button {
-    height: 28px;
+.ui-messages-error, .ui-message-error {
+  color: #b94a48;
+  background-color: transparent;
+  border: none;
 }

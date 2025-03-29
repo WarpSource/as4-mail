@@ -25,7 +25,8 @@ Copyright 2016, Supreme Court Republic of Slovenia
  See the Licence for the specific language governing permissions and  
  limitations under the Licence.
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://laurentius.si/ebox" xmlns:usr="http://laurentius.si/user" xmlns:xslt="http://laurentius.si/xslt" targetNamespace="http://laurentius.si/ebox" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://laurentius.si/ebox"
+		   xmlns:usr="http://laurentius.si/user" xmlns:xslt="http://laurentius.si/xslt" targetNamespace="http://laurentius.si/ebox" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://laurentius.si/user" schemaLocation="./sed-user.xsd"/>
 	<xs:element name="SEDBox" type="ns1:SEDBox"/>
 	<xs:complexType name="SEDBox">

@@ -14,9 +14,9 @@
  */
 package si.laurentius.commons.interfaces;
 
-import javax.ejb.Local;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
+import jakarta.ejb.Local;
+import jakarta.ejb.Lock;
+import jakarta.ejb.LockType;
 
 /**
  *

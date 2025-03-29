@@ -33,7 +33,6 @@ import si.laurentius.lce.KeystoreUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SEDCertStoreBeanTest extends TestUtils {
 
-
   static final SEDCertStoreBean mTestInstance = new SEDCertStoreBean();
   KeystoreUtils mku = new KeystoreUtils();
   static final String[] CERT_SAMPLES = new String[]{"test-digicert.crt",

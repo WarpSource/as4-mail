@@ -6,10 +6,10 @@ package si.laurentius.msh.web.gui;
 
 import java.io.Serializable;
 import java.util.Locale;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
 
 /**
  *

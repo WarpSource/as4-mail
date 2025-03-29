@@ -7,7 +7,7 @@ package si.laurentius.plg.db;
 
 import java.io.File;
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.plugin.imp.IMPXslt;
 
 /**

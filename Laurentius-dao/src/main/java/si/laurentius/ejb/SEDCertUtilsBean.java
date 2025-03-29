@@ -29,10 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
-import javax.ejb.DependsOn;
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import jakarta.ejb.DependsOn;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.X509KeyManager;
@@ -353,6 +353,15 @@ public class SEDCertUtilsBean implements SEDCertUtilsInterface {
       if (enc.getMgf1Algorithm() != null && !enc.getMgf1Algorithm().isEmpty()) {
         prps.put(WSHandlerConstants.ENC_MGF_ALGO, enc.getMgf1Algorithm());
       }
+
+      if (enc.getAgreementMethod() != null && !enc.getAgreementMethod().isEmpty()) {
+        prps.put(WSHandlerConstants.ENC_KEY_AGREEMENT_METHOD, enc.getAgreementMethod());
+      }
+
+      if (enc.getKeyDerivationFunction() != null && !enc.getKeyDerivationFunction().isEmpty()) {
+        prps.put(WSHandlerConstants.ENC_KEY_DERIVATION_FUNCTION, enc.getKeyDerivationFunction());
+      }
+
     }
 
     if (enc.getKeyIdentifierType() != null && !enc.getKeyIdentifierType().
@@ -535,7 +544,7 @@ public class SEDCertUtilsBean implements SEDCertUtilsInterface {
   private void validateCertificate(SEDCertificate sc) throws SEDSecurityException {
     String alias = sc.getAlias();
     if (CertStatus.INVALID_BY_ROOTCA.containsCode(sc.getStatus())) {
-      String msg = "Certificate for alias '" + alias + "' is not signed by trusted RootCA!";
+      String msg = "Certificate for alias '" + alias + "'";
       throw new SEDSecurityException(
               SEDSecurityException.SEDSecurityExceptionCode.CertificateException,
               msg);

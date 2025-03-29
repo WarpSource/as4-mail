@@ -36,8 +36,6 @@ import si.laurentius.commons.utils.SEDLogger;
  */
 public class FilePModeManagerTest {
 
-  public static final SEDLogger LOG = new SEDLogger(FilePModeManager.class);
-
   public static final String TEST_PMODE_FILE = "pmode-conf.xml";
 
   /**

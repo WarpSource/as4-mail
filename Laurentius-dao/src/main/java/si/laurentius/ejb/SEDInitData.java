@@ -15,6 +15,14 @@
 package si.laurentius.ejb;
 
 import generated.SedLookups;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.*;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.application.SEDApplication;
 import si.laurentius.cert.SEDCertPassword;
 import si.laurentius.commons.SEDJNDI;
@@ -35,20 +43,13 @@ import si.laurentius.process.SEDProcessor;
 import si.laurentius.property.SEDProperty;
 import si.laurentius.user.SEDUser;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.*;
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.nio.file.Files.move;
@@ -82,7 +83,7 @@ public class SEDInitData implements SEDInitDataInterface {
 
 
     @PostConstruct
-    void init() {
+    public void init() {
         long l = LOG.logStart();
         if (SEDSystemProperties.isInitData()) {
             File initFolder = SEDSystemProperties.getInitFolder();
@@ -191,16 +192,21 @@ public class SEDInitData implements SEDInitDataInterface {
      * @param cls
      */
     public void initLookups(SedLookups cls) {
+        LOG.log("initLookups", cls);
+
         try {
             mutUTransaction.begin();
-
+            LOG.log("add boxes processors");
 
             if (cls.getSEDBoxes() != null && !cls.getSEDBoxes().
                     getSEDBoxes().isEmpty()) {
-                cls.getSEDBoxes().getSEDBoxes().stream().forEach((cb) -> {
+                for (SEDBox cb : cls.getSEDBoxes().getSEDBoxes()) {
                     memEManager.persist(cb);
-                });
+                }
             }
+
+
+            LOG.log("add processors");
 
             if (cls.getSEDProcessors() != null && !cls.getSEDProcessors()
                     .getSEDProcessors().isEmpty()) {
@@ -221,7 +227,7 @@ public class SEDInitData implements SEDInitDataInterface {
                             memEManager.persist(cb);
                         });
             }
-
+            LOG.log("add cron tasks");
             if (cls.getSEDCronJobs() != null && !cls.getSEDCronJobs().
                     getSEDCronJobs().isEmpty()) {
 
@@ -233,8 +239,8 @@ public class SEDInitData implements SEDInitDataInterface {
                                         cronTask.setId(null);
                                         cronTask.getSEDTaskProperties().
                                                 stream().forEach((cronTaskProperty) -> {
-                                            cronTaskProperty.setId(null);
-                                        });
+                                                    cronTaskProperty.setId(null);
+                                                });
                                     }
                             );
                             LOG.log("Persist: " + cronJob);
@@ -242,6 +248,7 @@ public class SEDInitData implements SEDInitDataInterface {
                         });
             }
 
+            LOG.log("add getSEDInterceptors tasks");
             if (cls.getSEDInterceptors() != null && !cls.getSEDInterceptors().
                     getSEDInterceptors().isEmpty()) {
                 cls.getSEDInterceptors().getSEDInterceptors().stream().forEach(
@@ -255,23 +262,30 @@ public class SEDInitData implements SEDInitDataInterface {
                             if (cb.getSEDInterceptorInstance() != null) {
                                 cb.getSEDInterceptorInstance().getSEDInterceptorProperties().
                                         stream().forEach((c) -> {
-                                    c.setId(null);
-                                });
+                                            c.setId(null);
+                                        });
                             }
                             memEManager.persist(cb);
                         });
             }
-
+            LOG.log("add getSEDUsers tasks");
             if (cls.getSEDUsers() != null && !cls.getSEDUsers().
                     getSEDUsers().isEmpty()) {
                 cls.getSEDUsers().getSEDUsers().stream().forEach((cb) -> {
+                    List<SEDBox> managedBoxes = getManagedList(cb.getSEDBoxes(), cls.getSEDBoxes().getSEDBoxes());
+                    cb.getSEDBoxes().clear();
+                    cb.getSEDBoxes().addAll(managedBoxes);
                     memEManager.persist(cb);
                 });
             }
 
+            LOG.log("add getSEDApplications tasks");
             if (cls.getSEDApplications() != null && !cls.getSEDApplications().
                     getSEDApplications().isEmpty()) {
                 cls.getSEDApplications().getSEDApplications().stream().forEach((cb) -> {
+                    List<SEDBox> managedBoxes = getManagedList(cb.getSEDBoxes(), cls.getSEDBoxes().getSEDBoxes());
+                    cb.getSEDBoxes().clear();
+                    cb.getSEDBoxes().addAll(managedBoxes);
                     memEManager.persist(cb);
                 });
             }
@@ -282,20 +296,28 @@ public class SEDInitData implements SEDInitDataInterface {
                     memEManager.persist(cb);
                 });
             }
-
+            LOG.log("add getSEDProperties tasks");
             // update system properties from init file
             if (cls.getSEDProperties() != null && !cls.getSEDProperties().
                     getSEDProperties().isEmpty()) {
 
                 cls.getSEDProperties().getSEDProperties().stream().forEach((cb) -> {
                     updateSystemPropertyValue(cb);
+
                     memEManager.persist(cb);
                 });
             }
             mutUTransaction.commit();
-        } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+        } catch (NotSupportedException | SystemException | HeuristicMixedException | HeuristicRollbackException |
+                 RollbackException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<SEDBox> getManagedList(List<SEDBox> oldList, List<SEDBox> initialList) {
+        List<String> sedboxes = oldList.stream().map(item -> item.getLocalBoxName()).collect(Collectors.toList());
+        return initialList.stream().filter(item -> sedboxes.contains(item.getLocalBoxName())).
+                collect(Collectors.toList());
     }
 
     /**

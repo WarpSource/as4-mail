@@ -42,9 +42,9 @@
                         <manifest>
                             <addClasspath>false</addClasspath>
                         </manifest>
-                        <manifestEntries>                            
-                            <Dependencies>org.apache.logging.log4j, org.apache.cxf,org.apache.cxf.impl,org.apache.commons.io, org.apache.ws.security, 
-                                org.apache.santuario.xmlsec,  si.laurentius</Dependencies>
+                        <manifestEntries>
+                            <Dependencies>org.apache.logging.log4j, org.apache.cxf,org.apache.cxf.impl,org.apache.commons.io, org.apache.ws.security,
+                                org.apache.santuario.xmlsec,si.laurentius, org.bouncycastle</Dependencies>
                         </manifestEntries>
                     </archive>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
@@ -53,7 +53,6 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>Laurentius-msh-cxf</artifactId>                            
                         </ejbModule>
-                        
                         <webModule>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>Laurentius-msh-ws</artifactId>

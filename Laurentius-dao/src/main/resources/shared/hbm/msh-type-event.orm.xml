@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <mapped-superclass class="si.laurentius.msh.mail.MSHEventType" access="FIELD">
+        <attributes>
+            <id name="id" access="FIELD">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceMailEvent"/>
+            </id>
+            <basic name="mailId">
+                <column name="MAIL_ID" nullable="false" scale="0"/>
+            </basic>
+            <basic name="description">
+                <column name="DESCRIPTION" length="512"/>
+            </basic>
+            <basic name="userId">
+                <column name="USER_ID" length="64"/>
+            </basic>
+            <basic name="applicationId">
+                <column name="APPLICATION_ID" length="128"/>
+            </basic>
+            <basic name="status">
+                <column name="STATUS" nullable="false" length="32"/>
+            </basic>
+            <basic name="date">
+                <column name="EVENT_DATE" nullable="false"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="evidenceFilepath">
+                <column name="FILEPATH" length="1024"/>
+            </basic>
+            <basic name="evidenceMimeType">
+                <column name="MIME_TYPE" length="128"/>
+            </basic>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

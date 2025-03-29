@@ -1,0 +1,25 @@
+<bindings version="3.0"
+          xmlns="https://jakarta.ee/xml/ns/jaxb"
+          xmlns:xjc= "http://java.sun.com/xml/ns/jaxb/xjc"
+          extensionBindingPrefixes="xjc"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <globalBindings enableFailFastCheck="true">
+        <javaType name="java.util.Date" xmlType="xs:date"
+                  parseMethod="com.jrc.xml.DateAdapter.parseDate"
+                  printMethod="com.jrc.xml.DateAdapter.printDate"/>
+
+        <javaType name="java.util.Date" xmlType="xs:dateTime"
+                  parseMethod="com.jrc.xml.DateAdapter.parseDateTime"
+                  printMethod="com.jrc.xml.DateAdapter.printDateTime"/>
+        <javaType name="java.lang.Integer" xmlType="xs:int" />
+        <xjc:simple/> <!--add root element to generated object -->
+        <xjc:serializable /> <!-- EJB 3.0. serializable -->
+
+    </globalBindings>
+    <!-- bindings node="xsd:complexType[@name='InProperties']">
+        <bindings node=".//xsd:element[@name='inProperties']">
+            <xew:xew annotate="false" />
+        </bindings>
+    </bindings -->
+</bindings>

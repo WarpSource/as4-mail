@@ -2,12 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:dlg="http://java.sun.com/jsf/composite/laurentius-ui/dialog"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:dlg="http://xmlns.jcp.org/jsf/composite/laurentius-ui/dialog"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -38,10 +38,11 @@
                               dragDropSupport="false"                                          
                               label="#{msg['Choose']}" 
                               multiple="false"
-                              update=":dlgComposePayload:mailComposePayloadDialog:mailComposePayloadDialogForm" 
-                              sizeLimit="100000000" 
+                              update=":dlgComposePayload:mailComposePayloadDialog:mailComposePayloadDialogForm"
                               rendered="#{empty dialogComposePayloadView.editable.filepath}"
-                              style="height: 80px"/>
+                              style="height: 80px">
+                    <p:validateFile sizeLimit="100000000" />
+                </p:fileUpload>
 
                 <h:outputText rendered="#{dialogComposePayloadView.showLaurentiusProperties()}" value="#{msg['Name']}:" />
                 <p:inputText rendered="#{dialogComposePayloadView.showLaurentiusProperties()}"  value="#{dialogComposePayloadView.editable.name}" 
@@ -63,7 +64,7 @@
                              style="width:100%"                             
                              />
 
-                <h:outputText value="#{msg['MimeType']}:" />
+                <!-- h:outputText value="#{msg['MimeType']}:" />
                 <p:selectOneMenu id="bodyMime"
                                  value="#{dialogComposePayloadView.editable.mimeType}" 
                                  style="width:100"
@@ -74,7 +75,7 @@
 
                     <f:selectItems  value="#{LookupsData.mimeValues}" var="ar" 
                                     itemLabel="#{ar.mimeType}" itemValue="#{ar.mimeType}"/>
-                </p:selectOneMenu>
+                </p:selectOneMenu -->
 
 
                 <h:outputText value="#{msg['Charset']}:" />

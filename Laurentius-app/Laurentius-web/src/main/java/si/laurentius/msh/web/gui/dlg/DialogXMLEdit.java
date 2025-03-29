@@ -1,11 +1,11 @@
 package si.laurentius.msh.web.gui.dlg;
 
 import java.io.Serializable;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.xml.bind.JAXBException;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.xml.bind.JAXBException;
 import org.primefaces.PrimeFaces;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.xml.XMLUtils;

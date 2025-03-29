@@ -2,12 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:dlg="http://java.sun.com/jsf/composite/laurentius-ui/dialog"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:dlg="http://xmlns.jcp.org/jsf/composite/laurentius-ui/dialog"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -26,8 +26,8 @@
                             updateOnSave=":dlgPModeInstance:pModeServiceInstanceDialog:pModeServiceInstanceDialogForm:TblPModeMEPs"
                             onConfirmAction="#{pModeMEPView.addOrUpdateEditable()}" >
 
-            <p:layout>
-                <p:layoutUnit position="center">
+            <div>
+                <div position="center">
                     <p:panelGrid  style="width: 100%">
                         <p:row>
                             <p:column class="grid-label">#{msg['MEPInitiatorRole']}:</p:column>
@@ -75,9 +75,9 @@
                                            rendered="#{pModeMEPView.hasSecondLeg()}" 
                                            leg="#{pModeMEPView.editableSecondLeg}" />
                     </p:panel>
-                </p:layoutUnit>
+                </div>
 
-            </p:layout>
+            </div>
         </dlg:dlg-abstract>
     </composite:implementation>
 

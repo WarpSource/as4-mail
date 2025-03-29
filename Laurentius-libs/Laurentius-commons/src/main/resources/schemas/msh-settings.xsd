@@ -895,6 +895,19 @@
                                 ex. http://www.w3.org/2009/xmlenc11#rsa-oaep.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
+					<xs:attribute name="agreementMethod" use="optional">
+						<xs:annotation>
+							<xs:documentation>The value of this parameter identifies the
+								encryption agreement method algorithm to be used to derive the encryption key.
+								ex. http://www.w3.org/2021/04/xmldsig-more#x25519.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="keyDerivationFunction" use="optional">
+						<xs:annotation>
+							<xs:documentation>The value of this parameter identifies the key derivation function
+								ex. http://www.w3.org/2021/04/xmldsig-more#hkdf.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
 					<xs:attribute name="mgf1Algorithm" use="optional">
 						<xs:annotation>
 							<xs:documentation>The value of this parameter identifies the
