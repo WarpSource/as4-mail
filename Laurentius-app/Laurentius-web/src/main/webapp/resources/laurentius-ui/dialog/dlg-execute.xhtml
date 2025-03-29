@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -24,13 +24,13 @@
                                 p:autoUpdate="true"
                                 showDetail="true" />
                     
-                      <p:blockUI block="dlgExecute" widgetVar="blockDlgExecute" >
+                      <!-- p:blockUI block="dlgExecute" widgetVar="blockDlgExecute" >
                             <h:graphicImage value="#{resource['images:/ajax-progress.gif']}"  /> 
                             <h:outputText value="#{msg['Process']}" />
-                        </p:blockUI>
+                        </p:blockUI -->
 
-                    <p:layout id="dlgExecute" style="min-width:300px;height:180px;">
-                        <p:layoutUnit position="center"  >
+                    <div id="dlgExecute" widgetVar="executeDialog" style="min-width:300px;height:180px;">
+                        <div position="center"  >
                             <h:outputText value="#{executeDialog.getIsSelectedTableRow() ?(''.concat(msg['ExecuteSelectedCronJob']).concat(': ').concat(executeDialog.selectedDesc).concat('?')) : msg['SelectTableRow']}" />
 
                             <p:dataTable 
@@ -79,9 +79,9 @@
 
                             </p:dataTable>  
 
-                        </p:layoutUnit>
+                        </div>
 
-                        <p:layoutUnit position="south"  size="40" minSize="40" maxSize="40" >
+                        <div position="south"  size="40" minSize="40" maxSize="40" >
                             <p:toolbar 
                                 styleClass="dialogButtonBar" >
                                 <f:facet name="right"  >
@@ -101,8 +101,8 @@
                                                      onclick="PF('executeDialog').hide();return false;"/>                                                 
                                 </f:facet>
                             </p:toolbar>
-                        </p:layoutUnit>
-                    </p:layout>
+                        </div>
+                    </div>
                 </h:form>
             </p:dialog>
         </composite:implementation>

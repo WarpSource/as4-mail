@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-        xmlns:dlg="http://java.sun.com/jsf/composite/laurentius-ui/dialog"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+        xmlns:dlg="http://xmlns.jcp.org/jsf/composite/laurentius-ui/dialog"
         lang="#{localeManager.language}"
       >
      <h:head>
@@ -21,8 +21,8 @@
                    modal="true" hideEffect="fade" resizable="false" appendTo="@(body)" height="370" width="700">
 
             <h:form id="taskTypeDialogForm" >
-                <p:layout id="taskType" style="min-width:600px; height:370px; "  >
-                    <p:layoutUnit header="#{msg['TaskType']}" position="center"   >
+                <div id="taskType" style="min-width:600px; height:370px; "  >
+                    <div header="#{msg['TaskType']}" position="center"   >
                         <p:panelGrid rendered="#{not empty adminSEDTaskTypeView.editable}" style="width:100%; " >
                             <p:row> 
                                 <p:column><h:outputText value="#{msg['JNDI']}:" /></p:column>
@@ -49,8 +49,8 @@
                             </p:row>
                         </p:panelGrid>
                         <p:outputLabel  rendered="#{empty adminSEDTaskTypeView.editable}">Select task</p:outputLabel>
-                    </p:layoutUnit>                    
-                    <p:layoutUnit position="east" header="#{msg['TaskProperties']}" rendered="#{not empty adminSEDTaskTypeView.editable}"
+                    </div>
+                    <div position="east" header="#{msg['TaskProperties']}" rendered="#{not empty adminSEDTaskTypeView.editable}"
                                   size="250" minSize="250" maxSize="250">
                         <p:dataTable id="TblTaskTypeProp" 
                                      var="sp" 
@@ -73,9 +73,9 @@
                                 </p:cellEditor>
                             </p:column>
                         </p:dataTable>
-                    </p:layoutUnit>  
+                    </div>
 
-                    <p:layoutUnit position="south"  size="40" minSize="40" maxSize="40" >
+                    <div position="south"  size="40" minSize="40" maxSize="40" >
                         <p:toolbar 
                             styleClass="dialogButtonBar" >
                             <f:facet name="right"  >
@@ -86,9 +86,9 @@
                                                  
                             </f:facet>
                         </p:toolbar>
-                    </p:layoutUnit>
+                    </div>
 
-                </p:layout>
+                </div>
 
             </h:form>
         </p:dialog>

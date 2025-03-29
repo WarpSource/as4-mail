@@ -3,8 +3,8 @@ package si.jrc.msh.plugin.tc.web.dlg;
 
 
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 import si.laurentius.commons.utils.SEDLogger;
 

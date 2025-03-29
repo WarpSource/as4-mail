@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import org.primefaces.PrimeFaces;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.SEDSystemProperties;
@@ -174,7 +174,6 @@ public class DialogCompose implements Serializable {
                 }
 
                 newOutMail.setSubmittedDate(Calendar.getInstance().getTime());
-
                 // add new out mail
                 mOutMailDataView.addNewMail(newOutMail);
                 // send signal to close dialog
@@ -206,12 +205,12 @@ public class DialogCompose implements Serializable {
             suc = false;
             addError("Missing service");
         }
-
+/*
         if (newOutMail.getMSHOutPayload().getMSHOutParts().isEmpty()) {
             suc = false;
             addError("Missing payloads!");
         }
-
+*/
         if (Utils.isEmptyString(newOutMail.getAction())) {
             suc = false;
             addError("Missing action");

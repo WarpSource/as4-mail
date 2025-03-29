@@ -44,6 +44,6 @@
     <modules>
         <module>Laurentius-msh-cxf</module>
         <module>Laurentius-msh-ws</module>
-        <module>Laurentius-msh-ear</module>	
+        <module>Laurentius-msh-ear</module>
     </modules>
 </project>

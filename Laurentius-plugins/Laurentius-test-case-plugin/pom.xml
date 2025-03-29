@@ -81,13 +81,13 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <scope>provided</scope>
         </dependency>
          
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
             <scope>provided</scope>
         </dependency>

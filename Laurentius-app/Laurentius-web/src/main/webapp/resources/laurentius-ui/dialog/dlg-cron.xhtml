@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-       xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+       xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
        lang="#{localeManager.language}"
       >
     <h:head>
@@ -24,11 +24,11 @@
                     p:autoUpdate="true"
                    showDetail="true" />
                 
-                <p:layout id="cronJob" style="min-width:650px;height:380px;">
-                    <p:layoutUnit position="center" rendered="#{empty adminSEDCronJobView.editable}" >
+                <div id="cronJob" style="min-width:650px;height:380px;">
+                    <div position="center" rendered="#{empty adminSEDCronJobView.editable}" >
                         <h:outputText value="#{msg['SelectTableRow']}" />
-                    </p:layoutUnit>
-                    <p:layoutUnit  header="#{msg['CronData']}" position="center" rendered="#{not empty adminSEDCronJobView.editable}"  >
+                    </div>
+                    <div  header="#{msg['CronData']}" position="center" rendered="#{not empty adminSEDCronJobView.editable}"  >
                         <p:panelGrid  columns="2" columnClasses="grid-label,value" style="width:100%; height: 220px ">
 
                             <h:outputText value="#{msg['Name']}:" />
@@ -62,10 +62,10 @@
                             <h:outputText value="#{msg['SkipOnWorkFreeDay']}:" />
                             <h:selectBooleanCheckbox id="onwfd" value="#{adminSEDCronJobView.editable.ignoreOnWorkFreeDays}"  />
                         </p:panelGrid>
-                    </p:layoutUnit>
+                    </div>
                     
                     
-                     <p:layoutUnit position="east" 
+                     <div position="east"
                                    rendered="#{not empty adminSEDCronJobView.editable}" 
                               size="500" minSize="500" maxSize="500"  >
                     <p:dataTable id="TblTasks" 
@@ -135,11 +135,11 @@
 
 
                     </p:dataTable>                        
-                </p:layoutUnit> 
+                </div>
                     
                     
            
-                    <p:layoutUnit position="south"  size="40" minSize="40" maxSize="40" >
+                    <div position="south"  size="40" minSize="40" maxSize="40" >
                         <p:toolbar 
                             styleClass="dialogButtonBar" >
                             <f:facet name="right"  >
@@ -155,8 +155,8 @@
                                                  onclick="PF('cronDialog').hide();return false;"/>                                                 
                             </f:facet>
                         </p:toolbar>
-                    </p:layoutUnit>
-                </p:layout>
+                    </div>
+                </div>
             </h:form>
         </p:dialog>
     </composite:implementation>

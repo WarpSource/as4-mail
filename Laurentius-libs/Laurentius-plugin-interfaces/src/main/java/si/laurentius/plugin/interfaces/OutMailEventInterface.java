@@ -14,7 +14,7 @@
  */
 package si.laurentius.plugin.interfaces;
 
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.commons.pmode.EBMSMessageContext;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
 

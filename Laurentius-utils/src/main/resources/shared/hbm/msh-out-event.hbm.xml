@@ -22,7 +22,7 @@
     </class>    
     
     <sql-query name="si.laurentius.msh.outbox.event.MSHOutEvent.getList">
-        <return class="si.laurentius.msh.outbox.event.MSHOutEvent" />	
+        <return alias="event" class="si.laurentius.msh.outbox.event.MSHOutEvent" />
    <![CDATA[SELECT 
                 ev.id, 
                 ev.mail_id, 
@@ -46,15 +46,4 @@
     <query name="si.laurentius.msh.outbox.event.MSHOutEvent.getMailEventList">
       <![CDATA[from MSHOutEvent p where p.MailId = :mailId]]>
     </query>
-    
-    
-    <!-- sql-query name="si.laurentius.msh.outbox.event.MSHOutEvent.getMailEventList">
-        <return class="si.laurentius.msh.outbox.event.MSHOutEvent" />	
-   <![CDATA[SELECT 
-  ev.*
-FROM 
-  lau_outbox_event ev
-WHERE ev.mail_id = :mailId  
-  order by id desc]]>
-    </sql-query -->
 </hibernate-mapping>

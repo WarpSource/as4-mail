@@ -21,7 +21,7 @@ import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
 import si.laurentius.msh.outbox.payload.MSHOutPart;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -12,10 +13,12 @@
     <artifactId>Laurentius-dao</artifactId>
 
     <name>Laurentius-dao</name>
-    <description>Project contains "JPA tranformation" from jaxb - entities (Laurentius-commons) to DB entities (hibernate hbm-s)    </description>
+    <description>Project contains "JPA transformation" from jaxb - entities (Laurentius-commons) to DB entities
+        (hibernate hbm-s)
+    </description>
     <organization>
         <name>Supreme Court Republic of Slovenia</name>
-        <url>http://www.sodisce.si/</url>
+        <url>https://www.sodisce.si/</url>
     </organization>
     <licenses>
         <license>
@@ -32,7 +35,7 @@
             <name>Jože Rihtaršič</name>
             <email>joze.rihtarsic@sodisce.si</email>
             <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
+            <organizationUrl>https://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -48,30 +51,39 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-commons</artifactId>
-            <version>${project.version}</version>		
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-plugin-interfaces</artifactId>
-            <version>${project.version}</version>		
-            <scope>provided</scope>	
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-lce</artifactId>
-            <version>${project.version}</version>		
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>		
+            <artifactId>log4j-core</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -79,82 +91,138 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.214</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbytools</artifactId>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
             <scope>test</scope>
-        </dependency>            
+        </dependency>
+
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>            
+            <artifactId>bcprov-jdk18on</artifactId>
             <scope>test</scope>
         </dependency>
- 
+
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>            
+            <artifactId>bcpkix-jdk18on</artifactId>
             <scope>test</scope>
-        </dependency>
-       
-        <dependency>
-            <groupId>javax</groupId>            
-            <artifactId>javaee-api</artifactId>            
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>artemis-jms-client</artifactId>
-            <scope>provided</scope>
+            <artifactId>artemis-jakarta-client</artifactId>
         </dependency>
-        
         <dependency>
-            <groupId>org.apache.activemq.tooling</groupId>
-            <artifactId>activemq-junit</artifactId>    
-            <scope>test</scope>
-        </dependency> 
- 
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-broker</artifactId>    
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-      
+        <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <finalName>${dao.final.name}</finalName>
         <plugins>
-            
+
             <plugin>
                 <artifactId>maven-ejb-plugin</artifactId>
             </plugin>
             <plugin>
-                
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifestEntries>                            
+                        <manifestEntries>
                             <!-- implementation-version>${project.version}</implementation-version>             
                             <Implementation-Build>${buildNumber}</Implementation-Build -->
-                            <Dependencies>org.apache.logging.log4j,  si.laurentius, org.apache.activemq.artemis, org.apache.ws.security</Dependencies>
+                            <Dependencies>org.apache.logging.log4j, si.laurentius, org.apache.activemq.artemis,
+                                org.apache.ws.security
+                            </Dependencies>
                         </manifestEntries>
-                
+
                     </archive>
                 </configuration>
             </plugin>
-            
-   
-                    
-            
+            <plugin>
+                <groupId>org.r7c.maven.tools</groupId>
+                <artifactId>ddlgen-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-ddl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Specify the ddl-gen parameters -->
+                    <outputDirectory>target/generated-ddl</outputDirectory>
+                    <xmlMappingDirectories>
+                        <xmlMappingDirectory>${project.resources[0].directory}/shared/hbm</xmlMappingDirectory>
+                    </xmlMappingDirectories>
+                    <xmlMappingSuffixes>
+                        <xmlMappingSuffix>.orm.xml</xmlMappingSuffix>
+                        <xmlMappingSuffix>.hbm.xml</xmlMappingSuffix>
+                    </xmlMappingSuffixes>
+                    <dialects>
+                        <dialect>org.hibernate.dialect.H2Dialect</dialect>
+                        <dialect>org.hibernate.dialect.MySQLDialect</dialect>
+                        <dialect>org.hibernate.dialect.OracleDialect</dialect>
+                        <dialect>org.hibernate.dialect.PostgreSQLDialect</dialect>
+                    </dialects>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>Laurentius-commons</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>2.1.214</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.oracle.database.jdbc</groupId>
+                        <artifactId>ojdbc11</artifactId>
+                        <version>21.8.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>42.5.1</version>
+                    </dependency>
+
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 </project>

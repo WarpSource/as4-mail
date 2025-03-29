@@ -1,0 +1,397 @@
+<MSHSetings xmlns="http://msh.laurentius.si/pmode">
+    <Services>
+        <Service id="DeliveryWithReceipt" serviceName="DeliveryWithReceipt" serviceType="" useSEDProperties="true">
+            <Initiator role="Sender"/>
+            <Executor role="Receiver"/>
+            <Action name="Delivery" invokeRole="initiator" messageType="userMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="test" MIME="application/octet-stream" maxSize="10000" maxOccurs="100"
+                                    minOccurs="0"/>
+                </PayloadProfiles>
+            </Action>
+        </Service>
+        <Service id="LegalDelivery_ZPP" serviceName="LegalDelivery_ZPP" serviceType="SVEV" useSEDProperties="true">
+            <Initiator role="Sender"/>
+            <Executor role="Receiver"/>
+            <Action name="DeliveryNotification" invokeRole="initiator" messageType="userMessage">
+                <Properties>
+                    <Property name="SodiSif" type="" required="true"/>
+                    <Property name="AplikSif" type="" required="false"/>
+                    <Property name="Vpisnik" type="" required="false"/>
+                    <Property name="VpisnikKratica" type="" required="false"/>
+                    <Property name="OpravilnaSt" type="" required="false"/>
+                    <Property name="Vsebina" type="" required="false"/>
+                </Properties>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="DeliveryNotification" MIME="application/pdf" maxOccurs="1" minOccurs="1"/>
+                    <PayloadProfile name="EncryptedPayload" MIME="application/encrypted" maxSize="10000" maxOccurs="999"
+                                    minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+            <Action name="AdviceOfDelivery" invokeRole="executor" messageType="userMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="AdviceOfDelivery" MIME="application/pdf" maxOccurs="1" minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+            <Action name="EncryptedKey" after="DeliveryNotification, AdviceOfDelivery" invokeRole="initiator"
+                    messageType="signalMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="EncryptedKey" MIME="application/xml" maxOccurs="1" minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+            <Action name="FictionNotification" after="DeliveryNotification" invokeRole="initiator"
+                    messageType="userMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="FictionNotification" MIME="application/pdf" maxOccurs="1" minOccurs="1"/>
+                    <PayloadProfile name="EncryptedKey" MIME="application/xml" maxOccurs="1" minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+        </Service>
+        <Service id="LegalDelivery_ZPPB" serviceName="LegalDelivery_ZPPB" serviceType="SVEV" useSEDProperties="true">
+            <Initiator role="Sender"/>
+            <Executor role="Receiver"/>
+            <Action name="DeliveryNotification" invokeRole="initiator" messageType="userMessage">
+                <Properties>
+                    <Property name="SodiSif" type="" required="true"/>
+                    <Property name="AplikSif" type="" required="false"/>
+                    <Property name="Vpisnik" type="" required="false"/>
+                    <Property name="VpisnikKratica" type="" required="false"/>
+                    <Property name="OpravilnaSt" type="" required="false"/>
+                    <Property name="Vsebina" type="" required="false"/>
+                </Properties>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="DeliveryNotification" MIME="application/pdf" maxOccurs="1" minOccurs="1"/>
+                    <PayloadProfile name="EncryptedPayload" MIME="application/encrypted" maxSize="10000" maxOccurs="999"
+                                    minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+            <Action name="AdviceOfDelivery" invokeRole="executor" messageType="userMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="AdviceOfDelivery" MIME="application/pdf" maxOccurs="1" minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+            <Action name="EncryptedKey" after="DeliveryNotification, AdviceOfDelivery" invokeRole="initiator"
+                    messageType="signalMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10000">
+                    <PayloadProfile name="EncryptedKey" MIME="application/xml" maxOccurs="1" minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+
+        </Service>
+        <Service id="TestService" serviceName="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/service"
+                 serviceType="" useSEDProperties="false">
+            <Initiator role="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator"/>
+            <Executor role="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder"/>
+            <Action name="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/test" invokeRole="initiator"
+                    messageType="userMessage">
+                <Properties/>
+                <PayloadProfiles maxSize="10485760">
+                    <PayloadProfile name="payload" MIME="application/octet-stream" maxSize="10485760" maxOccurs="100"
+                                    minOccurs="1"/>
+                </PayloadProfiles>
+            </Action>
+        </Service>
+    </Services>
+    <Parties>
+        <PartyIdentitySet id="test-as4mail" isLocalIdentity="true">
+            <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:name" valueSource="name"/>
+            <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:sed-box" valueSource="address"/>
+            <TransportProtocol id="defalut" isTwoWayProtocol="true">
+                <Address connectionTimeout="120000" receiveTimeout="180000" chunked="false">
+                    http://127.0.0.1:8081/laurentius/msh
+                </Address>
+                <TLS serverTrustCertAlias="localhost" disableCNAndHostnameCheck="true"/>
+                <SOAPVersion>1.2</SOAPVersion>
+            </TransportProtocol>
+            <LocalPartySecurity signatureKeyAlias="test-as4mail" decryptionKeyAlias="test-as4mail"/>
+            <ExchangePartySecurity signatureCertAlias="test-as4mail" encryptionCertAlias="test-as4mail"/>
+        </PartyIdentitySet>
+        <PartyIdentitySet id="court-laurentius" domain="court-laurentius.si" isLocalIdentity="false" active="true">
+            <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:name" valueSource="name"/>
+            <PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered:si-svev:sed-box" valueSource="address"/>
+            <TransportProtocol id="court-https" isTwoWayProtocol="true">
+                <Address connectionTimeout="120000" receiveTimeout="180000" chunked="false">
+                    https://b2g-test.sodisce.si/laurentius/msh
+                </Address>
+                <TLS clientKeyAlias="test-tls" serverTrustCertAlias="b2g-test.sodisce.si"
+                     disableCNAndHostnameCheck="true"/>
+                <SOAPVersion>1.2</SOAPVersion>
+            </TransportProtocol>
+            <LocalPartySecurity/>
+            <ExchangePartySecurity signatureCertAlias="b2g-test.sodisce.si" encryptionCertAlias="b2g-test.sodisce.si"/>
+        </PartyIdentitySet>
+    </Parties>
+    <SecurityPolicies>
+        <Security id="sign_sha256" WSSVersion="1.1">
+            <X509>
+                <Signature hashFunction="http://www.w3.org/2001/04/xmlenc#sha256"
+                           algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+                           keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true">
+                        <Elements>
+                            <XPath xpath="env:Header/eb3:Messaging">
+                                <Namespace prefix="eb3"
+                                           namespace="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/"/>
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                            </XPath>
+                        </Elements>
+                    </Reference>
+                </Signature>
+            </X509>
+        </Security>
+        <Security id="sign_ed25519" WSSVersion="1.1">
+            <X509>
+                <Signature hashFunction="http://www.w3.org/2001/04/xmlenc#sha256"
+                           algorithm="http://www.w3.org/2021/04/xmldsig-more#eddsa-ed25519"
+                           keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true">
+                        <Elements>
+                            <XPath xpath="env:Header/eb3:Messaging">
+                                <Namespace prefix="eb3"
+                                           namespace="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/"/>
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                            </XPath>
+                        </Elements>
+                    </Reference>
+                </Signature>
+            </X509>
+        </Security>
+        <Security id="edeliveryAS4-1.5" WSSVersion="1.1">
+            <X509>
+                <Signature hashFunction="http://www.w3.org/2001/04/xmlenc#sha256"
+                           algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+                           keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true">
+                        <Elements>
+                            <XPath xpath="env:Header/env:Body">
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                            </XPath>
+                            <XPath xpath="env:Header/eb3:Messaging">
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                                <Namespace prefix="eb3"
+                                           namespace="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/"/>
+                            </XPath>
+                        </Elements>
+                    </Reference>
+                </Signature>
+                <Encryption algorithm="http://www.w3.org/2009/xmlenc11#aes128-gcm"
+                            keyTransport="http://www.w3.org/2009/xmlenc11#rsa-oaep"
+                            mgf1Algorithm="http://www.w3.org/2009/xmlenc11#mgf1sha256"
+                            digest="http://www.w3.org/2001/04/xmlenc#sha256" minimumStrength="128"
+                            keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true"/>
+                </Encryption>
+            </X509>
+        </Security>
+        <Security id="edeliveryAS4-2.0-curve25519" WSSVersion="1.1">
+            <X509>
+                <Signature hashFunction="http://www.w3.org/2001/04/xmlenc#sha256"
+                           algorithm="http://www.w3.org/2021/04/xmldsig-more#eddsa-ed25519"
+                           keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true">
+                        <Elements>
+                            <XPath xpath="env:Header/env:Body">
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                            </XPath>
+                            <XPath xpath="env:Header/eb3:Messaging">
+                                <Namespace prefix="env" namespace="http://www.w3.org/2003/05/soap-envelope"/>
+                                <Namespace prefix="eb3"
+                                           namespace="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/"/>
+                            </XPath>
+                        </Elements>
+                    </Reference>
+                </Signature>
+                <Encryption algorithm="http://www.w3.org/2009/xmlenc11#aes128-gcm"
+                            keyTransport="http://www.w3.org/2001/04/xmlenc#kw-aes128"
+                            agreementMethod="http://www.w3.org/2021/04/xmldsig-more#x25519"
+                            keyDerivationFunction="http://www.w3.org/2021/04/xmldsig-more#hkdf"
+                            minimumStrength="128"
+                            keyIdentifierType="X509KeyIdentifier">
+                    <Reference allAttachments="true"/>
+                </Encryption>
+            </X509>
+        </Security>
+    </SecurityPolicies>
+    <ReceptionAwarenessPatterns>
+        <ReceptionAwareness id="AS4ReceiptResponse" replyPattern="response" receiptType="AS4Receipt">
+            <Retry maxRetries="10" multiplyPeriod="3" period="5678"/>
+            <DuplicateDetection windowPeriode="P1Y" eliminate="true"/>
+        </ReceptionAwareness>
+    </ReceptionAwarenessPatterns>
+    <PMode id="DeliveryWithReceipt" isTest="false" priority="4">
+        <ServiceIdRef>DeliveryWithReceipt</ServiceIdRef>
+        <LocalPartyInfo partyIdentitySetIdRef="test-as4mail">
+            <Role>Sender</Role>
+            <Role>Receiver</Role>
+        </LocalPartyInfo>
+        <ExchangeParties>
+            <PartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+            <PartyInfo partyIdentitySetIdRef="court-laurentius" partyDefTransportIdRef="court-https">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+        </ExchangeParties>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push</MEPChannelBinding>
+            <MEPInitiatorRole>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="Delivery" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel securityIdRef="sign_sha256"/>
+                </Transport>
+            </Leg>
+        </MEP>
+    </PMode>
+    <PMode id="ZPP-legal" isTest="false" priority="5">
+        <ServiceIdRef>LegalDelivery_ZPP</ServiceIdRef>
+        <LocalPartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+            <Role>Sender</Role>
+            <Role>Receiver</Role>
+        </LocalPartyInfo>
+        <ExchangeParties>
+            <PartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+            <PartyInfo partyIdentitySetIdRef="court-laurentius" partyDefTransportIdRef="court-https">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+        </ExchangeParties>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push</MEPChannelBinding>
+            <MEPInitiatorRole>Sender</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="DeliveryNotification" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel securityIdRef="sign_sha256"/>
+                </Transport>
+            </Leg>
+        </MEP>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/twoWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/sync</MEPChannelBinding>
+            <MEPInitiatorRole>Receiver</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="AdviceOfDelivery" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel action="EncryptedKey" securityIdRef="sign_sha256"/>
+                </Transport>
+            </Leg>
+        </MEP>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/twoWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/sync</MEPChannelBinding>
+            <MEPInitiatorRole>Sender</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="FictionNotification" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                </Transport>
+            </Leg>
+        </MEP>
+    </PMode>
+    <PMode id="ZPPB-legal" isTest="false" priority="5">
+        <ServiceIdRef>LegalDelivery_ZPPB</ServiceIdRef>
+        <LocalPartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+            <Role>Sender</Role>
+            <Role>Receiver</Role>
+        </LocalPartyInfo>
+        <ExchangeParties>
+            <PartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+            <PartyInfo partyIdentitySetIdRef="court-laurentius" partyDefTransportIdRef="court-https">
+                <Role>Sender</Role>
+                <Role>Receiver</Role>
+            </PartyInfo>
+        </ExchangeParties>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push</MEPChannelBinding>
+            <MEPInitiatorRole>Sender</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="DeliveryNotification" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel securityIdRef="sign_sha256"/>
+                </Transport>
+            </Leg>
+        </MEP>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/twoWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/sync</MEPChannelBinding>
+            <MEPInitiatorRole>Receiver</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="AdviceOfDelivery" securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel action="EncryptedKey" securityIdRef="sign_sha256"/>
+                </Transport>
+            </Leg>
+        </MEP>
+    </PMode>
+    <PMode id="TestService" isTest="true" priority="4">
+        <ServiceIdRef>TestService</ServiceIdRef>
+        <LocalPartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+            <Role>Sender</Role>
+            <Role>Receiver</Role>
+            <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator</Role>
+            <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder</Role>
+        </LocalPartyInfo>
+        <ExchangeParties>
+            <PartyInfo partyIdentitySetIdRef="test-as4mail" partyDefTransportIdRef="defalut">
+                <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator</Role>
+                <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder</Role>
+            </PartyInfo>
+            <PartyInfo partyIdentitySetIdRef="court-laurentius" partyDefTransportIdRef="court-https">
+                <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator</Role>
+                <Role>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder</Role>
+            </PartyInfo>
+        </ExchangeParties>
+        <MEP>
+            <MEPType>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/oneWay</MEPType>
+            <MEPChannelBinding>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/push</MEPChannelBinding>
+            <MEPInitiatorRole>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator</MEPInitiatorRole>
+            <Leg>
+                <MPC>http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/defaultMPC</MPC>
+                <Transport>
+                    <ForeChannel action="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/test"
+                                 securityIdRef="sign_sha256">
+                        <ReceptionAwareness raPatternIdRef="AS4ReceiptResponse"/>
+                    </ForeChannel>
+                    <BackChannel securityIdRef="sign_sha256">
+                        <ReceptionAwareness/>
+                    </BackChannel>
+                </Transport>
+            </Leg>
+        </MEP>
+    </PMode>
+</MSHSetings>

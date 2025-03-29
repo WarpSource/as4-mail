@@ -1,311 +1,354 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
-      >
-    <h:head>
-        <title>AS4Mail</title>   
+>
+<h:head>
+    <title>AS4Mail</title>
+</h:head>
 
-    </h:head>
+<composite:interface>
 
-    <composite:interface>
+</composite:interface>
 
-    </composite:interface>
-
-    <composite:implementation >
-        <pnl:pnl-settings id="InMailPanelData"
-                          title="#{msg['Inbox']}" 
-                          description="#{msg['InboxDefDesc']}"
-                          icon="ui-icon-svg-inbox"
-                          >
-            <script>//<![CDATA[// update table size - primeface missing functionality 
-                $(window).resize(function () {
-                    adjustTableColumns('InMailTable', 'InMailTableContainer', false);
-                }); //]]>
-            </script>
-            <div id="InMailDataMain" class="p-grid p-dir-col" style="min-width:400px;min-height:400px;height: 100%;width: 100%">
-
-                <div id="InMailTableContainer" class="p-col" style="height: calc(100% - 220px);width: 100%">
-
-                    <p:dataTable id="InMailTable" widgetVar="InMailTable" 
-                                 var="inMail"
-                                 value="#{InMailDataView.mailList}" 
-                                 resizableColumns="true"
-                                 selection="#{InMailDataView.selected}" 
-                                 rowKey="#{inMail.id}"
-                                 currentPageReportTemplate="#{msg['Showing']} {startRecord}-{endRecord} #{msg['OutOf']} {totalRecords}"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="25,50,100,200,500,1000" 
-                                 paginator="true" 
-                                 rows="50" 
-                                 lazy="true"
-                                 style="padding: 0px; margin: 0px; height: 100%;width: 100%"
-                                 scrollable="true" 
-                                 scrollHeight="100%"
-                                 >
-                        <f:facet name="header">
-                            <p:commandButton id="toggler" type="button" value="#{msg['Columns']}" 
-                                             style="float:right" icon="ui-icon-calculator" />
-                            <p:columnToggler datasource="InMailTable" trigger="toggler" />
-                        </f:facet>
-
-                        <p:ajax event="rowSelect"  
-                                onstart="PF('blockMainPanel').show();"
-                                oncomplete="PF('blockMainPanel').hide();"
-                                listener="#{InMailDataView.onRowSelect}" 
-                                update=":forms:InMailPanel:InMailPanelData:InMailTab" />                          
-                        <p:ajax event="page"
-                                onstart="PF('blockMainPanel').show();"
-                                oncomplete="PF('blockMainPanel').hide();"
-                                update=":forms:InMailPanel:InMailPanelData:InMailTab" 
-                                />  
-
-                        <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+<composite:implementation>
+    <pnl:pnl-settings id="InMailPanelData"
+                      title="#{msg['Inbox']}"
+                      description="#{msg['InboxDefDesc']}"
+                      icon="ui-icon-svg-inbox"
+    >
+        <script>//<![CDATA[// update table size - primeface missing functionality
+        $(window).resize(function () {
+            adjustTableColumns('InMailTable', 'InMailTableContainer', false);
+        }); //]]>
 
 
-                        <p:column width="70" style="background-color:#{InMailDataView.getStatusColor(inMail.status)}"
-                                  headerText="#{msg['Status']}">
-                            <h:outputText value="#{inMail.status}" />
+        </script>
+
+        <p:dataTable id="InMailTable" widgetVar="InMailTable"
+                     var="inMail"
+                     value="#{InMailDataView.mailList}"
+                     resizableColumns="true"
+                     selection="#{InMailDataView.selected}"
+                     rowKey="#{inMail.id}"
+                     currentPageReportTemplate="#{msg['Showing']} {startRecord}-{endRecord} #{msg['OutOf']} {totalRecords}"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="25,50,100,200,500,1000"
+                     paginator="true"
+                     rows="50"
+                     lazy="true"
+                     style="min-width:400px;min-height:400px;flex: 1"
+                     scrollable="true"
+                     scrollHeight="100%"
+        >
+            <f:facet name="header">
+                <p:commandButton id="toggler" type="button" value="#{msg['Columns']}"
+                                 style="float:right" icon="ui-icon-calculator"/>
+                <p:columnToggler datasource="InMailTable" trigger="toggler"/>
+            </f:facet>
+
+            <p:ajax event="rowSelect"
+                    onstart="PF('blockMainPanel').show();"
+                    oncomplete="PF('blockMainPanel').hide();"
+                    listener="#{InMailDataView.onRowSelect}"
+                    update=":forms:InMailPanel:InMailPanelData:InMailTab"/>
+            <p:ajax event="page"
+                    onstart="PF('blockMainPanel').show();"
+                    oncomplete="PF('blockMainPanel').hide();"
+                    update=":forms:InMailPanel:InMailPanelData:InMailTab"
+            />
+
+            <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+
+            <p:column width="70" style="background-color:#{InMailDataView.getStatusColor(inMail.status)}"
+                      headerText="#{msg['Status']}">
+                <h:outputText value="#{inMail.status}"/>
+            </p:column>
+            <p:column width="180" headerText="#{msg['Transaction']}">
+                <h:outputText value="#{inMail.conversationId}"/>
+            </p:column>
+            <p:column width="120" headerText="#{msg['RecDate']}">
+                <h:outputText value="#{inMail.receivedDate}">
+                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="CET"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msg['Sender']}">
+                <h:outputText value="#{inMail.senderName}"/>
+            </p:column>
+
+            <p:column headerText="#{msg['Receiver']}">
+                <h:outputText value="#{inMail.receiverName}"/>
+            </p:column>
+            <p:column width="150" headerText="#{msg['Service']}">
+                <h:outputText value="#{inMail.service}"/>
+            </p:column>
+            <p:column width="150" headerText="#{msg['Action']}">
+                <h:outputText value="#{inMail.action}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:tabView id="InMailTab" style="height:250px" activeIndex="#{InMailDataView.tabActiveIndex}">
+            <p:ajax event="tabChange" listener="#{InMailDataView.onTabChange}"/>
+            <p:tab id="InMailDataTab" title="#{msg['MailData']}">
+                <f:facet name="title">
+                    <h:graphicImage value="#{resource['images:/envelope.svg']}" width="22" height="22"/>
+                    <h:outputText value="#{msg['MailData']}"/>
+                </f:facet>
+
+                <p:outputPanel id="InMailData">
+                    <p:panelGrid styleClass="ui-noborder ui-fluid" layout="tabular" columns="0" style="width: 100%">
+                        <p:row>
+                            <p:column styleClass="grid-label-small">#{msg['Id']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.id}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small" rowspan="2">#{msg['Sender']}:</p:column>
+                            <p:column style="text-align:left;" rowspan="2">
+                                <h:inputTextarea cols="2" value="#{InMailDataView.currentMail.senderName}"
+                                                 style="width:100%;" readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small" rowspan="2">#{msg['Receiver']}:
+                            </p:column>
+                            <p:column style="text-align:left;" rowspan="2">
+                                <h:inputTextarea cols="2" value="#{InMailDataView.currentMail.receiverName}"
+                                                 style="width:100%;" readonly='true'/>
+                            </p:column>
+
+                            <p:column styleClass="grid-label-small">#{msg['SubmitDate']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.submittedDate}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="grid-label-small">#{msg['SenderMailId']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.senderMessageId}"
+                                             style="width:100%;" readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small">#{msg['SentDate']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.sentDate}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column styleClass="grid-label-small">#{msg['MessageId']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.messageId}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+
+                            <p:column styleClass="grid-label-small">#{msg['Sender-Box']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.senderEBox}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+
+                            <p:column styleClass="grid-label-small">#{msg['Receiver-Box']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.receiverEBox}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small">#{msg['ReceivedDate']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.receivedDate}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column styleClass="grid-label-small">#{msg['RefMessageId']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.refToMessageId}"
+                                             style="width:100%;" readonly='true'/>
+                            </p:column>
+
+                            <p:column styleClass="grid-label-small">#{msg['Service']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.service}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small">#{msg['Action']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.action}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small">#{msg['DeliveredDate']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.deliveredDate}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="grid-label-small">#{msg['Transaction']}:</p:column>
+                            <p:column style="text-align:left;">
+                                <h:inputText value="#{InMailDataView.currentMail.conversationId}"
+                                             style="width:100%;" readonly='true'/>
+                            </p:column>
+                            <p:column styleClass="grid-label-small">#{msg['Subject']}:</p:column>
+                            <p:column style="text-align:left;" colspan="5">
+                                <h:inputText value="#{InMailDataView.currentMail.subject}" style="width:100%;"
+                                             readonly='true'/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:tab>
+            <p:tab>
+                <f:facet name="title">
+                    <h:graphicImage value="#{resource['images:/payload.svg']}" width="22" height="22"/>
+                    <h:outputText value="#{msg['Payloads']}"/>
+                </f:facet>
+
+                <p:outputPanel id="InMailDocuments" style="text-align:center;">
+
+
+                    <p:dataTable var="plpart"
+                                 value="#{InMailDataView.currentMail.MSHInPayload.MSHInParts}"
+                                 rowKey="#{plpart.id}"
+                                 scrollable="true"
+                                 scrollHeight="130">
+
+                        <p:column style="width:16px">
+                            <p:rowToggler/>
                         </p:column>
-                        <p:column width="180" headerText="#{msg['Transaction']}" >
-                            <h:outputText value="#{inMail.conversationId}" />
+                        <p:column width="60" headerText="#{msg['Id']}">
+                            <h:outputText value="#{plpart.id}"/>
                         </p:column>
-                        <p:column width="120" headerText="#{msg['RecDate']}">
-                            <h:outputText value="#{inMail.receivedDate}"  ><f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="CET" /></h:outputText>
+                        <p:column width="60" headerText="#{msg['RefId']}">
+                            <h:outputText value="#{plpart.generatedFromPartId}"/>
+                        </p:column>
+                        <p:column width="40" headerText="#{msg['Sent']}">
+                            <h:outputText value="#{plpart.isSent}"/>
+                        </p:column>
+                        <p:column width="40" headerText="#{msg['Rec']}">
+                            <h:outputText value="#{plpart.isReceived}"/>
+                        </p:column>
+                        <p:column width="40" headerText="#{msg['Enc']}">
+                            <h:outputText value="#{plpart.isEncrypted}"/>
+                        </p:column>
+                        c
+                        <p:column width="60" headerText="#{msg['Source']}">
+                            <h:outputText value="#{plpart.source}"/>
+                        </p:column>
+                        <p:column width="70" headerText="#{msg['Download']}">
+                            <p:commandButton ajax="false" value="#{msg['Download']}"
+                                             onclick="PrimeFaces.monitorDownload(start, stop);"
+                                             icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload value="#{InMailDataView.getFile(plpart.id)}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="#{msg['Filename']}">
+                            <h:outputText value="#{plpart.filename}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['Description']}">
+                            <h:outputText value="#{plpart.description}"/>
                         </p:column>
 
-                        <p:column headerText="#{msg['Sender']}">
-                            <h:outputText value="#{inMail.senderName}" />
+
+                        <p:column width="60" headerText="#{msg['MimeType']}">
+                            <h:outputText value="#{plpart.mimeType}"/>
                         </p:column>
 
-                        <p:column headerText="#{msg['Receiver']}">
-                            <h:outputText value="#{inMail.receiverName}" />
+                        <p:column width="60" headerText="#{msg['Size']}">
+                            <h:outputText value="#{LookupsData.getHumanReadableSize(plpart.size)}"/>
                         </p:column>
-                        <p:column width="150"  headerText="#{msg['Service']}">
-                            <h:outputText value="#{inMail.service}" />
+
+                        <p:rowExpansion>
+                            <p:dataTable var="plpartprop"
+                                         rowKey="#{plpartprop.id}"
+                                         value="#{plpart.IMPartProperties}"
+                                         scrollable="true"
+                                         scrollHeight="120"
+                            >
+                                <p:column width="200" headerText="#{msg['Name']}">
+                                    <h:outputText value="#{plpartprop.name}"/>
+                                </p:column>
+
+                                <p:column headerText="#{msg['Value']}">
+                                    <h:outputText value="#{plpartprop.value}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:tab>
+            <p:tab>
+                <f:facet name="title">
+                    <h:graphicImage value="#{resource['images:/event.svg']}" width="22" height="22"/>
+                    <h:outputText value="#{msg['Events']}"/>
+                </f:facet>
+                <p:outputPanel id="InMailEvents" style="text-align:center;">
+                    <p:dataTable var="mailEvents" value="#{InMailDataView.mailEvents}"
+                                 rowKey="#{mailEvents.id}"
+                                 scrollable="true"
+                                 scrollHeight="120">
+                        <p:column width="60" headerText="#{msg['Id']}">
+                            <h:outputText value="#{mailEvents.id}"/>
                         </p:column>
-                        <p:column width="150"  headerText="#{msg['Action']}">
-                            <h:outputText value="#{inMail.action}" />
+                        <p:column headerText="#{msg['Status']}" width="70"
+                                  style="background-color:#{InMailDataView.getStatusColor(mailEvents.status)}">
+                            <h:outputText value="#{mailEvents.status}"/>
+                        </p:column>
+                        <p:column width="140" headerText="#{msg['Date']}">
+                            <h:outputText value="#{mailEvents.date}">
+                                <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" timeZone="CET"/>
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column headerText="#{msg['Description']}">
+                            <h:outputText value="#{mailEvents.description}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['UsersId']}">
+                            <h:outputText value="#{mailEvents.userId}"/>
+                        </p:column>
+                        <p:column width="60" headerText="#{msg['Download']}">
+
+                            <p:commandButton ajax="false" value="#{msg['Download']}"
+                                             rendered="#{mailEvents.evidenceFilepath}"
+                                             onclick="PrimeFaces.monitorDownload(start, stop);"
+                                             icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload
+                                        value="#{InMailDataView.getEventEvidenceFile(mailEvents.evidenceFilepath)}"/>
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
-
-                </div>
-                <div class="p-col" style="height:220px">
-
-                    <p:tabView id="InMailTab" style="height: 100%" activeIndex="#{InMailDataView.tabActiveIndex}">
-                        <p:ajax event="tabChange" listener="#{InMailDataView.onTabChange}"/> 
-                        <p:tab   id="InMailDataTab" title="#{msg['MailData']}">
-                            <f:facet name="title">
-                                <h:graphicImage value="#{resource['images:/envelope.svg']}" width="22" height="22" />
-                                <h:outputText value="#{msg['MailData']}" />
-                            </f:facet>
-
-                            <p:outputPanel id="InMailData" >
-                                <p:panelGrid styleClass="ui-noborder" style=" width: 100%;" >
-                                        <p:row>
-                                            <p:column style="text-align:right; width:100px;" >#{msg['Id']}:</p:column> 
-                                            <p:column style="text-align:left;" ><h:inputText value="#{InMailDataView.currentMail.id}"  style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;" rowspan="2">#{msg['Sender']}:</p:column> 
-                                            <p:column style="text-align:left;" rowspan="2"><h:inputTextarea cols="2" value="#{InMailDataView.currentMail.senderName}"  style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;" rowspan="2" >#{msg['Receiver']}:</p:column> 
-                                            <p:column style="text-align:left;" rowspan="2"><h:inputTextarea cols="2" value="#{InMailDataView.currentMail.receiverName}"  style="width:100%;"  readonly='true' /></p:column>
-
-                                            <p:column style="text-align:right;width:100px;" >#{msg['SubmitDate']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.submittedDate}"  style="width:100%;"  readonly='true' /></p:column>
-                                        </p:row>
-                                        <p:row>
-                                            <p:column style="text-align:right;width:100px;">#{msg['SenderMailId']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.senderMessageId}"  style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;">#{msg['SentDate']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.sentDate}"  style="width:100%;"  readonly='true' /></p:column>
-                                        </p:row>
-
-                                        <p:row>
-                                            <p:column style="text-align:right;width:100px;">#{msg['MessageId']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.messageId}"  style="width:100%;"  readonly='true' /></p:column>
-
-                                            <p:column style="text-align:right;width:100px;">#{msg['Sender-Box']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.senderEBox}"  style="width:100%;"  readonly='true' /></p:column>
-
-                                            <p:column style="text-align:right;width:100px;">#{msg['Receiver-Box']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.receiverEBox}"  style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;">#{msg['ReceivedDate']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.receivedDate}"  style="width:100%;"  readonly='true' /></p:column>
-                                        </p:row>
-
-                                        <p:row>
-                                            <p:column style="text-align:right;width:100px;">#{msg['RefMessageId']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.refToMessageId}" style="width:100%;"  readonly='true' /></p:column>
-
-                                            <p:column style="text-align:right;width:100px;">#{msg['Service']}:</p:column> 
-                                            <p:column style="text-align:left;" ><h:inputText value="#{InMailDataView.currentMail.service}" style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;">#{msg['Action']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.action}"  style="width:100%;"  readonly='true' /></p:column>                                    
-                                            <p:column style="text-align:right;width:100px;">#{msg['DeliveredDate']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.deliveredDate}"  style="width:100%;"  readonly='true' /></p:column>
-                                        </p:row>
-                                        <p:row>
-                                            <p:column style="text-align:right;width:100px;">#{msg['Transaction']}:</p:column> 
-                                            <p:column style="text-align:left;"><h:inputText value="#{InMailDataView.currentMail.conversationId}"  style="width:100%;"  readonly='true' /></p:column>
-                                            <p:column style="text-align:right;width:100px;">#{msg['Subject']}:</p:column> 
-                                            <p:column style="text-align:left;" colspan="5"><h:inputText value="#{InMailDataView.currentMail.subject}"  style="width:100%;"  readonly='true' /></p:column>                                    
-                                        </p:row>
-                                </p:panelGrid>
-                            </p:outputPanel>
-                        </p:tab>
-                        <p:tab >
-                            <f:facet name="title">
-                                <h:graphicImage value="#{resource['images:/payload.svg']}" width="22" height="22" />                            
-                                <h:outputText value="#{msg['Payloads']}" />
-                            </f:facet>
-
-                            <p:outputPanel id="InMailDocuments" style="text-align:center;">
+                </p:outputPanel>
+            </p:tab>
+            <p:tab>
+                <f:facet name="title">
+                    <h:graphicImage value="#{resource['images:/data.svg']}" width="22" height="22"/>
+                    <h:outputText value="#{msg['Properties']}"/>
+                </f:facet>
+                <p:outputPanel id="InMailProperties" style="text-align:center;">
 
 
-                                <p:dataTable var="plpart" 
-                                             value="#{InMailDataView.currentMail.MSHInPayload.MSHInParts}"
-                                             scrollable="true"
-                                             scrollHeight="130">
+                    <p:dataTable var="mp" value="#{InMailDataView.currentMail.MSHInProperties.MSHInProperties}"
+                                 rowKey="#{mp.id}"
+                                 scrollable="true"
+                                 scrollHeight="120">
+                        <p:column width="150" headerText="#{msg['Key']}">
+                            <h:outputText value="#{mp.name}"/>
+                        </p:column>
 
-                                    <p:column style="width:16px">
-                                        <p:rowToggler />
-                                    </p:column>
-                                    <p:column width="60" headerText="#{msg['Id']}">
-                                        <h:outputText value="#{plpart.id}" />
-                                    </p:column>
-                                    <p:column width="60" headerText="#{msg['RefId']}">
-                                        <h:outputText value="#{plpart.generatedFromPartId}" />
-                                    </p:column>
-                                    <p:column width="40" headerText="#{msg['Sent']}">
-                                        <h:outputText value="#{plpart.isSent}" />
-                                    </p:column>
-                                    <p:column width="40" headerText="#{msg['Rec']}">
-                                        <h:outputText value="#{plpart.isReceived}" />
-                                    </p:column>
-                                    <p:column width="40" headerText="#{msg['Enc']}">
-                                        <h:outputText value="#{plpart.isEncrypted}" />
-                                    </p:column>c
-                                    <p:column width="60" headerText="#{msg['Source']}">
-                                        <h:outputText value="#{plpart.source}" />
-                                    </p:column>
-                                    <p:column width="70" headerText="#{msg['Download']}">
-                                        <p:commandButton ajax="false" value="#{msg['Download']}"
-                                                         onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                                            <p:fileDownload value="#{InMailDataView.getFile(plpart.id)}" />
-                                        </p:commandButton>
-                                    </p:column>
-                                    <p:column headerText="#{msg['Filename']}">
-                                        <h:outputText value="#{plpart.filename}" />
-                                    </p:column>
-                                    <p:column headerText="#{msg['Description']}">
-                                        <h:outputText value="#{plpart.description}" />
-                                    </p:column>
-
-
-                                    <p:column width="60" headerText="#{msg['MimeType']}">
-                                        <h:outputText value="#{plpart.mimeType}" />
-                                    </p:column>
-
-                                    <p:column width="60" headerText="#{msg['Size']}">
-                                        <h:outputText value="#{LookupsData.getHumanReadableSize(plpart.size)}" />
-                                    </p:column>
-
-                                    <p:rowExpansion>
-                                        <p:dataTable var="plpartprop" 
-                                                     value="#{plpart.IMPartProperties}"
-                                                     scrollable="true"
-                                                     scrollHeight="120"
-                                                     >
-                                            <p:column width="200" headerText="#{msg['Name']}">
-                                                <h:outputText value="#{plpartprop.name}" />
-                                            </p:column>
-
-                                            <p:column  headerText="#{msg['Value']}">
-                                                <h:outputText value="#{plpartprop.value}" />
-                                            </p:column>
-                                        </p:dataTable>
-                                    </p:rowExpansion>
-
-
-
-                                </p:dataTable>
-
-                            </p:outputPanel>
-                        </p:tab>
-                        <p:tab >
-                            <f:facet name="title">
-                                <h:graphicImage value="#{resource['images:/event.svg']}" width="22" height="22" />
-                                <h:outputText value="#{msg['Events']}" />                                 
-                            </f:facet>
-                            <p:outputPanel id="InMailEvents" style="text-align:center;">
-
-
-                                <p:dataTable var="mailEvents" value="#{InMailDataView.mailEvents}"
-                                             scrollable="true"
-                                             scrollHeight="120" >
-                                    <p:column width="60" headerText="#{msg['Id']}">
-                                        <h:outputText value="#{mailEvents.id}" />
-                                    </p:column>
-                                    <p:column headerText="#{msg['Status']}" width="70" 
-                                              style="background-color:#{InMailDataView.getStatusColor(mailEvents.status)}" >
-                                        <h:outputText value="#{mailEvents.status}" />
-                                    </p:column>
-                                    <p:column width="140" headerText="#{msg['Date']}">
-                                        <h:outputText value="#{mailEvents.date}"  ><f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" timeZone="CET" /></h:outputText>
-
-                                    </p:column>
-                                    <p:column headerText="#{msg['Description']}">
-                                        <h:outputText value="#{mailEvents.description}" />
-                                    </p:column>
-                                    <p:column headerText="#{msg['UsersId']}">
-                                        <h:outputText value="#{mailEvents.userId}" />
-                                    </p:column>
-                                    <p:column width="60" headerText="#{msg['Download']}">
-
-                                        <p:commandButton ajax="false" value="#{msg['Download']}" rendered="#{mailEvents.evidenceFilepath}" 
-                                                         onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-                                            <p:fileDownload value="#{InMailDataView.getEventEvidenceFile(mailEvents.evidenceFilepath)}" />
-                                        </p:commandButton>
-                                    </p:column>
-
-                                </p:dataTable>
-
-                            </p:outputPanel>
-                        </p:tab>
-                        <p:tab >
-                            <f:facet name="title">
-                                <h:graphicImage value="#{resource['images:/data.svg']}" width="22" height="22" />
-                                <h:outputText value="#{msg['Properties']}" />                                 
-                            </f:facet>
-                            <p:outputPanel id="InMailProperties" style="text-align:center;">
-
-
-                                <p:dataTable var="mp" value="#{InMailDataView.currentMail.MSHInProperties.MSHInProperties}"
-                                             scrollable="true"
-                                             scrollHeight="120" >
-                                    <p:column width="150" headerText="#{msg['Key']}">
-                                        <h:outputText value="#{mp.name}" />
-                                    </p:column>
-
-                                    <p:column  headerText="#{msg['Value']}">
-                                        <h:outputText value="#{mp.value}"  ></h:outputText>
-                                    </p:column>
-
-                                </p:dataTable>
-
-                            </p:outputPanel>
-                        </p:tab>
-
-                    </p:tabView>
-                </div>
-            </div>
-        </pnl:pnl-settings>
-    </composite:implementation>
-
+                        <p:column headerText="#{msg['Value']}">
+                            <h:outputText value="#{mp.value}"></h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:outputPanel>
+            </p:tab>
+        </p:tabView>
+    </pnl:pnl-settings>
+</composite:implementation>
 </html>

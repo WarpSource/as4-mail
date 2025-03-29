@@ -5,7 +5,7 @@
 package si.laurentius.msh.web.abst;
 
 import java.util.List;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.xml.XMLUtils;
 import si.laurentius.msh.web.gui.dlg.DialogDelete;

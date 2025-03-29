@@ -17,10 +17,10 @@ package si.laurentius.msh.web.admin;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.Timer;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import jakarta.ejb.EJB;
+import jakarta.ejb.Timer;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 import si.laurentius.cron.SEDCronJob;
 import si.laurentius.cron.SEDTask;
 

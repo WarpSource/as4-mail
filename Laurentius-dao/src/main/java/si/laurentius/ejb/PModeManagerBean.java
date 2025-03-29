@@ -16,9 +16,9 @@ package si.laurentius.ejb;
 
 import java.util.Calendar;
 import java.util.List;
-import javax.ejb.AccessTimeout;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import jakarta.ejb.AccessTimeout;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.msh.pmode.PMode;
 import si.laurentius.msh.pmode.PartyIdentitySet;

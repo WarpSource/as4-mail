@@ -1,12 +1,12 @@
 /*
  * Copyright 2015, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,44 +14,31 @@
  */
 package si.laurentius.commons.pmode;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import static java.nio.file.Files.move;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import javax.xml.bind.JAXBException;
-import si.laurentius.msh.outbox.mail.MSHOutMail;
-import si.laurentius.msh.pmode.AgreementRef;
-import si.laurentius.msh.pmode.MSHSetings;
-import si.laurentius.msh.pmode.PMode;
-import si.laurentius.msh.pmode.PartyIdentitySet;
-import si.laurentius.msh.pmode.PartyIdentitySetType;
-import si.laurentius.msh.pmode.ReceptionAwareness;
-import si.laurentius.msh.pmode.Security;
-import si.laurentius.msh.pmode.Service;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.commons.PModeConstants;
 import si.laurentius.commons.SEDSystemProperties;
+import si.laurentius.commons.cxf.EBMSConstants;
 import si.laurentius.commons.exception.PModeException;
 import si.laurentius.commons.interfaces.PModeInterface;
+import si.laurentius.commons.pmode.enums.ActionRole;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.Utils;
+import si.laurentius.msh.outbox.mail.MSHOutMail;
+import si.laurentius.msh.pmode.*;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
 import static java.lang.String.format;
-import si.laurentius.commons.cxf.EBMSConstants;
-import static si.laurentius.commons.pmode.FilePModeManager.LOG;
-import si.laurentius.commons.pmode.enums.ActionRole;
+import static java.nio.file.Files.move;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static si.laurentius.commons.utils.xml.XMLUtils.deserialize;
 import static si.laurentius.commons.utils.xml.XMLUtils.serialize;
-import si.laurentius.msh.pmode.Action;
 
 /**
- *
  * @author Joze Rihtarsic <joze.rihtarsic@sodisce.si>
  */
 public class FilePModeManager implements PModeInterface {
@@ -77,7 +64,6 @@ public class FilePModeManager implements PModeInterface {
     }
 
     /**
-     *
      * @param i
      * @param pmrNew
      */
@@ -185,7 +171,7 @@ public class FilePModeManager implements PModeInterface {
 
         String recRole = Objects.equals(act.getInvokeRole(), ActionRole.Executor.
                 getValue())
-                        ? srv.getInitiator().getRole() : srv.getExecutor().getRole();
+                ? srv.getInitiator().getRole() : srv.getExecutor().getRole();
 
         PMode pMode = getPModeForLocalPartyAsSender(sPID.getId(), sendingRole,
                 rPID.getId(),
@@ -205,8 +191,8 @@ public class FilePModeManager implements PModeInterface {
         ReceptionAwareness ra = null;
         if (emc.getTransportChannelType().getReceptionAwareness() != null
                 && !Utils.isEmptyString(
-                        emc.getTransportChannelType().getReceptionAwareness().
-                                getRaPatternIdRef())) {
+                emc.getTransportChannelType().getReceptionAwareness().
+                        getRaPatternIdRef())) {
             ra = getReceptionAwarenessById(
                     emc.getTransportChannelType().getReceptionAwareness().
                             getRaPatternIdRef());
@@ -267,7 +253,7 @@ public class FilePModeManager implements PModeInterface {
     /**
      * Method returs domain by domain and service
      *
-     * @param agrRef aggrement ref
+     * @param agrRef     aggrement ref
      * @param agrRefType aggrement type
      * @param agrPMode
      * @return
@@ -275,7 +261,7 @@ public class FilePModeManager implements PModeInterface {
      */
     @Override
     public PMode getByAgreementRef(String agrRef, String agrRefType,
-            String agrPMode)
+                                   String agrPMode)
             throws PModeException {
 
         for (PMode pm : mshSettings.getPModes()) {
@@ -296,7 +282,6 @@ public class FilePModeManager implements PModeInterface {
     }
 
     /**
-     *
      * @param pModeId
      * @return
      */
@@ -341,26 +326,26 @@ public class FilePModeManager implements PModeInterface {
 
     ;
 
-  /**
-   *
-   * @return
-   */
-  /**
-   * Method returs PMODE for given exchange sender Party. If pmode not exists or
-   * more than one PMode is defined for given parameters PModeException is
-   * thrown.
-   *
-   * @param senderRefId - exchange sender party identity set id
-   * @param actionSendingRole - bussines role sender must have in current action
-   * @param receiverRefId - local receiver party idetity set id
-   * @param serviceId - bussines service
-   * @return PMode
-   * @throws PModeException
-   */
-  @Override
+    /**
+     *
+     * @return
+     */
+    /**
+     * Method returs PMODE for given exchange sender Party. If pmode not exists or
+     * more than one PMode is defined for given parameters PModeException is
+     * thrown.
+     *
+     * @param senderRefId       - exchange sender party identity set id
+     * @param actionSendingRole - bussines role sender must have in current action
+     * @param receiverRefId     - local receiver party idetity set id
+     * @param serviceId         - bussines service
+     * @return PMode
+     * @throws PModeException
+     */
+    @Override
     public PMode getPModeForExchangePartyAsSender(String senderRefId,
-            String actionSendingRole,
-            String receiverRefId, String serviceId)
+                                                  String actionSendingRole,
+                                                  String receiverRefId, String serviceId)
             throws PModeException {
 
         List<PMode> lstResult = new ArrayList<>();
@@ -373,7 +358,7 @@ public class FilePModeManager implements PModeInterface {
             // check if local party match as receiver
             if (pm.getLocalPartyInfo() == null
                     || !Objects.equals(pm.getLocalPartyInfo().
-                            getPartyIdentitySetIdRef(), receiverRefId)) {
+                    getPartyIdentitySetIdRef(), receiverRefId)) {
                 continue;
             }
             // check if exchange party list is not null
@@ -402,11 +387,11 @@ public class FilePModeManager implements PModeInterface {
         if (lstResult.size() > 1) {
             throw new PModeException(String.format(
                     "more than one PMODE for exchange"
-                    + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
+                            + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
                     senderRefId, actionSendingRole, receiverRefId, serviceId));
         } else if (lstResult.isEmpty()) {
             throw new PModeException(String.format("No PMODE for exchange"
-                    + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
+                            + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
                     senderRefId, actionSendingRole, receiverRefId, serviceId));
         }
         return lstResult.get(0);
@@ -417,18 +402,18 @@ public class FilePModeManager implements PModeInterface {
      * more than one PMode is defined for given parameters PModeException is
      * thrown.
      *
-     * @param senderRefId - local sender party identity set id
+     * @param senderRefId       - local sender party identity set id
      * @param actionSendingRole - bussines role sender must have in current
-     * action
-     * @param receiverRefId - exchange receiver party idetity set id
-     * @param serviceId - bussines service
+     *                          action
+     * @param receiverRefId     - exchange receiver party idetity set id
+     * @param serviceId         - bussines service
      * @return PMode
      * @throws PModeException
      */
     @Override
     public PMode getPModeForLocalPartyAsSender(String senderRefId,
-            String actionSendingRole,
-            String receiverRefId, String serviceId)
+                                               String actionSendingRole,
+                                               String receiverRefId, String serviceId)
             throws PModeException {
 
         List<PMode> lstResult = new ArrayList<>();
@@ -441,7 +426,7 @@ public class FilePModeManager implements PModeInterface {
             // check if local party match
             if (pm.getLocalPartyInfo() == null
                     || !Objects.equals(pm.getLocalPartyInfo().
-                            getPartyIdentitySetIdRef(), senderRefId)) {
+                    getPartyIdentitySetIdRef(), senderRefId)) {
                 continue;
             }
             // check if sending party contains sending role for action
@@ -472,18 +457,17 @@ public class FilePModeManager implements PModeInterface {
 
         if (lstResult.size() > 1) {
             throw new PModeException(String.format("more than one PMODE for local"
-                    + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
+                            + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
                     senderRefId, actionSendingRole, receiverRefId, serviceId));
         } else if (lstResult.isEmpty()) {
             throw new PModeException(String.format("No PMODE for local"
-                    + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
+                            + " senderRefId '%s',actionSendingRole '%s',  receiverRefId '%s', serviceRefId: '%s' ",
                     senderRefId, actionSendingRole, receiverRefId, serviceId));
         }
         return lstResult.get(0);
     }
 
     /**
-     *
      * @return @throws PModeException
      */
     public MSHSetings getMSHSettings()
@@ -528,7 +512,7 @@ public class FilePModeManager implements PModeInterface {
      * @return first PartyIdentitySet or null if not found
      */
     public PartyIdentitySet getPartyIdentitySetForAuthorization(String username,
-            String password) {
+                                                                String password) {
 
         for (PartyIdentitySet pis : getPartyIdentitySets()) {
             if (pis.getAuthorization() != null && username != null && password != null
@@ -546,14 +530,14 @@ public class FilePModeManager implements PModeInterface {
      * partyIdValue ebmsMessage
      * <ns2:PartyId type="urn:oasis:names:tc:ebcore:partyid-type:unregistered">test</ns2:PartyId>
      *
-     * @param partyType - type of party -
-     * urn:oasis:names:tc:ebcore:partyid-type:unregistered
+     * @param partyType    - type of party -
+     *                     urn:oasis:names:tc:ebcore:partyid-type:unregistered
      * @param partyIdValue - partyId value: test
      * @return first PartyIdentitySet or null if not found
      */
     @Override
     public PartyIdentitySet getPartyIdentitySetForPartyId(String partyType,
-            String partyIdValue)
+                                                          String partyIdValue)
             throws PModeException {
 
         if (Utils.isEmptyString(partyIdValue)) {
@@ -563,7 +547,7 @@ public class FilePModeManager implements PModeInterface {
         List<PartyIdentitySet> candidates = new ArrayList<>();
         for (PartyIdentitySet pis : getPartyIdentitySets()) {
 
-            if (pis.getUseFourCornerModel()!=null && pis.getUseFourCornerModel()) {
+            if (pis.getUseFourCornerModel() != null && pis.getUseFourCornerModel()) {
                 //check if partyType match
                 if (!Objects.equals(EBMSConstants.EBMS_ECORE_PARTY_TYPE_UNREGISTERED, partyType)) {
                     continue;
@@ -718,7 +702,7 @@ public class FilePModeManager implements PModeInterface {
         }
         return mshSettings != null && mshSettings.getReceptionAwarenessPatterns() != null
                 ? mshSettings.getReceptionAwarenessPatterns().
-                        getReceptionAwarenesses()
+                getReceptionAwarenesses()
                 : Collections.emptyList();
     }
 
@@ -760,8 +744,8 @@ public class FilePModeManager implements PModeInterface {
 
     @Override
     public Service getServiceByNameAndTypeAndAction(String serviceName,
-            String serviceType,
-            String action)
+                                                    String serviceType,
+                                                    String action)
             throws PModeException {
 
         for (Service srv : getServices()) {
@@ -795,7 +779,6 @@ public class FilePModeManager implements PModeInterface {
     }
 
     /**
-     *
      * @throws PModeException
      */
     public void reload() {
@@ -826,6 +809,7 @@ public class FilePModeManager implements PModeInterface {
         try {
             mshSettings = (MSHSetings) deserialize(is, MSHSetings.class);
         } catch (JAXBException ex) {
+            ex.printStackTrace();
             String msg = "Error init MSH Settings!";
             throw new RuntimeException(msg, ex);
         }
@@ -833,7 +817,6 @@ public class FilePModeManager implements PModeInterface {
     }
 
     /**
-     *
      * @param pModeId
      * @return
      */
@@ -904,7 +887,6 @@ public class FilePModeManager implements PModeInterface {
     }
 
     /**
-     *
      *
      */
     public void saveMSHSettings() {
@@ -1000,10 +982,10 @@ public class FilePModeManager implements PModeInterface {
         boolean suc = false;
         for (int index = 0; index
                 < mshSettings.getReceptionAwarenessPatterns().
-                        getReceptionAwarenesses().size(); index++) {
+                getReceptionAwarenesses().size(); index++) {
             ReceptionAwareness pm
                     = mshSettings.getReceptionAwarenessPatterns().
-                            getReceptionAwarenesses().get(index);
+                    getReceptionAwarenesses().get(index);
 
             if (pm.getId() != null && Objects.equals(pm.getId(), val.getId())) {
                 mshSettings.getReceptionAwarenessPatterns().getReceptionAwarenesses().

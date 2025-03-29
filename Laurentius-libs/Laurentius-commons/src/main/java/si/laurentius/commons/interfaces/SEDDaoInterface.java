@@ -18,7 +18,7 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import javax.naming.NamingException;
 import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
@@ -162,7 +162,7 @@ public interface SEDDaoInterface {
   /**
    *
    * @param id
-   * @param senderMessageID
+
    * @param sentDate
    * @param receivedDate
    * @param deliveredDate
@@ -175,7 +175,7 @@ public interface SEDDaoInterface {
    * @return
    * @throws StorageException
    */
-  public Date setStatusToOutMail(BigInteger id, String senderMessageID,
+  public Date setStatusToOutMail(BigInteger id,
           Date sentDate,
           Date receivedDate,
           Date deliveredDate,

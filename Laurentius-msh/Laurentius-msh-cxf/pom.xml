@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -14,10 +15,6 @@
     <packaging>ejb</packaging>
     <name>Laurentius-msh-cxf</name>
     <description>MSH ebMS 3.0 cxf interceptors implementation</description>
-    <organization>
-        <name>Supreme Court Republic of Slovenia</name>
-        <url>http://www.sodisce.si/</url>
-    </organization>
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL)</name>
@@ -31,9 +28,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -51,99 +45,110 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-msh-xsd</artifactId>
-            <version>${project.version}</version>	
-            <scope>provided</scope>	
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-commons</artifactId>
-            <version>${project.version}</version>		
-            <scope>provided</scope>	
+            <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-lce</artifactId>
-            <version>${project.version}</version>		
-            <scope>provided</scope>	
-        </dependency>
-        
-         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Laurentius-plugin-interfaces</artifactId>
-            <version>${project.version}</version>		
-            <scope>provided</scope>	
-        </dependency>
-
-       
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>		
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Laurentius-plugin-interfaces</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- apache-cxf soap  -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>javax.xml.soap-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <!-- apache-cxf soap  -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-ws-policy</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>            
-            <scope>provided</scope>
-        </dependency>
-      
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
-    <groupId>javax.mail</groupId>
-    <artifactId>mail</artifactId>
-    <version>1.5.0-b01</version>
-</dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+
 
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-ejb-plugin</artifactId>                  
+                <artifactId>maven-ejb-plugin</artifactId>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>           
-            
+            </plugin>
+
 
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <archive>                        
-                        <manifestEntries>                            
-                            <implementation-version>${project.version}</implementation-version>  
-                            <Implementation-Build>${buildNumber}</Implementation-Build>                            
+                    <archive>
+                        <manifestEntries>
+                            <implementation-version>${project.version}</implementation-version>
+                            <Implementation-Build>${buildNumber}</Implementation-Build>
                         </manifestEntries>
-                    </archive>                                 
+                    </archive>
                 </configuration>
-            </plugin>            
+            </plugin>
         </plugins>
     </build>
 </project>

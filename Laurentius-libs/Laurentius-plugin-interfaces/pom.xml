@@ -13,10 +13,6 @@
 
     <name>Laurentius-plugin-interfaces</name>
     <description>Project contains task, in mail processor and MailCXFIntereceptor intefaces </description>
-    <organization>
-        <name>Supreme Court Republic of Slovenia</name>
-        <url>http://www.sodisce.si/</url>
-    </organization>
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL)</name>
@@ -30,9 +26,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
-            <organization>Supreme Court Republic of Slovenia</organization>
-            <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>
@@ -49,7 +42,7 @@
         </dependency>
         <!-- for cxf interceptors -->
          <dependency> 
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -59,10 +52,10 @@
             <artifactId>log4j-core</artifactId>		
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>            
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
          

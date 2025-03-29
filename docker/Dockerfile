@@ -1,55 +1,33 @@
-FROM jboss/wildfly:19.1.0.Final
+FROM quay.io/wildfly/wildfly:31.0.0.Final-jdk17
 
 ENV VERSION 2.1.0-SNAPSHOT
-ENV SERVER_VERSION wildfly-19.1
+ENV SERVER_VERSION wildfly-w31.1
 ENV LAU_PROJECT .
 ENV WILDFLY_HOME /opt/jboss/wildfly
 
 
 
 # si.laurentius module libralies
-ADD  $LAU_PROJECT/Laurentius-libs/Laurentius-msh-xsd/target/Laurentius-msh-xsd-$VERSION.jar $WILDFLY_HOME/modules/si/laurentius/main/
-ADD  $LAU_PROJECT/Laurentius-libs/Laurentius-wsdl/target/Laurentius-wsdl-$VERSION.jar $WILDFLY_HOME/modules/si/laurentius/main/
-ADD  $LAU_PROJECT/Laurentius-libs/Laurentius-commons/target/Laurentius-commons-$VERSION.jar $WILDFLY_HOME/modules/si/laurentius/main/
-ADD  $LAU_PROJECT/Laurentius-libs/Laurentius-lce/target/Laurentius-lce-$VERSION.jar $WILDFLY_HOME/modules/si/laurentius/main/
-ADD  $LAU_PROJECT/Laurentius-libs/Laurentius-plugin-interfaces/target/Laurentius-plugin-interfaces-$VERSION.jar $WILDFLY_HOME/modules/si/laurentius/main/
-# set module
-ADD  $LAU_PROJECT/scripts/install/$SERVER_VERSION/modules/si.laurentius.module.xml $WILDFLY_HOME/modules/si/laurentius/main/module.xml
-
-# copy modules
-COPY $LAU_PROJECT/scripts/install/modules/org/  $WILDFLY_HOME/modules/org/
-
-# copy configuration
-ADD $LAU_PROJECT/scripts/install/$SERVER_VERSION/config/laurentius-roles.properties $WILDFLY_HOME/standalone/configuration/
-ADD $LAU_PROJECT/scripts/install/$SERVER_VERSION/config/laurentius-users.properties $WILDFLY_HOME/standalone/configuration/
-ADD $LAU_PROJECT/scripts/install/$SERVER_VERSION/config/standalone-laurentius.xml $WILDFLY_HOME/standalone/configuration/
-ADD $LAU_PROJECT/scripts/install/$SERVER_VERSION/config/test-tls-keystore.p12 $WILDFLY_HOME/standalone/configuration/
-
-
-
-# application modules
-ADD $LAU_PROJECT/Laurentius-dao/target/Laurentius-dao.jar $WILDFLY_HOME/standalone/deployments/
-ADD $LAU_PROJECT/Laurentius-msh/Laurentius-msh-ear/target/Laurentius-msh.ear $WILDFLY_HOME/standalone/deployments/
-ADD $LAU_PROJECT/Laurentius-app/Laurentius-ws/target/laurentius-ws.war $WILDFLY_HOME/standalone/deployments/
-ADD $LAU_PROJECT/Laurentius-app/Laurentius-web/target/laurentius-web.war $WILDFLY_HOME/standalone/deployments/
-# application plugins
-ADD $LAU_PROJECT/Laurentius-plugins/Laurentius-zpp-plugin/target/plugin-zpp.war $WILDFLY_HOME/standalone/deployments/
-ADD $LAU_PROJECT/Laurentius-plugins/Laurentius-basic-plugin/target/plugin-basic.war $WILDFLY_HOME/standalone/deployments/
-ADD $LAU_PROJECT/Laurentius-plugins/Laurentius-test-case-plugin/target/plugin-testcase.war $WILDFLY_HOME/standalone/deployments/
-# copy laurentius home
-COPY $LAU_PROJECT/scripts/install/laurentius-home/  $WILDFLY_HOME/standalone/data/laurentius-home/
-
-ADD  $LAU_PROJECT/scripts/install/$SERVER_VERSION/laurentius-demo.sh  $WILDFLY_HOME/bin/
-ADD  $LAU_PROJECT/scripts/install/$SERVER_VERSION/laurentius-init.sh  $WILDFLY_HOME/bin/
+COPY  $LAU_PROJECT/scripts/releases/Laurentius-*.zip $WILDFLY_HOME/Laurentius.zip
 
 
 user root
-RUN  cd $WILDFLY_HOME/modules/si/laurentius/main/ \
-    && sed -i -- "s/VERSION/$VERSION/g" "module.xml"   \
-    && chown -R jboss:jboss $WILDFLY_HOME/standalone/data
+
+RUN yum-config-manager --save --setopt=skip_if_unavailable=true \
+    &&  yum  install skip_if_unavailable=1 -y wget unzip  \
+    && rm -rf /var/cache/yum
+
+RUN cd $WILDFLY_HOME/ \
+    &&  unzip  Laurentius.zip \
+    && mv Laurentius-* laurentius-deployment \
+    && cd $WILDFLY_HOME/laurentius-deployment/wildfly-31.0 \
+    && ls -ltr \
+    && ./deploy-laurentius.sh --init -s "${WILDFLY_HOME}" \
+    && cd "$WILDFLY_HOME/bin" \
+    && chown -R jboss:jboss $WILDFLY_HOME/
 
 VOLUME /opt/jboss/wildfly/standalone/data/laurentius-home
-EXPOSE 8080 9990
+EXPOSE 8080 8081 8443 9990
 
 user jboss
     

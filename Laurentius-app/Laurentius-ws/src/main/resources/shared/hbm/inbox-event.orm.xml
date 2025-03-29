@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+
+    <named-native-query
+            name="si.laurentius.inbox.event.InEvent.getList"
+            result-class="si.laurentius.inbox.event.InEvent">
+        <query>
+            <![CDATA[SELECT
+  ev.id,
+  ev.mail_id,
+  ev.status,
+  ev.event_date,
+  ev.description,
+  ev.user_id,
+  ev.application_id
+FROM
+  lau_inbox_event ev
+  JOIN
+  lau_inbox im
+  ON  ev.mail_id = im.id
+WHERE
+  im.receiver_ebox = :receiverEBox
+  and ev.mail_id = :mailId
+  order by id asc]]>
+        </query>
+    </named-native-query>
+    <named-native-query
+            name="si.laurentius.inbox.event.InEvent.getMailEventList"
+            result-class="si.laurentius.inbox.event.InEvent">
+        <query>
+            <![CDATA[[SELECT
+  ev.*
+FROM
+  lau_inbox_event ev
+WHERE ev.mail_id = :mailId
+  order by id desc]]>
+        </query>
+    </named-native-query>
+
+    <entity class="si.laurentius.inbox.event.InEvent" access="FIELD">
+        <table name="LAU_INBOX_EVENT">
+            <index column-list="MAIL_ID" name="idx_in_event_mail_id"/>
+        </table>
+        <sequence-generator name="SequenceInboxEvent" sequence-name="SEQ_LAU_INBOX_EVENT" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceInboxEvent"/>
+            </id>
+            <basic name="mailId">
+                <column name="MAIL_ID" nullable="false" scale="0"/>
+            </basic>
+            <basic name="description">
+                <column name="DESCRIPTION" length="512"/>
+            </basic>
+            <basic name="userId">
+                <column name="USER_ID" length="64"/>
+            </basic>
+            <basic name="applicationId">
+                <column name="APPLICATION_ID" length="128"/>
+            </basic>
+            <basic name="Status">
+                <column name="STATUS" nullable="false" length="32"/>
+            </basic>
+            <basic name="date">
+                <column name="EVENT_DATE" nullable="false"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

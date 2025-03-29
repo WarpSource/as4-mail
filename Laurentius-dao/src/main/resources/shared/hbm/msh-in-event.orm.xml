@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query
+            name="si.laurentius.msh.inbox.event.MSHInEvent.getMailEventList">
+        <query>
+            <![CDATA[select p from MSHInEvent p where p.mailId = :mailId order by p.id asc]]>
+        </query>
+    </named-query>
+    <named-native-query
+            name="si.laurentius.msh.inbox.event.MSHInEvent.getList"
+            result-class="si.laurentius.msh.inbox.event.MSHInEvent">
+        <query>
+            <![CDATA[SELECT
+  ev.id,
+  ev.mail_id,
+  ev.status,
+  ev.date,
+  ev.description,
+  ev.user_id,
+  ev.application_id
+FROM
+  lau_inbox_event ev,
+  lau_inbox im
+WHERE
+  ev.mail_id = im.id
+  and im.receiver_ebox = :receiverEBox
+  and (ev.mail_id = :mailId or :mailId is null)
+  order by id desc]]>
+        </query>
+    </named-native-query>
+    <entity class="si.laurentius.msh.inbox.event.MSHInEvent" access="FIELD">
+        <table name="LAU_INBOX_EVENT">
+            <index column-list="MAIL_ID" name="idx_in_event_mail_id"/>
+        </table>
+        <sequence-generator name="SequenceMailEvent" sequence-name="SEQ_LAU_INBOX_EVENT" allocation-size="1"/>
+
+    </entity>
+</entity-mappings>

@@ -20,20 +20,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPMessage;
 import org.apache.cxf.attachment.AttachmentImpl;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.SoapVersion;
+import org.apache.cxf.interceptor.AttachmentOutInterceptor;
 import org.apache.cxf.message.Exchange;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
@@ -134,6 +136,14 @@ public class EBMSOutInterceptor extends AbstractEBMSInterceptor {
         if (outMail != null) {
             // remove all ebms payloads. 
             if (outMail.getMSHOutPayload() != null && !outMail.getMSHOutPayload().getMSHOutParts().isEmpty()) {
+
+                // TODO (this does not work at the moment )set soap with attachment
+                // it still add Content-Type: application/xop+xml; charset=UTF-8; type="application/soap+xml" because of
+                //MshClient sb.setMTOMEnabled(true);
+                msg.put(Message.CONTENT_TYPE, "multipart/related");
+                // disable xop:Include where CipherData is serialized as payload in multipart/related
+                msg.put(Message.MTOM_ENABLED, "false");
+
                 List<MSHOutPart> opList = outMail.getMSHOutPayload().getMSHOutParts().stream().filter( prt -> {
                     return !Objects.equals(SEDMailPartSource.EBMS.getValue(), prt.getSource());
                 }).collect(Collectors.toList());

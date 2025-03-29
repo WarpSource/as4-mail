@@ -18,9 +18,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import si.laurentius.commons.utils.SEDLogger;

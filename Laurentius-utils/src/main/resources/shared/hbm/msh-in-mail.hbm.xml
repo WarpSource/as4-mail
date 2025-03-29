@@ -30,7 +30,7 @@
         <property column="DATE_DELIVERED" name="DeliveredDate"  type="java.util.Date" index="Idx_date_delivered" />
         
         <component name="MSHInProperties" class="si.laurentius.msh.inbox.property.MSHInProperties">
-            <bag name="mshInProperties"  access="field" cascade="all" lazy="false" order-by="Id asc" >
+            <bag name="MSHInProperties"  access="field" cascade="all" lazy="false" order-by="Id asc" >
                 <key not-null="true">
                     <column name="MAIL_ID" scale="0" />
                 </key>
@@ -59,7 +59,7 @@
         </id>		
         <property column="NAME" name="Name" type="java.lang.String"  length="128" /> 
         <property column="TYPE" name="Type" type="java.lang.String"  length="256" /> 
-        <property column="VALUE" name="Value" type="java.lang.String" length="512" />         
+        <property column="'VALUE'" name="Value" type="java.lang.String" length="512" />
     </class>
     
     <query name="si.laurentius.msh.inbox.mail.MSHInMail.getById" ><![CDATA[SELECT p FROM MSHInMail p WHERE p.Id = :id]]></query>
@@ -68,7 +68,7 @@
     <query name="si.laurentius.msh.inbox.mail.MSHInMail.getByConvIdAndAction" ><![CDATA[SELECT p FROM MSHInMail p WHERE p.ConversationId = :convId and p.Action = :action]]></query>    
     <query name="si.laurentius.msh.inbox.mail.MSHInMail.getList" ><![CDATA[SELECT p FROM MSHInMail p ]]></query>    
     <query name="si.laurentius.msh.inbox.mail.MSHInMail.getByIdAndReceiverBox" >
-        <![CDATA[SELECT p FROM MSHInMail p where Id=:mailId and ReceiverEBox=:receiverEBox]]>
+        <![CDATA[SELECT p FROM MSHInMail p where p.Id=:mailId and ReceiverEBox=:receiverEBox]]>
     </query>
     
     <query name="si.laurentius.msh.inbox.mail.MSHInMail.updateStatus" >

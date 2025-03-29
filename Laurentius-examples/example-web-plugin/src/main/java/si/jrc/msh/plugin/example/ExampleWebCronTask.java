@@ -16,8 +16,8 @@ package si.jrc.msh.plugin.example;
 
 import java.io.StringWriter;
 import java.util.Properties;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
 
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.plugin.crontask.CronTaskDef;

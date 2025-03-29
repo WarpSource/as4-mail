@@ -18,11 +18,11 @@ import si.laurentius.process.SEDProcessor;
 import si.laurentius.property.SEDProperty;
 import si.laurentius.user.SEDUser;
 
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 import javax.naming.Context;
 import javax.naming.NamingException;
-import javax.persistence.TypedQuery;
-import javax.transaction.*;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -82,7 +82,7 @@ public class SEDInitDataIntegrationTest extends TestUtils {
     }
     @Test
     public void testGetDatabaseObjects_SEDApplication() throws Exception  {
-        // given
+        // given`
         SEDApplication entity = TestLookupUtils.createSEDApplication(false);
         SEDBox box = TestLookupUtils.createSEDBox();
         persist(box);

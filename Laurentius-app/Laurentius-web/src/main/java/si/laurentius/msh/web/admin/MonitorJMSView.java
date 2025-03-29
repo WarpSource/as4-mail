@@ -15,10 +15,10 @@
 package si.laurentius.msh.web.admin;
 
 import java.util.Map;
-import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
-import javax.jms.JMSException;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.jms.JMSException;
 import javax.naming.NamingException;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.SEDValues;

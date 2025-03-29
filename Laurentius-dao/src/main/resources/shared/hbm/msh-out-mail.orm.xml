@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.getById">
+        <query><![CDATA[SELECT p FROM MSHOutMail p WHERE p.id = :id]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.getByMessageId">
+        <query><![CDATA[SELECT p FROM MSHOutMail p WHERE p.messageId = :messageId]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.getBySenderMessageId">
+        <query><![CDATA[SELECT p FROM MSHOutMail p WHERE p.senderMessageId = :senderMessageId]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.getByMessageIdAndSenderBox">
+        <query>
+            <![CDATA[SELECT p FROM MSHOutMail p WHERE p.senderMessageId = :sndMsgId and senderEBox = :senderBox]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.getList">
+        <query><![CDATA[SELECT p FROM MSHOutMail p ]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateStatus">
+        <query><![CDATA[UPDATE MSHOutMail p set p.status = :status, p.statusDate=:statusDate where p.id = :id]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateSentDate">
+        <query>
+            <![CDATA[UPDATE MSHOutMail p set p.sentDate = :sentDate, p.receivedDate = :receivedDate  where p.id = :id]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateReceivedDate">
+        <query><![CDATA[UPDATE MSHOutMail p set p.receivedDate = :receivedDate where p.id = :id]]></query>
+    </named-query>
+    <named-query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateDeliveredDate">
+        <query><![CDATA[UPDATE MSHOutMail p set p.deliveredDate = :deliveredDate where p.id = :id]]></query>
+    </named-query>
+
+    <entity class="si.laurentius.msh.outbox.mail.MSHOutMail" access="FIELD">
+        <table name="LAU_OUTBOX">
+            <!-- identifier indexes -->
+            <index column-list="MSG_ID" name="idx_out_ref_msg_id"/>
+            <index column-list="REF_TO_MSG_ID" name="idx_out_ref_msg_id"/>
+            <index column-list="SENDER_MSG_ID" name="idx_out_sender_msg_id"/>
+            <index column-list="CONV_ID" name="idx_out_conv_id"/>
+            <!-- event indexes -->
+            <index column-list="STATUS" name="idx_out_status"/>
+            <index column-list="DATE_STATUS" name="idx_out_date_status"/>
+            <index column-list="DATE_SUBMITTED" name="idx_out_date_submit"/>
+            <index column-list="DATE_SENT" name="idx_out_date_sent"/>
+            <index column-list="DATE_RECEIVED" name="idx_out_date_received"/>
+            <index column-list="DATE_DELIVERED" name="idx_out_date_delivered"/>
+        </table>
+        <sequence-generator name="SequenceMessage" sequence-name="SEQ_LAU_OUTBOX" allocation-size="1"/>
+        <attributes>
+            <embedded name="MSHOutProperties" access="FIELD">
+                <association-override name="MSHOutProperties.MSHOutProperties">
+                    <join-column name="MAIL_ID"/>
+                </association-override>
+            </embedded>
+            <embedded name="MSHOutPayload" access="FIELD">
+                <association-override name="MSHOutParts.MSHOutParts">
+                    <join-column name="MAIL_ID"/>
+                </association-override>
+            </embedded>
+            <transient name="MSHOutEvents"/>
+        </attributes>
+    </entity>
+    <entity class="si.laurentius.msh.outbox.property.MSHOutProperty" access="FIELD">
+        <table name="LAU_OUTBOX_PROPERTY"/>
+        <sequence-generator name="SequenceProperty" sequence-name="SEQ_LAU_OUTBOX_PROP" allocation-size="1"/>
+    </entity>
+    <embeddable class="si.laurentius.msh.outbox.property.MSHOutProperties" access="FIELD">
+        <attributes>
+            <one-to-many name="MSHOutProperties"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="MAIL_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </embeddable>
+    <embeddable class="si.laurentius.msh.outbox.payload.MSHOutPayload" access="FIELD">
+        <attributes>
+            <one-to-many name="MSHOutParts"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="MAIL_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </embeddable>
+</entity-mappings>
+
+        <!-- ?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+        <hibernate-mapping>
+
+            <class name="si.laurentius.msh.outbox.mail.MSHOutMail"
+                   table="LAU_OUTBOX">
+                <id name="Id" type="java.math.BigInteger" >
+                    <column name="ID" scale="0" />
+                    <generator class="sequence">
+                        <param name="sequence_name"> SEQ_LAU_OUTBOX</param>
+                    </generator>
+                </id>
+                <property column="MSG_ID" name="MessageId"  length="256" type="java.lang.String" index="idx_out_msg_id" not-null="true" />
+                <property column="REF_TO_MSG_ID" name="RefToMessageId"  length="256" type="java.lang.String" index="idx_out_ref_msg_id" />
+                <property column="SENDER_MSG_ID" name="SenderMessageId"  length="256" type="java.lang.String"  index="idx_out_sender_msg_id" />
+                <property column="SERVICE" name="Service"  length="512" type="java.lang.String" not-null="true"/>
+                <property column="ACTION" name="Action"  length="512" type="java.lang.String" not-null="true"/>
+                <property column="CONV_ID" name="ConversationId"  length="512" type="java.lang.String" index="idx_out_conv_id" />
+                <property column="SUBJECT" name="Subject"  length="512" type="java.lang.String" />
+                <property column="RECEIVER_EBOX" name="ReceiverEBox"  length="512" type="java.lang.String" not-null="true"/>
+                <property column="RECEIVER_NAME" name="ReceiverName"  length="512" type="java.lang.String" />
+                <property column="SENDER_EBOX" name="SenderEBox"  length="512" type="java.lang.String" not-null="true"/>
+                <property column="SENDER_NAME" name="SenderName"  length="512" type="java.lang.String" />
+
+                <property column="STATUS" name="Status"  length="32" type="java.lang.String" index="idx_out_status" />
+                <property column="DATE_STATUS" name="StatusDate"   type="java.util.Date" index="idx_out_date_status"/>
+                <property column="DATE_SUBMITTED" name="SubmittedDate"   type="java.util.Date" index="idx_out_date_submit" />
+                <property column="DATE_SENT" name="SentDate"       type="java.util.Date" index="idx_out_date_sent"/>
+                <property column="DATE_RECEIVED" name="ReceivedDate"   type="java.util.Date" index="idx_out_date_received" />
+                <property column="DATE_DELIVERED" name="DeliveredDate"  type="java.util.Date" index="idx_out_date_delivered" />
+
+                <component name="MSHOutProperties" class="si.laurentius.msh.outbox.property.MSHOutProperties">
+                    <bag name="mshOutProperties" access="field" cascade="all" lazy="false" order-by="Id asc" >
+                        <key not-null="true">
+                            <column name="MAIL_ID" scale="0"/>
+                        </key>
+                        <one-to-many class="si.laurentius.msh.outbox.property.MSHOutProperty" />
+                    </bag>
+                </component>
+                <component name="MSHOutPayload" class="si.laurentius.msh.outbox.payload.MSHOutPayload">
+                    <bag name="mshOutParts" inverse="true" access="field" cascade="all" lazy="false" order-by="Id asc" >
+                        <key not-null="true">
+                            <column name="MAIL_ID" scale="0" />
+                        </key>
+                        <one-to-many class="si.laurentius.msh.outbox.payload.MSHOutPart" />
+                    </bag>
+                </component>
+            </class>
+
+            <class name="si.laurentius.msh.outbox.property.MSHOutProperty" table="LAU_OUTBOX_PROPERTY">
+                <id name="Id" type="java.math.BigInteger">
+                    <column name="ID" scale="0" />
+                    <generator class="sequence">
+                        <param name="sequence_name"> SEQ_LAU_OUTBOX_PROP</param>
+                    </generator>
+                </id>
+                <property column="NAME" name="Name" type="java.lang.String"  length="128" />
+                <property column="TYPE" name="Type" type="java.lang.String"  length="256" />
+                <property column="'VALUE'" name="Value" type="java.lang.String" length="512" />
+            </class>
+
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.getById" ><![CDATA[SELECT p FROM MSHOutMail p WHERE p.Id = :id]]></query>
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.getByMessageId" ><![CDATA[SELECT p FROM MSHOutMail p WHERE p.MessageId = :messageId]]></query>
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.getBySenderMessageId" ><![CDATA[SELECT p FROM MSHOutMail p WHERE p.SenderMessageId = :senderMessageId]]></query>
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.getByMessageIdAndSenderBox" ><![CDATA[SELECT p FROM MSHOutMail p WHERE p.SenderMessageId = :sndMsgId and SenderEBox = :senderBox]]></query>
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.getList" ><![CDATA[SELECT p FROM MSHOutMail p ]]></query>
+
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateStatus" >
+                <![CDATA[UPDATE MSHOutMail p set p.Status = :status, p.StatusDate=:statusDate where p.Id = :id]]>
+            </query>
+
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateSentDate" >
+                <![CDATA[UPDATE MSHOutMail p set p.SentDate = :sentDate, p.ReceivedDate = :receivedDate  where p.Id = :id]]>
+            </query>
+
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateReceivedDate" >
+                <![CDATA[UPDATE MSHOutMail p set p.ReceivedDate = :receivedDate where p.Id = :id]]>
+            </query>
+
+            <query name="si.laurentius.msh.outbox.mail.MSHOutMail.updateDeliveredDate" >
+                <![CDATA[UPDATE MSHOutMail p set p.DeliveredDate = :deliveredDate where p.Id = :id]]>
+            </query>
+
+
+
+
+        </hibernate-mapping-->

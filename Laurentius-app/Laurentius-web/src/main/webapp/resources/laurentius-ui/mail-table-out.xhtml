@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -107,54 +107,56 @@
                             </f:facet>
 
                             <p:outputPanel id="OutMailData" >
-                                <p:panelGrid styleClass="ui-noborder" style=" width: 100%" >
+                                <p:panelGrid styleClass="ui-noborder ui-fluid" layout="tabular" columns="0" style="width: 100%">
 
                                     <p:row>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Id']}:</p:column> 
-                                        <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.id}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;" rowspan="2" >#{msg['Sender']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Id']}:</p:column> 
+                                        <p:column style="text-align:left;">
+                                            <h:inputText value="#{OutMailDataView.currentMail.id}"  style="width:100%;"  readonly='true' />
+                                        </p:column>
+                                        <p:column styleClass="grid-label-small" rowspan="2" >#{msg['Sender']}:</p:column>
                                         <p:column style="text-align:left;" rowspan="2"><h:inputTextarea cols="2" value="#{OutMailDataView.currentMail.senderName}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;" rowspan="2" >#{msg['Receiver']}:</p:column> 
+                                        <p:column styleClass="grid-label-small" rowspan="2" >#{msg['Receiver']}:</p:column>
                                         <p:column style="text-align:left;" rowspan="2"><h:inputTextarea cols="2" value="#{OutMailDataView.currentMail.receiverName}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['SubmitDate']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['SubmitDate']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.submittedDate}"  style="width:100%;"  readonly='true' /></p:column>
                                     </p:row>
                                     <p:row>
-                                        <p:column style="text-align:right;width:100px;">#{msg['SenderMailId']}:</p:column> 
-                                        <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.senderMessageId}"  style="width:100%;"  readonly='true' /></p:column>                                    
+                                        <p:column styleClass="grid-label-small">#{msg['SenderMailId']}:</p:column>
+                                        <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.senderMessageId}"  style="width:100%;"  readonly='true' /></p:column>
 
-                                        <p:column style="text-align:right;width:100px;">#{msg['SentDate']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['SentDate']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.sentDate}"  style="width:100%;"  readonly='true' /></p:column>
                                     </p:row>
 
                                     <p:row>
-                                        <p:column style="text-align:right;width:100px;">#{msg['MessageId']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['MessageId']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.messageId}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Sender-Box']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Sender-Box']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.senderEBox}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Receiver-Box']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Receiver-Box']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.receiverEBox}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['ReceivedDate']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['ReceivedDate']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.receivedDate}"  style="width:100%;"  readonly='true' /></p:column>
                                     </p:row>
 
                                     <p:row>
-                                        <p:column style="text-align:right;width:100px;">#{msg['RefMessageId']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['RefMessageId']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.refToMessageId}" style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Service']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Service']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.service}" style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Action']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Action']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.action}"  style="width:100%;"  readonly='true' /></p:column>
-                                        <p:column style="text-align:right;width:100px;">#{msg['DeliveredDate']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['DeliveredDate']}:</p:column>
                                         <p:column style="text-align:left;"><h:inputText value="#{OutMailDataView.currentMail.deliveredDate}"  style="width:100%;"  readonly='true' /></p:column>
                                     </p:row>
 
                                     <p:row>
-                                        <p:column style="text-align:right;width:100px;">#{msg['Transaction']}:</p:column> 
+                                        <p:column styleClass="grid-label-small">#{msg['Transaction']}:</p:column>
                                         <p:column style="text-align:left;"  ><h:inputText value="#{OutMailDataView.currentMail.conversationId}" style="width:100%;"  readonly='true' /></p:column>
 
-                                        <p:column style="text-align:right;width:100px;">#{msg['Subject']}:</p:column> 
-                                        <p:column style="text-align:left;" colspan="5"><h:inputText value="#{OutMailDataView.currentMail.subject}"  style="width:100%;"  readonly='true' /></p:column>                                    
+                                        <p:column styleClass="grid-label-small">#{msg['Subject']}:</p:column>
+                                        <p:column style="text-align:left;" colspan="5"><h:inputText value="#{OutMailDataView.currentMail.subject}"  style="width:100%;"  readonly='true' /></p:column>
 
                                     </p:row>
                                 </p:panelGrid>
@@ -167,6 +169,7 @@
                             </f:facet>
                             <p:outputPanel id="OutMailDocuments" style="text-align:center;">
                                 <p:dataTable var="plpart" value="#{OutMailDataView.currentMail.MSHOutPayload.MSHOutParts}"
+                                             rowKey="#{plpart.id}"
                                              scrollable="true"
                                              scrollHeight="140" >
                                     <p:column style="width:16px">
@@ -213,6 +216,7 @@
                                     <p:rowExpansion>
                                         <p:dataTable var="plpartprop" 
                                                      value="#{plpart.OMPartProperties}"
+                                                     rowKey="#{plpartprop.name}"
                                                      scrollable="true"
                                                      scrollHeight="135"
                                                      >
@@ -236,6 +240,7 @@
                             <p:outputPanel id="OutMailEvents" style="text-align:center;">
                                 <p:dataTable var="mailEvents" 
                                              value="#{OutMailDataView.mailEvents}"
+                                             rowKey="#{mailEvents.id}"
                                              scrollable="true"
                                              scrollHeight="140">
 
@@ -276,6 +281,7 @@
 
 
                                 <p:dataTable var="mp" value="#{OutMailDataView.currentMail.MSHOutProperties.MSHOutProperties}"
+                                             rowKey="#{mp.name}"
                                              scrollable="true"
                                              scrollHeight="140" >
                                     <p:column width="150" headerText="#{msg['Key']}">

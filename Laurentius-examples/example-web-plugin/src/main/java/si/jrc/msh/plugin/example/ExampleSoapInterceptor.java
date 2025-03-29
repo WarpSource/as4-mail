@@ -15,10 +15,10 @@
 package si.jrc.msh.plugin.example;
 
 import java.util.Properties;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
 import org.apache.cxf.binding.soap.SoapMessage;
 import si.laurentius.commons.cxf.SoapUtils;
 import si.laurentius.commons.utils.SEDLogger;

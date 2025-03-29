@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-       xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+       xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
        lang="#{localeManager.language}"
       >
     <h:head>
@@ -17,14 +17,14 @@
 
     <composite:implementation >
         <pnl:pnl-settings id="pluginView"
-                          title="#{msg['adminSEDPluginView']}" 
+                          title="#{msg['Plugin settings']}"
                           description="#{msg['PluginDefDesc']}"
                           icon="ui-icon-svg-plugin"
                           >
-        <p:layout   widgetVar="adminPluginView" style="min-width:400px;min-height:400px;height: 100%;width: 100%"  >
+        <div   widgetVar="adminPluginView" style="min-width:400px;min-height:400px;height: 100%;width: 100%"  >
 
 
-            <p:layoutUnit position="center" style="width:100%;height:100%;padding: 0px; margin: 0px" gutter="0" >             
+            <div position="center" style="width:100%;height:100%;padding: 0px; margin: 0px" gutter="0" >
                     <p:dataTable id="TblPlugin" 
                                  var="sp" 
                                  value="#{adminSEDPluginView.list}"
@@ -69,8 +69,8 @@
                             <h:outputText value="#{sp.description}" ></h:outputText>                
                         </p:column>
                     </p:dataTable>
-            </p:layoutUnit>       
-            <p:layoutUnit  header="#{msg['Plugin']}" position="south" size="300" resizable="false"    >
+            </div>
+            <div  header="#{msg['Plugin']}" position="south" size="300" resizable="false"    >
                 <p:tabView id ="PluginDataView" style="width:100%; " >
                     <p:tab  id="PluginData"  rendered="#{not empty adminSEDPluginView.selected}">
                         <f:facet name="title">
@@ -236,8 +236,8 @@
 
                     </p:tab>
                 </p:tabView>
-            </p:layoutUnit> 
-        </p:layout>
+            </div>
+        </div>
             </pnl:pnl-settings>
     </composite:implementation>
 

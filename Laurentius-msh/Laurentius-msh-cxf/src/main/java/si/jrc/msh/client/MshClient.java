@@ -26,19 +26,21 @@ import java.util.List;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.TrustManager;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.Dispatch;
-import javax.xml.ws.Service;
-import javax.xml.ws.soap.MTOMFeature;
-import javax.xml.ws.soap.SOAPBinding;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Dispatch;
+import jakarta.xml.ws.Service;
+import jakarta.xml.ws.soap.MTOMFeature;
+import jakarta.xml.ws.soap.SOAPBinding;
 import org.apache.cxf.Bus;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.interceptor.AttachmentOutInterceptor;
 import org.apache.cxf.jaxws.DispatchImpl;
+import org.apache.cxf.message.Message;
 import org.apache.cxf.staxutils.W3CDOMStreamWriter;
 import org.apache.cxf.transport.ConduitInitiatorManager;
 import org.apache.cxf.transport.http.HTTPConduit;
@@ -128,29 +130,31 @@ public class MshClient {
       throw new EBMSError(EBMSErrorCode.PModeConfigurationError, messageId,
               "Invalid address" + url, ex,
               SoapFault.FAULT_CODE_CLIENT);
-
     }
 
     QName serviceName1 = new QName("", "");
     QName portName1 = new QName("", "");
     Service s = Service.create(serviceName1);
-    s.addPort(portName1, SOAPBinding.SOAP12HTTP_MTOM_BINDING, url);
+    s.addPort(portName1, SOAPBinding.SOAP12HTTP_BINDING, url);
     MTOMFeature mtomFt = new MTOMFeature(true);
-
     Dispatch<SOAPMessage> dispSOAPMsg
             = s.createDispatch(portName1, SOAPMessage.class,
-                    Service.Mode.MESSAGE, mtomFt);
+                    Service.Mode.MESSAGE,mtomFt);
+
     DispatchImpl dimpl = (org.apache.cxf.jaxws.DispatchImpl) dispSOAPMsg;
     SOAPBinding sb = (SOAPBinding) dispSOAPMsg.getBinding();
+    // TODO: this is just to enable SwA (but without MTOM - see if there is any other better option)
+    // and then disabled in EBMSOutInterceptor to prevent  xop:Include where CipherData is serialized
+    // as payload in multipart/related
+    // msg.put(Message.MTOM_ENABLED, "false");
     sb.setMTOMEnabled(true);
+
 
     // --------------------------------------------------------------------
     // configure interceptors (log, ebms and plugin interceptors)
     Client cxfClient = dimpl.getClient();
     cxfClient.getInInterceptors().add(new EBMSLogInInterceptor());
     cxfClient.getInInterceptors().add(new EBMSInInterceptor());
-    cxfClient.getInInterceptors().add(new MSHPluginInInterceptor());
-
     cxfClient.getOutInterceptors().add(new MSHPluginOutInterceptor());
     cxfClient.getOutInterceptors().add(new EBMSOutInterceptor());
     cxfClient.getOutInterceptors().add(new EBMSLogOutInterceptor());
@@ -275,6 +279,10 @@ public class MshClient {
       MessageFactory mf = MessageFactory.newInstance(
               SOAPConstants.SOAP_1_2_PROTOCOL);
       SOAPMessage soapReq = mf.createMessage();
+      soapReq.setProperty(Message.CONTENT_TYPE, "multipart/related");
+      // disable xop:Include where CipherData is serialized as payload in multipart/related
+      soapReq.setProperty(Message.MTOM_ENABLED, "false");
+
       LOG.formatedlog("Before send message  %s at %d", mail.getMessageId(), (LOG.getTime()-l));
 
       long st = LOG.getTime();
@@ -314,7 +322,7 @@ public class MshClient {
       }
       LOG.formatedlog("Signalmessage stored  %s at %d", mail.getMessageId(), (LOG.getTime()-l));
 
-    } catch (javax.xml.ws.WebServiceException ex) {
+    } catch (jakarta.xml.ws.WebServiceException ex) {
 
       String key = "org.apache.cxf.staxutils.W3CDOMStreamWriter";
       Throwable initCause = Utils.getInitCause(ex);

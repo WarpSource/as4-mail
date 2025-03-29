@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+
+    <entity class="si.laurentius.outbox.payload.OutPart" access="FIELD">
+        <table name="LAU_OUTBOX_PAYLOAD"/>
+        <sequence-generator name="SequenceOutboxPayload" sequence-name="SEQ_LAU_OUTBOX_PAYLOAD_PROP" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceOutboxPayload"/>
+            </id>
+
+            <basic name="name">
+                <column name="PART_NAME" length="256"/>
+            </basic>
+            <basic name="description">
+                <column name="PART_DESCRIPTION" length="512"/>
+            </basic>
+            <basic name="type">
+                <column name="PART_TYPE" length="64"/>
+            </basic>
+            <basic name="filename">
+                <column name="PART_FILENAME" length="128"/>
+            </basic>
+            <basic name="filepath">
+                <column name="PART_FILEPATH" length="1024"/>
+            </basic>
+            <basic name="mimeType">
+                <column name="PART_MIME_TYPE" length="128"/>
+            </basic>
+            <basic name="encoding">
+                <column name="PART_ENCODING" length="128"/>
+            </basic>
+            <basic name="sha256Value">
+                <column name="PART_SHA256_VALUE" length="256"/>
+            </basic>
+            <basic name="size">
+                <column name="PART_SIZE" scale="0"/>
+            </basic>
+            <basic name="source">
+                <column name="PART_SOURCE" length="32"/>
+            </basic>
+            <basic name="isReceived">
+                <column name="PART_IS_RECEIVED"/>
+            </basic>
+            <basic name="isSent">
+                <column name="PART_IS_SENT"/>
+            </basic>
+            <basic name="generatedFromPartId">
+                <column name="PART_GENERATED_FROM_PART" scale="0"/>
+            </basic>
+            <one-to-many name="properties"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD"
+            >
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="OUTPART_ID" />
+                <cascade ><cascade-all /></cascade>
+
+            </one-to-many>
+            <transient name="bin"/>
+        </attributes>
+    </entity>
+
+    <entity class="si.laurentius.outbox.payload.OutPart$Property" access="FIELD">
+        <table name="LAU_OUTBOX_PAYLOAD_PROPERTY"/>
+        <sequence-generator name="SequenceOutboxPayloadProp" sequence-name="SEQ_LAU_OUTBOX_PAYLOAD_PROP" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceOutboxPayloadProp"/>
+            </id>
+
+            <basic name="name">
+                <column name="NAME" length="128"/>
+            </basic>
+            <basic name="type">
+                <column name="TYPE" length="256"/>
+            </basic>
+
+            <basic name="value">
+                <column name="&quot;VALUE&quot;" length="512"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+
+<!-- !DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="si.laurentius.outbox.payload.OutPart"
+           table="LAU_OUTBOX_PAYLOAD">
+        <id name="Id" type="java.math.BigInteger" >
+            <column name="ID" scale="0" />
+            <generator class="sequence">
+                <param name="sequence_name"> SEQ_LAU_OUTBOX_PAYLOAD</param>
+            </generator>
+        </id>
+        <property column="PART_NAME" name="name"  length="128" type="java.lang.String"  />
+        <property column="PART_DESCRIPTION" name="Description"  length="512" type="java.lang.String"   />
+        <property column="PART_TYPE" name="Type"  length="64" type="java.lang.String" />
+        <property column="PART_FILENAME" name="Filename"  length="128" type="java.lang.String" />
+        <property column="PART_FILEPATH" name="Filepath"  length="1028" type="java.lang.String" />
+        <property column="PART_MIME_TYPE" name="MimeType"  length="128" type="java.lang.String" />
+        <property column="PART_ENCODING" name="Encoding"  length="128" type="java.lang.String" />
+        <property column="PART_SHA256_VALUE" name="Sha256Value"  length="256" type="java.lang.String" />
+        <property column="PART_SIZE" name="Size"  type="java.math.BigInteger" scale="0" />
+        <property column="PART_SOURCE" name="Source"  length="32" type="java.lang.String" />
+        <property column="PART_IS_RECEIVED" name="IsReceived"   type="java.lang.Boolean" />
+        <property column="PART_IS_SENT" name="IsSent"   type="java.lang.Boolean" />
+        <property column="PART_GENERATED_FROM_PART" name="GeneratedFromPartId"   type="java.math.BigInteger" scale="0"/>
+
+        <bag name="properties"  access="field" cascade="all" lazy="false" order-by="Id asc" >
+            <key not-null="true">
+                <column name="OUTPART_ID" scale="0" />
+            </key>
+            <one-to-many class="si.laurentius.outbox.payload.OutPart$Property" />
+        </bag>
+    </class>
+    <class name="si.laurentius.outbox.payload.OutPart$Property" table="LAU_OUTBOX_PAYLOAD_PROPERTY">
+        <id name="Id" type="java.math.BigInteger">
+            <column name="ID" scale="0" />
+            <generator class="sequence">
+                <param name="sequence_name"> SEQ_LAU_OUTBOX_PAYLOAD_PROP</param>
+            </generator>
+        </id>
+        <property column="NAME" name="Name" type="java.lang.String"  length="128" />
+        <property column="TYPE" name="Type" type="java.lang.String"  length="256" />
+        <property column="'VALUE'" name="Value" type="java.lang.String" length="512" />
+    </class>
+
+
+</hibernate-mapping -->

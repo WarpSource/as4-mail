@@ -16,7 +16,7 @@ package si.laurentius.commons.interfaces;
 
 import java.math.BigInteger;
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.application.SEDApplication;
 import si.laurentius.cron.SEDCronJob;
 import si.laurentius.ebox.SEDBox;

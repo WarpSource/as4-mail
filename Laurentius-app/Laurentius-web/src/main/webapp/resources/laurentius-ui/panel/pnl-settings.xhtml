@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       lang="#{localeManager.language}"
-      >
-    <h:head>
-        <title>AS4Mail</title>       
-    </h:head>
-    <cc:interface>
-        <cc:attribute name="title" type="java.lang.String" default="Settings"/>
-        <cc:attribute name="description" type="java.lang.String" default="Description"/>
-        <cc:attribute name="icon" type="java.lang.String" default=""/>
-    </cc:interface>
+>
+<h:head>
+    <title>AS4Mail</title>
+</h:head>
+<cc:interface>
+    <cc:attribute name="title" type="java.lang.String" default="Settings"/>
+    <cc:attribute name="description" type="java.lang.String" default="Description"/>
+    <cc:attribute name="icon" type="java.lang.String" default=""/>
+</cc:interface>
 
-    <cc:implementation >
-        <p:growl showDetail="true" />
-        <div id="test" class="p-grid p-dir-col" style="min-width:400px;min-height:400px;height: 100%;width: 100%">
-            <div class="p-col" style="height:40px">
-                <h1 style="width: 100%; height: 38px;"><h:outputLink id="growPanelDesc" value="#">
-                        <span class="ui-icon-panel-Header ui-icon #{cc.attrs.icon}"  /><span class="ui-panel-Header">#{cc.attrs.title}</span>
-                    </h:outputLink>
-                </h1>
-                <p:tooltip id="toolTipGrow" for="growPanelDesc" position="bottom">
-                    <h:outputText value="#{cc.attrs.description}"></h:outputText>
-                </p:tooltip>      
-            </div>
-            <div class="p-col p-col-align-stretch" style="height: calc(100% - 40px)">
-                <cc:insertChildren /> 
-            </div>
+<cc:implementation>
+    <p:growl showDetail="true"/>
+    <div id="settings-panel" class="settings-panel">
+        <div class="settings-panel-title">
+            <h:outputLabel id="titleIcon">
+                <span class="ui-icon-panel-Header ui-icon #{cc.attrs.icon}"/>
+                <span class="ui-panel-Header">#{cc.attrs.title}</span>
+            </h:outputLabel>
+            <p:tooltip id="toolTipGrow" for="titleIcon" position="bottom">
+                <h:outputText value="#{cc.attrs.description}"></h:outputText>
+            </p:tooltip>
         </div>
-
-    </cc:implementation>
+        <cc:insertChildren/>
+    </div>
+</cc:implementation>
 
 </html>

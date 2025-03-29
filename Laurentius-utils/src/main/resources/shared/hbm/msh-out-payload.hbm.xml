@@ -27,7 +27,7 @@
         <property column="PART_IS_SENT" name="IsSent"   type="java.lang.Boolean" /> 
         <property column="PART_GENERATED_FROM_PART" name="GeneratedFromPartId"   type="java.math.BigInteger" scale="0"/> 
             
-        <bag name="omPartProperties"  access="field" cascade="all" lazy="false" order-by="Id asc" >
+        <bag name="OMPartProperties"  access="field" cascade="all" lazy="false" order-by="Id asc" >
             <key not-null="true">
                 <column name="OUTPART_ID" scale="0" />
             </key>
@@ -48,7 +48,7 @@
     </class>
     
     <query name="si.laurentius.msh.outbox.payload.MSHOutPart.getMailPartList">
-      <![CDATA[from MSHOutPart p where p.MailId = :mailId]]>
+      <![CDATA[select p from MSHOutPart p where p.MailId = :mailId]]>
     </query>       
 
 </hibernate-mapping>

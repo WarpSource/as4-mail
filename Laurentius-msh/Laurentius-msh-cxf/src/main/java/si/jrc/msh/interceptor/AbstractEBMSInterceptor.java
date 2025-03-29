@@ -1,12 +1,12 @@
 /*
  * Copyright 2015, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,31 +14,31 @@
  */
 package si.jrc.msh.interceptor;
 
-import java.io.StringWriter;
-import java.util.Map;
-import java.util.Properties;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.xml.namespace.QName;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import si.jrc.msh.exception.EBMSErrorCode;
+import si.laurentius.commons.SEDJNDI;
+import si.laurentius.commons.ebms.EBMSError;
+import si.laurentius.commons.exception.SEDSecurityException;
+import si.laurentius.commons.interfaces.*;
+import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.msh.pmode.PartyIdentitySetType;
 import si.laurentius.msh.pmode.Security;
 import si.laurentius.msh.pmode.X509;
-import si.laurentius.commons.ebms.EBMSError;
-import si.jrc.msh.exception.EBMSErrorCode;
-import si.laurentius.commons.SEDJNDI;
-import si.laurentius.commons.exception.SEDSecurityException;
-import si.laurentius.commons.interfaces.DBSettingsInterface;
-import si.laurentius.commons.interfaces.PModeInterface;
-import si.laurentius.commons.interfaces.SEDDaoInterface;
-import si.laurentius.commons.interfaces.SEDLookupsInterface;
-import si.laurentius.commons.utils.SEDLogger;
-import si.laurentius.commons.interfaces.SEDCertUtilsInterface;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.xml.namespace.QName;
+import java.io.StringWriter;
+import java.security.Provider;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * Abstract class extends from AbstractSoapInterceptor with access to apliation
@@ -48,6 +48,17 @@ import si.laurentius.commons.interfaces.SEDCertUtilsInterface;
  * @author Joze Rihtarsic <joze.rihtarsic@sodisce.si>
  */
 public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
+    protected static final SEDLogger A_LOG = new SEDLogger(AbstractEBMSInterceptor.class);
+
+    static {
+        Provider[] plist = java.security.Security.getProviders();
+        for (int i = 0; i < plist.length; i++) {
+            A_LOG.logWarn("index: " + i + ", prvider: " + plist[i].getName(), null);
+        }
+        // todo this is test for brainpool curves
+        java.security.Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
+       // java.security.Security.insertProviderAt(new org.bouncycastle.jce.provider.BouncyCastleProvider(), 2);
+    }
 
     String LOADED_CLASSES = "hibernate.ejb.loaded.classes";
     // ejb reference to signleton application settings 
@@ -62,13 +73,12 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
     // ejb reference to PModeManager services
     protected PModeInterface mPMode;
 
-    protected static SEDLogger A_LOG = new SEDLogger(AbstractEBMSInterceptor.class);
 
     /**
      * Constructor.
      *
      * @param p - CXF bus Phase. Values are defined in
-     * org.apache.cxf.phase.Phase
+     *          org.apache.cxf.phase.Phase
      */
     public AbstractEBMSInterceptor(String p) {
         super(p);
@@ -79,7 +89,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
      *
      * @param i - Instantiates the interceptor with a specified id.
      * @param p - CXF bus Phase. Values are defined in
-     * org.apache.cxf.phase.Phase
+     *          org.apache.cxf.phase.Phase
      */
     public AbstractEBMSInterceptor(String i, String p) {
         super(i, p);
@@ -183,11 +193,11 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
     public abstract void handleMessage(SoapMessage t)
             throws Fault;
 
- 
+
     public WSS4JOutInterceptor configureOutSecurityInterceptors(Security sc,
-            PartyIdentitySetType.LocalPartySecurity lps,
-            PartyIdentitySetType.ExchangePartySecurity epx,
-            String msgId, QName sv)
+                                                                PartyIdentitySetType.LocalPartySecurity lps,
+                                                                PartyIdentitySetType.ExchangePartySecurity epx,
+                                                                String msgId, QName sv)
             throws EBMSError {
         long l = A_LOG.logStart();
         WSS4JOutInterceptor sec = null;
@@ -196,7 +206,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         if (sc.getX509() == null) {
             A_LOG.logWarn(l,
                     "Sending not message with not security policy. No security configuration (pmode) for message:"
-                    + msgId, null);
+                            + msgId, null);
             return null;
         }
 
@@ -220,7 +230,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
             if (outProps == null) {
                 A_LOG.logWarn(l,
                         "Sending not signed message. Incomplete configuration: X509/Signature for message:  "
-                        + msgId, null);
+                                + msgId, null);
             }
         } else {
             A_LOG.logWarn(l,
@@ -246,7 +256,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
             if (enc == null) {
                 A_LOG.logWarn(l,
                         "Sending not encrypted message. Incomplete configuration: X509/Encryption/Encryp for message:  "
-                        + msgId, null);
+                                + msgId, null);
             } else if (outProps == null) {
                 outProps = penc;
             } else {
@@ -258,7 +268,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         } else {
             A_LOG.logWarn(l,
                     "Sending not encrypted message. No configuration: X509/Encryption/Encrypt for message:  "
-                    + msgId, null);
+                            + msgId, null);
         }
 
         if (outProps != null) {
@@ -269,16 +279,16 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         } else {
             A_LOG.logWarn(l,
                     "Sending not message with not security policy. Bad/incomplete security configuration (pmode) for message:"
-                    + msgId, null);
+                            + msgId, null);
         }
         A_LOG.logEnd(l);
         return sec;
     }
 
     public WSS4JInInterceptor configureInSecurityInterceptors(Security sc,
-            PartyIdentitySetType.LocalPartySecurity lps,
-            PartyIdentitySetType.ExchangePartySecurity eps,
-            String msgId, QName sv)
+                                                              PartyIdentitySetType.LocalPartySecurity lps,
+                                                              PartyIdentitySetType.ExchangePartySecurity eps,
+                                                              String msgId, QName sv)
             throws EBMSError {
 
         long l = A_LOG.logStart();
@@ -288,7 +298,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         if (sc.getX509() == null) {
             A_LOG.logWarn(l,
                     "Sending not message with not security policy. No security configuration (pmode) for message:"
-                    + msgId, null);
+                            + msgId, null);
             return null;
         }
         if (sc.getX509().getSignature() != null && sc.getX509().getSignature().
@@ -305,7 +315,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
             if (inProps == null) {
                 A_LOG.logWarn(l,
                         "Sending not signed message. Incomplete configuration: X509/Signature for message:  "
-                        + msgId, null);
+                                + msgId, null);
             }
         } else {
             A_LOG.logWarn(l,
@@ -332,7 +342,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
             if (enc == null) {
                 A_LOG.logWarn(l,
                         "Sending not encrypted message. Incomplete configuration: X509/Encryption/Encryp for message:  "
-                        + msgId, null);
+                                + msgId, null);
             } else if (inProps == null) {
                 inProps = penc;
             } else {
@@ -344,7 +354,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         } else {
             A_LOG.logWarn(l,
                     "Sending not encypted message. No configuration: X509/Encryption/Encrypt for message:  "
-                    + msgId, null);
+                            + msgId, null);
         }
 
         if (inProps != null) {
@@ -353,7 +363,7 @@ public abstract class AbstractEBMSInterceptor extends AbstractSoapInterceptor {
         } else {
             A_LOG.logWarn(l,
                     "Sending not message with not security policy. Bad/incomplete security configuration (pmode) for message:"
-                    + msgId, null);
+                            + msgId, null);
         }
 
         A_LOG.logEnd(l);

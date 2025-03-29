@@ -54,7 +54,7 @@ Copyright 2015, Supreme Court Republic of Slovenia
                                 <xs:documentation xml:lang="sl">Id vhodne pošiljke</xs:documentation>
                             </xs:annotation>			
                         </xs:attribute>
-                        <xs:attribute name="senderMessageId" use="optional">
+                        <!-- xs:attribute name="senderMessageId" use="optional">
                             <xs:annotation>
                                 <xs:documentation xml:lang="sl"> Enolična oznaka pošiljke pošiljatelja. V primeru, da atribut ni podan, mora biti podan atribut mshMessageId</xs:documentation>
                             </xs:annotation>
@@ -63,7 +63,7 @@ Copyright 2015, Supreme Court Republic of Slovenia
                                     <xs:maxLength value="64"/>
                                 </xs:restriction>
                             </xs:simpleType>
-                        </xs:attribute>
+                        </xs:attribute -->
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

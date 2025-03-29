@@ -15,7 +15,7 @@
 package si.laurentius.plugin.interfaces;
 
 import java.util.Properties;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.plugin.interfaces.exception.TaskException;
 
 /**

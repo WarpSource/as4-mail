@@ -16,10 +16,10 @@ package si.jrc.msh.plugin.tc;
 
 import java.util.Arrays;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.Local;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.Local;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
 import si.jrc.msh.plugin.tc.web.AppConstant;
 import si.laurentius.commons.SEDGUIConstants;
 import si.laurentius.commons.utils.SEDLogger;

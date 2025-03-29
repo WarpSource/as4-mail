@@ -1,3 +1,12 @@
+
+body .ui-datatable .ui-datatable-header {
+    border-top: none;
+}
+
+body .ui-datatable .ui-paginator {
+    padding: 0.1em;
+}
+
 .ui-datatable-scrollable-body {
     background: #cdcfcf;
     background: -webkit-linear-gradient(bottom right,  #cdcfcf, #bdbfcf);
@@ -16,9 +25,6 @@
 }
 
 
-
-
-
 .ui-datatable-odd {
     background: #ffffff;    
     padding:1px 1px;  
@@ -30,7 +36,6 @@
     padding:1px 1px;  
 
 }
-
 
 .ui-datatable-cell-red {
     background: indianred;
@@ -53,15 +58,21 @@
     flex-direction: column !important;
 }
 
-.ui-datatable table{
+.ui-datatable table {
     border-collapse:collapse;width:100%;
+}
+
+body .ui-datatable thead th {
+    padding: 0.1em 0.2em;
 }
 .ui-datatable .ui-datatable-header,.ui-datatable .ui-datatable-footer{
     text-align:center;padding:4px 10px;
 }
-.ui-datatable .ui-datatable-header{
+.ui-datatable .ui-datatable-header {
     border-bottom:0px none;
+    border-top:0px none;
     flex: 0 !important;
+    background-color: var(--primary-300) !important;
 }
 .ui-datatable .ui-datatable-footer{
     border-top:0px none;
@@ -187,7 +198,7 @@
 /*resizer */.ui-datatable .ui-column-resizer{
     width:8px;height:20px;
     padding:0px;cursor:col-resize;
-    background-image:url("/ScraperOnWeb/javax.faces.resource/spacer/dot_clear.gif.jsf?ln=primefaces");
+    background-image:url("/ScraperOnWeb/jakarta.faces.resource/spacer/dot_clear.gif.jsf?ln=primefaces");
     margin:-4px -10px -4px 0px;
     float:right;
 }

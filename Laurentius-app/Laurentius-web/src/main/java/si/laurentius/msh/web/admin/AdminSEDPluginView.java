@@ -17,10 +17,10 @@ package si.laurentius.msh.web.admin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ActionEvent;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.event.ActionEvent;
 import org.primefaces.model.CheckboxTreeNode;
 import org.primefaces.model.TreeNode;
 import si.laurentius.commons.SEDJNDI;
@@ -79,7 +79,8 @@ public class AdminSEDPluginView extends AbstractAdminJSFView<Plugin> {
     boolean adminView = false;
 
     private TreeNode[] selectedPluginItems;
-    TreeNode rootPluginItems = null;
+    TreeNode<TreeNode> rootPluginItems = new CheckboxTreeNode(new PluginTreeItem("PluginItems",
+            null, "PluginItems"), null);;
 
     public List<Plugin> getPluginWitGUI() {
         List<Plugin> lst = new ArrayList<>();
@@ -103,7 +104,7 @@ public class AdminSEDPluginView extends AbstractAdminJSFView<Plugin> {
     public void initializeSelectedPluginDataItems() {
         if (rootPluginItems != null) {
             // pmode/plugin
-            for (TreeNode pType : rootPluginItems.getChildren()) {
+            for (TreeNode<TreeNode> pType : rootPluginItems.getChildren()) {
                 // type
                 for (TreeNode itemType : pType.getChildren()) {
                     itemType.getChildren().clear();

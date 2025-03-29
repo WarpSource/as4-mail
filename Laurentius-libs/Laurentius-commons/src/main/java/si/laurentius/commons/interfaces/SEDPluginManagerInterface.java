@@ -15,7 +15,7 @@
 package si.laurentius.commons.interfaces;
 
 import java.util.List;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.plugin.crontask.CronTaskDef;
 import si.laurentius.plugin.def.Plugin;
 import si.laurentius.plugin.eventlistener.OutMailEventListenerDef;

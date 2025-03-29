@@ -1,12 +1,12 @@
 /*
  * Copyright 2016, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,34 +14,27 @@
  */
 package si.laurentius.msh.jms;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
-import javax.ejb.MessageDriven;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.persistence.NoResultException;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
+import jakarta.ejb.MessageDriven;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
+import jakarta.jms.JMSDestinationDefinition;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+import jakarta.persistence.NoResultException;
 import si.jrc.msh.client.MSHPluginOutEventHandler;
-import si.laurentius.msh.outbox.mail.MSHOutMail;
-import si.laurentius.msh.pmode.ReceptionAwareness;
 import si.jrc.msh.client.MshClient;
 import si.jrc.msh.client.Result;
 import si.jrc.msh.exception.EBMSErrorCode;
-import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.SEDJNDI;
-import si.laurentius.commons.enums.SEDOutboxMailStatus;
 import si.laurentius.commons.SEDSystemProperties;
 import si.laurentius.commons.SEDValues;
+import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.enums.SEDMailPartSource;
+import si.laurentius.commons.enums.SEDOutboxMailStatus;
 import si.laurentius.commons.exception.PModeException;
 import si.laurentius.commons.exception.StorageException;
 import si.laurentius.commons.interfaces.PModeInterface;
@@ -52,26 +45,27 @@ import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.lce.DigestUtils;
+import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.msh.outbox.payload.MSHOutPart;
 import si.laurentius.msh.pmode.PMode;
+import si.laurentius.msh.pmode.ReceptionAwareness;
 import si.laurentius.plugin.interfaces.OutMailEventInterface;
 
+import java.io.File;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.Collections;
+
 /**
- *
  * @author Jože Rihtaršič
  */
-@MessageDriven(
+@MessageDriven( name = "MSHQueueBean",
+        description = "Bean consumes message from MSHQueue bean.",
         activationConfig = {
-            @ActivationConfigProperty(propertyName = "acknowledgeMode",
-                    propertyValue = "Auto-acknowledge")
-            ,
-      @ActivationConfigProperty(propertyName = "destinationType",
-                    propertyValue = "javax.jms.Queue")
-            ,
-      @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/MSHQueue")
-            ,
-      @ActivationConfigProperty(propertyName = "maxSession",
-                    propertyValue = "8")})
+                @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge"),
+                @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Queue"),
+                @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "jms/queue/MSHQueue"),
+                @ActivationConfigProperty(propertyName = "maxSession", propertyValue = "8")})
 @TransactionManagement(TransactionManagementType.BEAN)
 public class MSHQueueBean implements MessageListener {
 
@@ -218,23 +212,23 @@ public class MSHQueueBean implements MessageListener {
                 mPluginOutEventHandler.outEvent(mail, sd,
                         OutMailEventInterface.PluginOutEvent.ERROR);
 
-               
+
                 setStatusToOutMail(mail, SEDOutboxMailStatus.ERROR, sm.getError().
-                        getSubMessage(),
+                                getSubMessage(),
                         sm.getResultFile(), sm.getMimeType());
 
                 if ((sm.getError().getEbmsErrorCode().equals(
                         EBMSErrorCode.ConnectionFailure)
                         || sm.getError().getEbmsErrorCode().equals(
-                                EBMSErrorCode.DeliveryFailure)
+                        EBMSErrorCode.DeliveryFailure)
                         || sm.getError().getEbmsErrorCode().equals(EBMSErrorCode.Other))) {
 
                     if (resendMail(mail, sd, jmsRetryCount, jmsRetryDelay)) {
                         mPluginOutEventHandler.outEvent(mail, sd,
                                 OutMailEventInterface.PluginOutEvent.RESEND);
                     } else {
-                        
-                        
+
+
                         setStatusToOutMail(mail, SEDOutboxMailStatus.FAILED,
                                 "Max resend mail reached",
                                 null, sm.getMimeType());
@@ -243,13 +237,13 @@ public class MSHQueueBean implements MessageListener {
 
                 } else if (sm.getError().getEbmsErrorCode().equals(
                         EBMSErrorCode.ReceiverNotExists)) {
-                    
+
                     try {
                         addPartToMessage(sm, SEDOutboxMailStatus.NOTDELIVERED, "Add error to message", mail);
                     } catch (StorageException ex) {
                         LOG.logError(sm.getResultFile(), ex);
                     }
-                    
+
                     setStatusToOutMail(mail, SEDOutboxMailStatus.NOTDELIVERED,
                             sm.getError().getSubMessage(),
                             null, sm.getMimeType());
@@ -270,13 +264,13 @@ public class MSHQueueBean implements MessageListener {
 
             } else {
                 String resPath = sm.getResultFile();
-               
+
                 try {
-                    
+
                     addPartToMessage(sm, SEDOutboxMailStatus.SENT, "Add AS4Reciept to mail", mail);
 
                     mDB.setStatusToOutMail(mail.getId(),
-                            mail.getSenderMessageId(), mail.getSentDate(),
+                            mail.getSentDate(),
                             mail.getReceivedDate(), null, SEDOutboxMailStatus.SENT,
                             "Get delivery receipt", null, "ebms", null, null);
                     mPluginOutEventHandler.outEvent(mail, sd,
@@ -289,7 +283,7 @@ public class MSHQueueBean implements MessageListener {
         LOG.logEnd(t, jmsMessageId);
     }
 
-    private void addPartToMessage(Result sm, SEDOutboxMailStatus status, String message,  MSHOutMail mail) throws StorageException {
+    private void addPartToMessage(Result sm, SEDOutboxMailStatus status, String message, MSHOutMail mail) throws StorageException {
         String resPath = sm.getResultFile();
         File fRes = StorageUtils.getFile(resPath);
 
@@ -321,15 +315,15 @@ public class MSHQueueBean implements MessageListener {
     /**
      * Method sets message back in queue for sending
      *
-     * @param mail - mail to be resend
+     * @param mail          - mail to be resend
      * @param sd
      * @param jmsRetryCount
      * @param jmsRetryDelay
      * @return
      */
     public boolean resendMail(MSHOutMail mail, EBMSMessageContext sd,
-            int jmsRetryCount,
-            long jmsRetryDelay) {
+                              int jmsRetryCount,
+                              long jmsRetryDelay) {
 
         PMode pmd = sd.getPMode();
         int iPriority = pmd.getPriority() == null ? 4 : pmd.getPriority();
@@ -373,15 +367,15 @@ public class MSHQueueBean implements MessageListener {
      * Set status to out mail - method chages mail status log event to "event
      * table"
      *
-     * @param mail -
+     * @param mail   -
      * @param status - status
-     * @param desc - description of event
-     * @param ex - if throwable not nul "getMessage()" is appended to desc
-     * parameter
+     * @param desc   - description of event
+     * @param ex     - if throwable not nul "getMessage()" is appended to desc
+     *               parameter
      */
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc,
-            Throwable ex) {
+                                   String desc,
+                                   Throwable ex) {
         String strpath = null;
         if (ex != null) {
 
@@ -404,34 +398,34 @@ public class MSHQueueBean implements MessageListener {
      * Set status to out mail - method chages mail status log event to "event
      * table"
      *
-     * @param mail -
+     * @param mail   -
      * @param status - status
-     * @param desc - description of event
+     * @param desc   - description of event
      */
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc) {
+                                   String desc) {
         long l = LOG.logStart();
         try {
             mDB.setStatusToOutMail(mail, status, desc);
         } catch (StorageException ex2) {
             LOG.logError(l,
                     "Error occurred while setting status " + status.getValue() + " to MSHOutMail :'"
-                    + mail.getId()
-                    + "'!", ex2);
+                            + mail.getId()
+                            + "'!", ex2);
         }
     }
 
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc,
-            String fileName, String mime) {
+                                   String desc,
+                                   String fileName, String mime) {
         long l = LOG.logStart();
         try {
             mDB.setStatusToOutMail(mail, status, desc, null, null, fileName, mime);
         } catch (StorageException ex2) {
             LOG.logError(l,
                     "Error occurred while setting status " + status.getValue() + " to MSHOutMail :'"
-                    + mail.getId()
-                    + "'!", ex2);
+                            + mail.getId()
+                            + "'!", ex2);
         }
     }
 

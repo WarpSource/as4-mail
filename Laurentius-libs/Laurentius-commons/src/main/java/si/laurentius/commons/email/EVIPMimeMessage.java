@@ -5,11 +5,11 @@
 package si.laurentius.commons.email;
 
 import java.io.StringWriter;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import static javax.mail.internet.InternetAddress.getLocalAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import static jakarta.mail.internet.InternetAddress.getLocalAddress;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  *

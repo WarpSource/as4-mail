@@ -8,7 +8,7 @@ package si.jrc.msh.interceptor;
 import java.io.IOException;
 import static java.lang.Thread.currentThread;
 import java.util.Set;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.message.Message;
@@ -41,8 +41,6 @@ public class EBMSInInterceptorTest {
     static EBMSInInterceptor mTestInstance = new EBMSInInterceptor();
     public static final Logger LOG = LogManager.getLogger(EBMSInInterceptorTest.class);
 
-    public EBMSInInterceptorTest() {
-    }
 
     @BeforeClass
     public static void setUpClass() {

@@ -16,7 +16,7 @@
         <property column="INTERCEPT_ROLE" name="InterceptRole"  length="32" type="java.lang.String"/>
         
         
-        <bag name="sedInterceptorRules"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+        <bag name="SEDInterceptorRules"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
             <key not-null="true">
                 <column name="INTERCEPTOR_ID" scale="0" />
             </key>
@@ -26,7 +26,7 @@
             <property column="INTERCEPTOR_TYPE" name="Type"  length="64" type="java.lang.String"/>
             <property column="INTERCEPTOR_PLUGIN" name="Plugin"  length="64" type="java.lang.String"/>
             <property column="INTERCEPTOR_PLUGIN_VERSION" name="PluginVersion"  length="32" type="java.lang.String"/>
-            <bag name="sedInterceptorProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+            <bag name="SEDInterceptorProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
                 <key not-null="true">
                     <column name="INTERCEPTOR_INSTANCE_ID" scale="0" />
                 </key>

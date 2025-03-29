@@ -4,7 +4,7 @@
  */
 package si.jrc.msh.client;
 
-import javax.ejb.EJB;
+import jakarta.ejb.EJB;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.interfaces.SEDLookupsInterface;
 import si.laurentius.msh.outbox.mail.MSHOutMail;

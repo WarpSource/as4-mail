@@ -60,7 +60,7 @@ public enum MEPChannelBindingType {
   }
 
   public MEPType getMepType() {
-    return mepType;
+    return mepType == null? MEPType.OneWay: mepType;
   }
 
   public int getLegsNum() {

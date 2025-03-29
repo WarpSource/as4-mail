@@ -16,9 +16,9 @@ package si.laurentius.msh.web.pmode;
 
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.SessionScoped;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.msh.pmode.PartyIdentitySetType;
 
