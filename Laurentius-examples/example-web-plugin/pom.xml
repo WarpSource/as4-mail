@@ -74,7 +74,7 @@
         </dependency>
         <!-- Interceptor interface --> 
         <dependency>
-            <groupId>org.apache.cxf</groupId>
+            <groupId>${org.apache.cxf.groupId}</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <scope>provided</scope>
         </dependency>
