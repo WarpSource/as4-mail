@@ -22,9 +22,10 @@ jobs:
       - name: Build artefacts
         run: |
           mvn -B clean verify 
-          ./scripts/create-release-bundle.sh
+          cd ./scripts/
+          ./create-release-bundle.sh
           # The command will work because there is only one file matching 
-          cp ./scripts/releases/Laurentius-*.zip ./docker/Laurentius.zip
+          cp ./releases/Laurentius-*.zip ../docker/Laurentius.zip
 
       - name: Build and Push docker image
         # do not use docker/build-push-action@v2 because it cleans the repo
