@@ -24,14 +24,16 @@ jobs:
           mvn -B clean verify 
           cd ./scripts/
           ./create-release-bundle.sh
-          # The command will work because there is only one file matching 
+          ls -ltr ./releases
           cp ./releases/Laurentius-*.zip ../docker/Laurentius.zip
+          ls -ltr ./docker
 
       - name: Build and Push docker image
         # do not use docker/build-push-action@v2 because it cleans the repo
         # and did not find the property to disable that
         run: |
             export VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive  exec:exec)
+            ls -ltr ./docker
             docker build -f ./docker/Dockerfile -t warpsource/as4mail-dev:latest -t warpsource/as4mail-dev:${VERSION:-noversion} .
             docker push warpsource/as4mail-dev:${VERSION:-noversion}
             docker push warpsource/as4mail-dev:latest
