@@ -32,7 +32,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
             <organization>Supreme Court Republic of Slovenia</organization>
             <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
@@ -82,7 +81,7 @@
     
       
         <dependency>
-            <groupId>org.apache.santuario</groupId>
+            <groupId>${org.apache.santuario.groupId}</groupId>
             <artifactId>xmlsec</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -94,13 +93,13 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <artifactId>bcprov-jdk18on</artifactId>
             <scope>provided</scope>
         </dependency>
  
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
             <scope>provided</scope>
         </dependency>
       

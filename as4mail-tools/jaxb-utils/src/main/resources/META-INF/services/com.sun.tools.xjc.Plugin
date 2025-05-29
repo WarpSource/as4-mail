@@ -1,0 +1,3 @@
+com.as4mail.jaxb.EqualPlugin
+com.as4mail.jaxb.HashCodePlugin
+com.as4mail.jaxb.PropertyNamesPlugin

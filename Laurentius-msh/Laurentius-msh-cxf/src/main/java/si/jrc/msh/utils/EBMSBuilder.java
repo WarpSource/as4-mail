@@ -1,12 +1,12 @@
 /*
  * Copyright 2016, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,66 +14,42 @@
  */
 package si.jrc.msh.utils;
 
-import si.laurentius.commons.cxf.EBMSConstants;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import jakarta.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.JAXBException;
 import org.apache.cxf.binding.soap.SoapVersion;
 import org.apache.cxf.interceptor.Fault;
-import si.laurentius.msh.outbox.mail.MSHOutMail;
-import si.laurentius.msh.outbox.payload.MSHOutPart;
-import si.laurentius.msh.outbox.property.MSHOutProperty;
-import si.laurentius.msh.pmode.PartyIdentitySet;
-import si.laurentius.msh.pmode.PartyIdentitySetType;
-
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.AgreementRef;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.CollaborationInfo;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Description;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.From;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.MessageInfo;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.MessageProperties;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Messaging;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.PartInfo;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.PartProperties;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.PartyId;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.PartyInfo;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.PayloadInfo;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Property;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Receipt;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.SignalMessage;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.To;
-import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.UserMessage;
 import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.Error;
+import org.oasis_open.docs.ebxml_msg.ebms.v3_0.ns.core._200704.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 import si.jrc.msh.exception.EBMSErrorCode;
-import si.laurentius.commons.ebms.EBMSError;
-import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.PModeConstants;
 import si.laurentius.commons.SEDSystemProperties;
+import si.laurentius.commons.cxf.EBMSConstants;
+import si.laurentius.commons.ebms.EBMSError;
+import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.pmode.EBMSMessageContext;
-
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.commons.utils.xml.XMLUtils;
+import si.laurentius.msh.outbox.mail.MSHOutMail;
+import si.laurentius.msh.outbox.payload.MSHOutPart;
 import si.laurentius.msh.outbox.payload.OMPartProperty;
+import si.laurentius.msh.outbox.property.MSHOutProperty;
+import si.laurentius.msh.pmode.PartyIdentitySet;
+import si.laurentius.msh.pmode.PartyIdentitySetType;
+
+import javax.xml.namespace.QName;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
- *
  * @author Jože Rihtaršič
  */
 public class EBMSBuilder {
@@ -86,7 +62,6 @@ public class EBMSBuilder {
     protected final static SEDLogger LOG = new SEDLogger(EBMSBuilder.class);
 
     /**
-     *
      * @param ebError
      * @return
      */
@@ -107,7 +82,7 @@ public class EBMSBuilder {
     }
 
     public static SignalMessage createErrorSignal(EBMSError ebError,
-            Date timestamp) {
+                                                  Date timestamp) {
         SignalMessage sigMsg = new SignalMessage();
         // generate MessageInfo
         sigMsg.setMessageInfo(
@@ -118,8 +93,8 @@ public class EBMSBuilder {
     }
 
     public static SignalMessage createErrorSignal(Fault err, String refMsgId,
-            String desc, String senderDomain,
-            Date timestamp) {
+                                                  String desc, String senderDomain,
+                                                  Date timestamp) {
         SignalMessage sigMsg = new SignalMessage();
         // generate MessageInfo
         sigMsg.setMessageInfo(createMessageInfo(senderDomain, refMsgId, timestamp));
@@ -141,15 +116,15 @@ public class EBMSBuilder {
     }
 
     private static MessageInfo createMessageInfo(String senderDomain,
-            String refToMessage,
-            Date timestamp) {
+                                                 String refToMessage,
+                                                 Date timestamp) {
         return createMessageInfo(UUID.randomUUID().toString(), senderDomain,
                 refToMessage, timestamp);
     }
 
     private static MessageInfo createMessageInfo(String msgId, String senderDomain,
-            String refToMessage,
-            Date timestamp) {
+                                                 String refToMessage,
+                                                 Date timestamp) {
         if (Utils.isEmptyString(msgId)) {
             msgId = Utils.getUUIDWithDomain(senderDomain);
         }
@@ -161,7 +136,6 @@ public class EBMSBuilder {
     }
 
     /**
-     *
      * @param version
      * @return
      */
@@ -189,16 +163,16 @@ public class EBMSBuilder {
      * @return
      */
     public static List<PartyId> createPartyIdList(PartyIdentitySet pis,
-            String address, String name, boolean use4cm) {
+                                                  String address, String name, boolean use4cm) {
         List<PartyId> pilst = new ArrayList<>();
         if (use4cm) {
-            String domain = pis.getIsLocalIdentity()?SEDSystemProperties.getLocalDomain(): pis.getDomain();
+            String domain = pis.getIsLocalIdentity() ? SEDSystemProperties.getLocalDomain() : pis.getDomain();
             PartyId pi = new PartyId();
             pi.setType(EBMSConstants.EBMS_ECORE_PARTY_TYPE_UNREGISTERED);
             pi.setValue(domain);
             pilst.add(pi);
         } else {
-        
+
             for (PartyIdentitySetType.PartyId pisPi : pis.getPartyIds()) {
                 PartyId pi = new PartyId();
                 pi.setType(pisPi.getType());
@@ -247,9 +221,9 @@ public class EBMSBuilder {
         // generate MessageInfo
         MessageInfo mi
                 = createMessageInfo(mo.getMessageId(),
-                        SEDSystemProperties.getLocalDomain(),
-                        mo.getRefToMessageId(),
-                        timestamp);
+                SEDSystemProperties.getLocalDomain(),
+                mo.getRefToMessageId(),
+                timestamp);
         usgMsg.setMessageInfo(mi);
 
         // generate from
@@ -258,14 +232,14 @@ public class EBMSBuilder {
         // sender ids
         usgMsg.getPartyInfo().getFrom().setRole(ctx.getSendingRole()); // get from p-mode
         List<PartyId> plstSender = createPartyIdList(pisSender, mo.getSenderEBox(),
-                mo.getSenderName(), pisSender.getUseFourCornerModel()!=null && pisSender.getUseFourCornerModel());
+                mo.getSenderName(), pisSender.getUseFourCornerModel() != null && pisSender.getUseFourCornerModel());
         usgMsg.getPartyInfo().getFrom().getPartyIds().addAll(plstSender);
 
         // generate to
         usgMsg.getPartyInfo().setTo(new To());
         usgMsg.getPartyInfo().getTo().setRole(ctx.getReceivingRole());
         List<PartyId> plstReceiver = createPartyIdList(pisReceiver, mo.
-                getReceiverEBox(),
+                        getReceiverEBox(),
                 mo.getReceiverName(), pisReceiver.getUseFourCornerModel() != null && pisReceiver.getUseFourCornerModel());
         usgMsg.getPartyInfo().getTo().getPartyIds().addAll(plstReceiver);
 
@@ -294,19 +268,19 @@ public class EBMSBuilder {
         List<Property> lstProperties = new ArrayList<>();
         // add four corner properties
         if (pisReceiver.getUseFourCornerModel() != null && pisReceiver.getUseFourCornerModel() ||
-                pisSender.getUseFourCornerModel() != null && pisSender.getUseFourCornerModel()){
-            
+                pisSender.getUseFourCornerModel() != null && pisSender.getUseFourCornerModel()) {
+
             Property pRec = new Property();
             pRec.setName(EBMSConstants.EBMS_PROP_4CM_ORIGINAL_SENDER);
             pRec.setValue(mo.getSenderEBox());
             lstProperties.add(pRec);
-            
+
             Property pSnd = new Property();
             pSnd.setName(EBMSConstants.EBMS_PROP_4CM_FINAL_RECIPIENT);
             pSnd.setValue(mo.getReceiverEBox());
             lstProperties.add(pSnd);
         }
-        
+
         if (ctx.getService().getUseSEDProperties() == null || ctx.getService().
                 getUseSEDProperties()) {
 
@@ -357,8 +331,10 @@ public class EBMSBuilder {
         }
 
         // add payload info
-        usgMsg.setPayloadInfo(new PayloadInfo());
-        if (mo.getMSHOutPayload() != null && mo.getMSHOutPayload().getMSHOutParts() != null) {
+
+        if (mo.getMSHOutPayload() != null && mo.getMSHOutPayload().getMSHOutParts() != null
+                && !mo.getMSHOutPayload().getMSHOutParts().isEmpty()) {
+            usgMsg.setPayloadInfo(new PayloadInfo());
             for (MSHOutPart mp : mo.getMSHOutPayload().getMSHOutParts()) {
                 String attachentId = mp.getEbmsId();
 
@@ -446,7 +422,6 @@ public class EBMSBuilder {
     }
 
     /**
-     *
      * @param refMessageId
      * @param senderDomain
      * @param inboundMail
@@ -454,8 +429,8 @@ public class EBMSBuilder {
      * @return
      */
     public static SignalMessage generateAS4ReceiptSignal(String refMessageId,
-            String senderDomain,
-            Element inboundMail, Date timestamp) {
+                                                         String senderDomain,
+                                                         Element inboundMail, Date timestamp) {
         SignalMessage sigMsg = null;
         try (InputStream isXSLT = EBMSBuilder.class.getResourceAsStream(
                 "/xslt/as4receipt-jmsh.xsl")) {
@@ -475,7 +450,7 @@ public class EBMSBuilder {
             }
 
         } catch (JAXBException | TransformerException
-                | IOException ex) {
+                 | IOException ex) {
             LOG.logError(0, ex);
         }
         return sigMsg;
@@ -500,7 +475,6 @@ public class EBMSBuilder {
     }
 
     /**
-     *
      * @param sm Signal message
      * @return
      */
@@ -510,7 +484,6 @@ public class EBMSBuilder {
     }
 
     /**
-     *
      * @param um user message
      * @return
      */
@@ -520,7 +493,6 @@ public class EBMSBuilder {
     }
 
     /**
-     *
      * @param userMessage
      * @param senderDomain
      * @param inboundMail
@@ -528,12 +500,12 @@ public class EBMSBuilder {
      * @return
      */
     public SignalMessage generateAS4ReceiptSignal(UserMessage userMessage,
-            String senderDomain,
-            File inboundMail, Date timestamp) {
+                                                  String senderDomain,
+                                                  File inboundMail, Date timestamp) {
         SignalMessage sigMsg = new SignalMessage();
         try (FileInputStream fos = new FileInputStream(inboundMail);
-                InputStream isXSLT = getClass().getResourceAsStream(
-                        "/xslt/soap2AS4Receipt.xsl")) {
+             InputStream isXSLT = getClass().getResourceAsStream(
+                     "/xslt/soap2AS4Receipt.xsl")) {
 
             // add message infof
             sigMsg.setMessageInfo(createMessageInfo(senderDomain, userMessage.
@@ -547,7 +519,7 @@ public class EBMSBuilder {
             sigMsg.setReceipt(rcp);
 
         } catch (JAXBException | TransformerException | ParserConfigurationException | SAXException
-                | IOException ex) {
+                 | IOException ex) {
             LOG.logError(0, ex);
         }
         return sigMsg;

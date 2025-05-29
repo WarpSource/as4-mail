@@ -17,7 +17,7 @@
     background-size: 22px 22px !important;
 }
 .ui-icon-size-32 {
-       
+
     width:  32px !important;
     height:  32px !important;
     background-size: 32px 32px !important;
@@ -25,9 +25,10 @@
 
 .ui-icon-panel-Header {
     border-radius: 0;
-    width:  38px !important;
-    height:  38px !important;
-    background-size: 38px 38px !important;
+    width:  42px !important;
+    height:  42px !important;
+    background-size: 42px 42px !important;
+    margin: 0.5em 0.4em !important;
     float: left;
 }
 

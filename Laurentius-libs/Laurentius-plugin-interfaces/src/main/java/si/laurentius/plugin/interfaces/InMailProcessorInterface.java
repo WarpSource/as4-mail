@@ -16,7 +16,7 @@ package si.laurentius.plugin.interfaces;
 
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.plugin.interfaces.exception.InMailProcessException;
 

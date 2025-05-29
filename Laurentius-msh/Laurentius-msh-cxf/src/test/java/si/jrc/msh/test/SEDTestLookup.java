@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.application.SEDApplication;
 import si.laurentius.commons.SEDSystemProperties;
 import si.laurentius.cron.SEDCronJob;

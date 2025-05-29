@@ -15,20 +15,20 @@
 package si.laurentius.ejb;
 
 import java.util.Objects;
-import javax.ejb.AccessTimeout;
-import javax.ejb.Local;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueRequestor;
-import javax.jms.QueueSession;
-import javax.jms.Session;
+import jakarta.ejb.AccessTimeout;
+import jakarta.ejb.Local;
+import jakarta.ejb.Singleton;
+import jakarta.ejb.Startup;
+import jakarta.jms.Connection;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueConnection;
+import jakarta.jms.QueueRequestor;
+import jakarta.jms.QueueSession;
+import jakarta.jms.Session;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.apache.activemq.artemis.api.core.management.ResourceNames;
@@ -76,7 +76,7 @@ public class JMSManager implements JMSManagerInterface {
    *
    * @return
    * @throws NamingException
-   * @throws javax.jms.JMSException
+   * @throws jakarta.jms.JMSException
    */
   @Override
   public boolean exportInMail(long inId)
@@ -112,7 +112,7 @@ public class JMSManager implements JMSManagerInterface {
 
   private String getJNDIPrefix() {
 
-    return System.getProperty(SYS_PROP_JNDI_PREFIX, "java:/jboss/");
+    return System.getProperty(SYS_PROP_JNDI_PREFIX, "java:/");
   }
 
   private String getJNDI_JMSPrefix() {

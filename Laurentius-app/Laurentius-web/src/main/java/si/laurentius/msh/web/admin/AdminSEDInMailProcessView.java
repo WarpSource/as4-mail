@@ -15,9 +15,9 @@
 package si.laurentius.msh.web.admin;
 
 import java.util.List;
-import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import jakarta.ejb.EJB;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.interfaces.PModeInterface;

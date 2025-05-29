@@ -15,8 +15,8 @@
 package si.laurentius.commons.interfaces;
 
 import java.io.Serializable;
-import javax.ejb.Local;
-import javax.jms.JMSException;
+import jakarta.ejb.Local;
+import jakarta.jms.JMSException;
 import javax.naming.NamingException;
 
 /**

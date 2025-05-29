@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -24,8 +24,8 @@
                                 autoUpdate="true"
                                 showDetail="true" />
 
-                    <p:layout id="pnlProgress" style="min-width:300px;height:100px;">
-                        <p:layoutUnit position="center"  >
+                    <div id="pnlProgress" style="min-width:300px;height:100px;">
+                        <div position="center"  >
                             <p:outputLabel value="#{dialogProgress.title}" />
 
                             <p:progressBar widgetVar="dlgPrgBar" 
@@ -37,10 +37,10 @@
                                         />
 
                             </p:progressBar>
-                        </p:layoutUnit>
+                        </div>
 
 
-                        <p:layoutUnit position="south"  size="40" minSize="40" maxSize="40" >
+                        <div position="south"  size="40" minSize="40" maxSize="40" >
                             <p:toolbar 
                                 styleClass="dialogButtonBar" >
                                 <f:facet name="right"  >
@@ -53,8 +53,8 @@
                                                      />                                                                         
                                 </f:facet>
                             </p:toolbar>
-                        </p:layoutUnit>
-                    </p:layout>
+                        </div>
+                    </div>
                 </h:form>
             </p:dialog>
         </composite:implementation>

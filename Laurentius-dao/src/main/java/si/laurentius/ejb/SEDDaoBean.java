@@ -1,12 +1,12 @@
 /*
  * Copyright 2016, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,58 +14,20 @@
  */
 package si.laurentius.ejb;
 
-import java.io.File;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
-import javax.xml.bind.JAXBException;
-import si.laurentius.msh.inbox.event.MSHInEvent;
-import si.laurentius.msh.inbox.mail.MSHInMail;
-import si.laurentius.msh.outbox.event.MSHOutEvent;
-import si.laurentius.msh.outbox.mail.MSHOutMail;
-import si.laurentius.cron.SEDTaskExecution;
-import si.laurentius.commons.enums.SEDInboxMailStatus;
+import jakarta.ejb.*;
+import jakarta.jms.Queue;
+import jakarta.jms.*;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
+import jakarta.xml.bind.JAXBException;
 import si.laurentius.commons.SEDJNDI;
-import si.laurentius.commons.enums.SEDOutboxMailStatus;
 import si.laurentius.commons.SEDSystemProperties;
-import static si.laurentius.commons.SEDSystemProperties.SYS_PROP_JNDI_JMS_PREFIX;
-import static si.laurentius.commons.SEDSystemProperties.SYS_PROP_JNDI_PREFIX;
-import si.laurentius.commons.enums.SEDTaskStatus;
 import si.laurentius.commons.SEDValues;
-import si.laurentius.commons.enums.MimeValue;
-import si.laurentius.commons.enums.SEDMailPartSource;
+import si.laurentius.commons.enums.*;
 import si.laurentius.commons.exception.PModeException;
 import si.laurentius.commons.exception.StorageException;
 import si.laurentius.commons.interfaces.JMSManagerInterface;
@@ -75,13 +37,32 @@ import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
 import si.laurentius.commons.utils.Utils;
 import si.laurentius.commons.utils.xml.XMLUtils;
+import si.laurentius.cron.SEDTaskExecution;
 import si.laurentius.lce.DigestUtils;
+import si.laurentius.msh.inbox.event.MSHInEvent;
+import si.laurentius.msh.inbox.mail.MSHInMail;
 import si.laurentius.msh.inbox.payload.MSHInPart;
+import si.laurentius.msh.outbox.event.MSHOutEvent;
+import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.msh.outbox.payload.MSHOutPart;
 import si.laurentius.msh.pmode.PMode;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import java.io.File;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.math.BigInteger;
+import java.util.*;
+
+import static si.laurentius.commons.SEDSystemProperties.SYS_PROP_JNDI_JMS_PREFIX;
+import static si.laurentius.commons.SEDSystemProperties.SYS_PROP_JNDI_PREFIX;
+
+import java.lang.IllegalStateException;
+
 /**
- *
  * @author Jože Rihtaršič
  */
 @Stateless
@@ -119,7 +100,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     protected Queue mqMSHQueue = null;
 
     /**
-     *
      * @param <T>
      * @param o
      * @return
@@ -148,8 +128,8 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public boolean addInMailPayload(MSHInMail mail, List<MSHInPart> lstParts,
-            SEDInboxMailStatus status, String statusdesc, String userId,
-            String applicationId) throws StorageException {
+                                    SEDInboxMailStatus status, String statusdesc, String userId,
+                                    String applicationId) throws StorageException {
         // persits parts
         long l = LOG.logStart();
         boolean suc = false;
@@ -213,8 +193,8 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public boolean addOutMailPayload(MSHOutMail mail, List<MSHOutPart> lstParts,
-            SEDOutboxMailStatus status, String statusdesc, String userId,
-            String applicationId) throws StorageException {
+                                     SEDOutboxMailStatus status, String statusdesc, String userId,
+                                     String applicationId) throws StorageException {
 
         return updateOutMailPayload(mail, lstParts, Collections.emptyList(),
                 Collections.emptyList(), status,
@@ -224,10 +204,10 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public boolean updateOutMailPayload(MSHOutMail mail,
-            List<MSHOutPart> lstAddParts, List<MSHOutPart> lstUpdateParts,
-            List<MSHOutPart> lstDeleteParts,
-            SEDOutboxMailStatus status, String statusdesc, String userId,
-            String applicationId) throws StorageException {
+                                        List<MSHOutPart> lstAddParts, List<MSHOutPart> lstUpdateParts,
+                                        List<MSHOutPart> lstDeleteParts,
+                                        SEDOutboxMailStatus status, String statusdesc, String userId,
+                                        String applicationId) throws StorageException {
         // persits parts
         long l = LOG.logStart();
         boolean suc = false;
@@ -295,7 +275,7 @@ public class SEDDaoBean implements SEDDaoInterface {
         // persist mail event
         MSHOutEvent me = new MSHOutEvent();
         me.setMailId(mail.getId());
-        me.setSenderMessageId(mail.getSenderMessageId());
+       // me.setSenderMessageId(mail.getSenderMessageId());
         me.setDescription(statusdesc + " " + strMsg);
         me.setStatus(mail.getStatus());
         me.setDate(mail.getStatusDate());
@@ -318,7 +298,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param ad
      * @return
      */
@@ -360,7 +339,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param searchParams
@@ -370,8 +348,8 @@ public class SEDDaoBean implements SEDDaoInterface {
      * @return
      */
     protected <T, D> CriteriaQuery createSearchCriteria(Class<T> type,
-            Object searchParams, Class<D> filterType,
-            boolean forCount, String sortField, String sortOrder) {
+                                                        Object searchParams, Class<D> filterType,
+                                                        boolean forCount, String sortField, String sortOrder) {
         long l = LOG.logStart();
         CriteriaBuilder cb = memEManager.getCriteriaBuilder();
         CriteriaQuery cq = forCount ? cb.createQuery(Long.class
@@ -460,7 +438,7 @@ public class SEDDaoBean implements SEDDaoInterface {
                             lstPredicate.add(cb.equal(om.get(fieldName), searchValue));
                         } else {
                             LOG.formatedWarning("Unknown search value type %s for method %s! "
-                                    + "Parameter is ignored!",
+                                            + "Parameter is ignored!",
                                     searchValue, fieldName);
                         }
                     }
@@ -478,7 +456,7 @@ public class SEDDaoBean implements SEDDaoInterface {
 
     @Override
     public <T> List<T> getDataList(Class<T> type, String hql,
-            Map<String, Object> params) {
+                                   Map<String, Object> params) {
         TypedQuery<T> q = memEManager.createQuery(hql, type);
         params.forEach((param, value) -> {
             q.setParameter(param, value);
@@ -487,7 +465,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param startingAt
@@ -499,15 +476,14 @@ public class SEDDaoBean implements SEDDaoInterface {
      */
     @Override
     public <T> List<T> getDataList(Class<T> type, int startingAt, int maxResultCnt,
-            String sortField,
-            String sortOrder, Object filters) {
+                                   String sortField,
+                                   String sortOrder, Object filters) {
 
         return getDataList(type, startingAt, maxResultCnt, sortField, sortOrder,
                 filters, null);
     }
 
     /**
-     *
      * @param <T>
      * @param resultType
      * @param startingAt
@@ -520,9 +496,9 @@ public class SEDDaoBean implements SEDDaoInterface {
      */
     @Override
     public <T, D> List<T> getDataList(Class<T> resultType, int startingAt,
-            int maxResultCnt,
-            String sortField,
-            String sortOrder, Object filters, Class<D> filterType) {
+                                      int maxResultCnt,
+                                      String sortField,
+                                      String sortOrder, Object filters, Class<D> filterType) {
         long l = LOG.logStart(resultType, startingAt, maxResultCnt, sortField,
                 sortOrder,
                 filters);
@@ -548,7 +524,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param filters
@@ -566,7 +541,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param action
      * @param convId
      * @return
@@ -576,9 +550,9 @@ public class SEDDaoBean implements SEDDaoInterface {
         long l = LOG.logStart(action, convId);
         Query q
                 = memEManager.createNamedQuery(
-                        "si.laurentius.msh.inbox.mail.MSHInMail.getByConvIdAndAction",
-                        MSHInMail.class
-                );
+                "si.laurentius.msh.inbox.mail.MSHInMail.getByConvIdAndAction",
+                MSHInMail.class
+        );
         q.setParameter("convId", convId);
         q.setParameter("action", action);
         List<MSHInMail> lst = q.getResultList();
@@ -589,7 +563,7 @@ public class SEDDaoBean implements SEDDaoInterface {
 
     private String getJNDIPrefix() {
 
-        return System.getProperty(SYS_PROP_JNDI_PREFIX, "java:/jboss/");
+        return System.getProperty(SYS_PROP_JNDI_PREFIX, "java:/");
     }
 
     private String getJNDI_JMSPrefix() {
@@ -597,22 +571,21 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param cronId
      * @param type
      * @return
      */
     @Override
     public SEDTaskExecution getLastSuccesfullTaskExecution(BigInteger cronId,
-            String type) {
+                                                           String type) {
         long l = LOG.logStart();
         SEDTaskExecution dt = null;
 
         TypedQuery<SEDTaskExecution> tq
                 = memEManager.createNamedQuery(
-                        "si.laurentius.cron.SEDTaskExecution.getByStatusAndTypeAndCronJobId",
-                        SEDTaskExecution.class
-                );
+                "si.laurentius.cron.SEDTaskExecution.getByStatusAndTypeAndCronJobId",
+                SEDTaskExecution.class
+        );
 
         tq.setParameter(SEDNamedQueries.QUERY_PARAM_STATUS, SEDTaskStatus.SUCCESS.
                 getValue());
@@ -631,7 +604,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param mailId
@@ -650,7 +622,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param mailMessageId - ebms nessage id
@@ -668,7 +639,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param mailMessageId - ebms nessage id
@@ -676,7 +646,7 @@ public class SEDDaoBean implements SEDDaoInterface {
      */
     @Override
     public <T> List<T> getMailBySenderMessageId(Class<T> type,
-            String mailMessageId) {
+                                                String mailMessageId) {
         long l = LOG.logStart(type, mailMessageId);
         TypedQuery<T> tq = memEManager.createNamedQuery(
                 type.getName() + ".getBySenderMessageId", type);
@@ -687,7 +657,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param mailId
@@ -705,7 +674,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param type
      * @param mailId
@@ -723,7 +691,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param bi
      * @throws StorageException
      */
@@ -737,7 +704,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param <E>
      * @param type
@@ -774,7 +740,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param bi
      * @throws StorageException
      */
@@ -790,9 +755,9 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void sendOutMessage(MSHOutMail mail, int retry, long delay,
-            int iPriority,
-            String userId,
-            String applicationId)
+                               int iPriority,
+                               String userId,
+                               String applicationId)
             throws StorageException {
         long l = LOG.logStart();
 
@@ -807,9 +772,9 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public Date sendOutMessage(BigInteger id, SEDOutboxMailStatus status,
-            int retry, long delay, int iPriority,
-            String userId,
-            String applicationId)
+                               int retry, long delay, int iPriority,
+                               String userId,
+                               String applicationId)
             throws StorageException {
         long l = LOG.logStart();
 
@@ -842,25 +807,25 @@ public class SEDDaoBean implements SEDDaoInterface {
             throw new StorageException(msg, ex);
         }
 
-        Message message = null;
-        try ( Session session = connection.createSession(true,
-                Session.SESSION_TRANSACTED);  MessageProducer sender = session.createProducer(mqMSHQueue);) {
+        Message message;
+        try (Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
+             MessageProducer sender = session.createProducer(mqMSHQueue)) {
 
             message = session.createMessage();
             message.setLongProperty(SEDValues.EBMS_QUEUE_PARAM_MAIL_ID,
                     id.longValue());
             // problem for duplicate detection on resending 
             //message.setStringProperty(SEDValues.EBMS_QUEUE_DUPLICATE_DETECTION_ID_Artemis,  mail.getId().toString());
-            
+
             // avoiding XA transaction (slow and not well supported by some DB)
             // just delay delivery for 2 seconds.
-            long offsetDelay=2L * 1000;
-            
+            long offsetDelay = 2L * 1000;
+
             message.setIntProperty(SEDValues.EBMS_QUEUE_PARAM_RETRY, retry);
             message.setLongProperty(SEDValues.EBMS_QUEUE_PARAM_DELAY, delay);
             message.setLongProperty(SEDValues.EBMS_QUEUE_DELAY_AMQ, delay + offsetDelay);
             message.setLongProperty(SEDValues.EBMS_QUEUE_DELAY_Artemis,
-                    delay + System.currentTimeMillis() +offsetDelay);
+                    delay + System.currentTimeMillis() + offsetDelay);
 
             Query updq = memEManager.createNamedQuery(SEDNamedQueries.UPDATE_OUTMAIL);
             updq.setParameter("id", id);
@@ -900,7 +865,7 @@ public class SEDDaoBean implements SEDDaoInterface {
 
             String msg
                     = "Error sending mail : '" + id + "'! Err:" + ex.
-                            getMessage();
+                    getMessage();
             LOG.logError(l, msg, ex);
             throw new StorageException(msg, ex);
 
@@ -917,7 +882,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param mail
      * @param applicationId
      * @throws StorageException
@@ -1006,8 +970,8 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void serializeInOutMail(MSHInMail inMail, MSHOutMail outMail,
-            String applicationId,
-            PMode pmode)
+                                   String applicationId,
+                                   PMode pmode)
             throws StorageException {
 
         long l = LOG.logStart();
@@ -1063,7 +1027,7 @@ public class SEDDaoBean implements SEDDaoInterface {
         eventOutMail.setDescription("Mail stored to outbox.");
         eventOutMail.setStatus(outMail.getStatus());
         eventOutMail.setDate(storeDate);
-        eventOutMail.setSenderMessageId(outMail.getSenderMessageId());
+       // eventOutMail.setSenderMessageId(outMail.getSenderMessageId());
         eventOutMail.setUserId("");
         eventOutMail.setApplicationId(applicationId);
 
@@ -1155,9 +1119,9 @@ public class SEDDaoBean implements SEDDaoInterface {
                     mp.setSha256Value(digest);
                     LOG.formatedWarning(
                             "Mail has wrong payload part digest (sender: %s, service %s, senderMessageId: %s, filepart %s) "
-                            + "digest: %s, expected digest %s!",
+                                    + "digest: %s, expected digest %s!",
                             mail.getSenderEBox(), mail.getService(), mail.
-                            getSenderMessageId(), mp.getFilepath(), mp.getSha256Value(),
+                                    getSenderMessageId(), mp.getFilepath(), mp.getSha256Value(),
                             digest);
                 }
 
@@ -1172,7 +1136,7 @@ public class SEDDaoBean implements SEDDaoInterface {
             LOG.formatedWarning(
                     "Serialize mail (sender: %s, service %s, senderMessageId: %s ) with no payload!",
                     mail.getSenderEBox(), mail.getService(), mail.
-                    getSenderMessageId());
+                            getSenderMessageId());
         }
 
     }
@@ -1236,11 +1200,11 @@ public class SEDDaoBean implements SEDDaoInterface {
 
                     LOG.formatedWarning(
                             "Mail has wrong payload part size (sender: %s, service %s, senderMessageId: %s, filepart %s). New value setted!"
-                            + "expected size from payload: %d, file size %d!",
+                                    + "expected size from payload: %d, file size %d!",
                             mail.getSenderEBox(), mail.getService(), mail.
-                            getSenderMessageId(), mp.getEbmsId(),
+                                    getSenderMessageId(), mp.getEbmsId(),
                             mp.getSize() == null ? 0 : mp.
-                            getSize().longValue(), f.length());
+                                    getSize().longValue(), f.length());
                     mp.setSize(BigInteger.valueOf(f.length()));
                 }
 
@@ -1251,9 +1215,9 @@ public class SEDDaoBean implements SEDDaoInterface {
                     mp.setSha256Value(digest);
                     LOG.formatedWarning(
                             "Mail has wrong payload part digest (sender: %s, service %s, senderMessageId: %s, filepart %s) "
-                            + "digest: %s, expected digest %s!",
+                                    + "digest: %s, expected digest %s!",
                             mail.getSenderEBox(), mail.getService(), mail.
-                            getSenderMessageId(), mp.getFilepath(), mp.getSha256Value(),
+                                    getSenderMessageId(), mp.getFilepath(), mp.getSha256Value(),
                             digest);
                 }
 
@@ -1268,7 +1232,7 @@ public class SEDDaoBean implements SEDDaoInterface {
             LOG.formatedWarning(
                     "Serialize mail (sender: %s, service %s, senderMessageId: %s ) with no payload!",
                     mail.getSenderEBox(), mail.getService(), mail.
-                    getSenderMessageId());
+                            getSenderMessageId());
         }
         LOG.logEnd(l);
 
@@ -1302,7 +1266,7 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void serializeOutMail(MSHOutMail mail, String userID,
-            String applicationId, PMode pmode)
+                                 String applicationId, PMode pmode)
             throws StorageException {
         long l = LOG.logStart();
         String locadomain = SEDSystemProperties.getLocalDomain();
@@ -1343,7 +1307,7 @@ public class SEDDaoBean implements SEDDaoInterface {
             me.setMailId(mail.getId());
             me.setStatus(mail.getStatus());
             me.setDate(mail.getStatusDate());
-            me.setSenderMessageId(mail.getSenderMessageId());
+           // me.setSenderMessageId(mail.getSenderMessageId());
             me.setUserId(userID);
             me.setApplicationId(applicationId);
             memEManager.persist(me);
@@ -1366,7 +1330,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1375,13 +1338,12 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status,
-            String desc)
+                                  String desc)
             throws StorageException {
         setStatusToInMail(mail, status, desc, null, null, null, null);
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1392,16 +1354,15 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status,
-            String desc,
-            String userID,
-            String applicationId)
+                                  String desc,
+                                  String userID,
+                                  String applicationId)
             throws StorageException {
         setStatusToInMail(mail, status, desc, userID, applicationId, null, null);
 
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1414,9 +1375,9 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToInMail(MSHInMail mail, SEDInboxMailStatus status,
-            String desc,
-            String userID,
-            String applicationId, String filePath, String mime)
+                                  String desc,
+                                  String userID,
+                                  String applicationId, String filePath, String mime)
             throws StorageException {
         long l = LOG.logStart();
         try {
@@ -1466,9 +1427,9 @@ public class SEDDaoBean implements SEDDaoInterface {
 
     @Transactional
     public Date setStatusToInMail(BigInteger id, SEDInboxMailStatus status,
-            String desc,
-            String userID,
-            String applicationId, String filePath, String mime)
+                                  String desc,
+                                  String userID,
+                                  String applicationId, String filePath, String mime)
             throws StorageException {
         long l = LOG.logStart();
         Date dtStatus = Calendar.getInstance().getTime();
@@ -1518,7 +1479,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1527,13 +1487,12 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc)
+                                   String desc)
             throws StorageException {
         setStatusToOutMail(mail, status, desc, null, null);
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1544,15 +1503,14 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc,
-            String userID, String applicationId)
+                                   String desc,
+                                   String userID, String applicationId)
             throws StorageException {
         setStatusToOutMail(mail, status, desc, userID, applicationId, null, null);
 
     }
 
     /**
-     *
      * @param mail
      * @param status
      * @param desc
@@ -1565,16 +1523,16 @@ public class SEDDaoBean implements SEDDaoInterface {
     @Override
     @Transactional
     public void setStatusToOutMail(MSHOutMail mail, SEDOutboxMailStatus status,
-            String desc,
-            String userID,
-            String applicationId,
-            String filePath,
-            String mime)
+                                   String desc,
+                                   String userID,
+                                   String applicationId,
+                                   String filePath,
+                                   String mime)
             throws StorageException {
         long l = LOG.logStart();
 
-        Date dt = setStatusToOutMail(mail.getId(), mail.getSenderMessageId(), mail.
-                getSentDate(), mail.getReceivedDate(),
+        Date dt = setStatusToOutMail(mail.getId(), mail.
+                        getSentDate(), mail.getReceivedDate(),
                 mail.getDeliveredDate(), status, desc, userID, applicationId,
                 filePath, mime);
 
@@ -1587,14 +1545,14 @@ public class SEDDaoBean implements SEDDaoInterface {
 
     @Override
     @Transactional
-    public Date setStatusToOutMail(BigInteger id, String senderMessageID,
-            Date sentDate,
-            Date receivedDate,
-            Date deliveredDate,
-            SEDOutboxMailStatus status,
-            String desc,
-            String userID,
-            String applicationId, String filePath, String mime)
+    public Date setStatusToOutMail(BigInteger id,
+                                   Date sentDate,
+                                   Date receivedDate,
+                                   Date deliveredDate,
+                                   SEDOutboxMailStatus status,
+                                   String desc,
+                                   String userID,
+                                   String applicationId, String filePath, String mime)
             throws StorageException {
         long l = LOG.logStart();
 
@@ -1632,7 +1590,7 @@ public class SEDDaoBean implements SEDDaoInterface {
                     : (desc.length() > 512 ? desc.substring(0, 508) + "..." : desc));
             me.setStatus(newStatusValue);
             me.setDate(dtStatus);
-            me.setSenderMessageId(senderMessageID);
+           // me.setSenderMessageId(senderMessageID);
             me.setUserId(userID);
             me.setApplicationId(applicationId);
             me.setEvidenceFilepath(filePath);
@@ -1655,7 +1613,7 @@ public class SEDDaoBean implements SEDDaoInterface {
         } catch (SecurityException | IllegalStateException ex) {
             String msg
                     = "Error commiting status to outboxmail: '" + id + "'! Err:" + ex.
-                            getMessage();
+                    getMessage();
             LOG.logError(l, msg, ex);
             throw new StorageException(msg, ex);
         }
@@ -1665,7 +1623,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param <T>
      * @param o
      * @return
@@ -1682,7 +1639,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param ad
      * @return
      */
@@ -1703,7 +1659,6 @@ public class SEDDaoBean implements SEDDaoInterface {
     }
 
     /**
-     *
      * @param mail
      * @param statusDesc
      * @param user

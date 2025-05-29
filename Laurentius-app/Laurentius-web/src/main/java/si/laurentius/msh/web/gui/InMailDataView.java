@@ -1,12 +1,12 @@
 /*
  * Copyright 2016, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,6 +14,35 @@
  */
 package si.laurentius.msh.web.gui;
 
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.jms.JMSException;
+import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import si.laurentius.commons.SEDJNDI;
+import si.laurentius.commons.enums.MimeValue;
+import si.laurentius.commons.enums.SEDInboxMailStatus;
+import si.laurentius.commons.exception.StorageException;
+import si.laurentius.commons.interfaces.JMSManagerInterface;
+import si.laurentius.commons.interfaces.PModeInterface;
+import si.laurentius.commons.interfaces.SEDDaoInterface;
+import si.laurentius.commons.utils.SEDLogger;
+import si.laurentius.commons.utils.StorageUtils;
+import si.laurentius.commons.utils.Utils;
+import si.laurentius.msh.inbox.event.MSHInEvent;
+import si.laurentius.msh.inbox.mail.MSHInMail;
+import si.laurentius.msh.inbox.payload.MSHInPart;
+import si.laurentius.msh.pmode.Action;
+import si.laurentius.msh.pmode.Service;
+import si.laurentius.msh.table.mail.TableInMail;
+import si.laurentius.msh.web.abst.AbstractMailView;
+
+import jakarta.annotation.PostConstruct;
+import javax.naming.NamingException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,40 +51,8 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.jms.JMSException;
-import javax.naming.NamingException;
-import org.primefaces.PrimeFaces;
-import si.laurentius.msh.inbox.event.MSHInEvent;
-import si.laurentius.msh.inbox.mail.MSHInMail;
-import si.laurentius.msh.inbox.payload.MSHInPart;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import si.laurentius.commons.enums.MimeValue;
-import si.laurentius.commons.enums.SEDInboxMailStatus;
-import si.laurentius.commons.SEDJNDI;
-import si.laurentius.commons.exception.StorageException;
-import si.laurentius.commons.interfaces.JMSManagerInterface;
-import si.laurentius.commons.interfaces.PModeInterface;
-import si.laurentius.commons.interfaces.SEDDaoInterface;
-import si.laurentius.commons.utils.SEDLogger;
-import si.laurentius.commons.utils.StorageUtils;
-import si.laurentius.commons.utils.Utils;
-import si.laurentius.msh.outbox.event.MSHOutEvent;
-import si.laurentius.msh.outbox.mail.MSHOutMail;
-import si.laurentius.msh.pmode.Action;
-import si.laurentius.msh.pmode.Service;
-import si.laurentius.msh.table.mail.TableInMail;
-import si.laurentius.msh.table.mail.TableOutMail;
-import si.laurentius.msh.web.abst.AbstractMailView;
 
 /**
- *
  * @author Jože Rihtaršič
  */
 @SessionScoped
@@ -83,7 +80,6 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
     }
 
     /**
-     *
      * @param messageBean
      */
     public void setUserSessionData(UserSessionData messageBean) {
@@ -92,7 +88,6 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
     }
 
     /**
-     *
      * @return
      */
     public UserSessionData getUserSessionData() {
@@ -100,7 +95,6 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
     }
 
     /**
-     *
      * @return
      */
     public InMailDataModel getInMailModel() {
@@ -108,7 +102,6 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
     }
 
     /**
-     *
      * @param status
      * @return
      */
@@ -130,7 +123,6 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
     }
 
     /**
-     *
      * @param bi
      * @return
      */
@@ -151,20 +143,24 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
             }
         }
         if (inpart != null) {
-            try {
-                File f = StorageUtils.getFile(inpart.getFilepath());
-                return new DefaultStreamedContent(new FileInputStream(f), inpart.getMimeType(),
-                        inpart.getFilename());
-            } catch (FileNotFoundException ex) {
-                LOG.logError(l, ex);
-                addError("File '" + inpart.getFilepath() + "' reading error: " + ex.getMessage());
-            }
+            File f = StorageUtils.getFile(inpart.getFilepath());
+            return DefaultStreamedContent.builder()
+                    .contentType(inpart.getMimeType())
+                    .name(inpart.getFilename())
+                    .stream(() -> {
+                        try {
+                            return new FileInputStream(f);
+                        } catch (FileNotFoundException ex) {
+                            LOG.logError(l, ex);
+                            addError("File '" + f.getName() + "' reading error: " + ex.getMessage());
+                            return null;
+                        }
+                    }).build();
         }
         return null;
     }
 
     /**
-     *
      * @param filePath
      * @return
      */
@@ -173,20 +169,25 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
         long l = LOG.logStart();
         File f = StorageUtils.getFile(filePath);
         if (f.exists()) {
-            try {
-                return new DefaultStreamedContent(new FileInputStream(f), MimeValue.getMimeTypeByFileName(
-                        f.getName()),
-                        f.getName());
-            } catch (FileNotFoundException ex) {
-                LOG.logError(l, ex);
-            }
+            return DefaultStreamedContent.builder()
+                    .contentType(MimeValue.
+                            getMimeTypeByFileName(f.getName()))
+                    .name(f.getName())
+                    .stream(() -> {
+                        try {
+                            return new FileInputStream(f);
+                        } catch (FileNotFoundException ex) {
+                            LOG.logError(l, ex);
+                            addError("File '" + f.getName() + "' reading error: " + ex.getMessage());
+                            return null;
+                        }
+                    }).build();
         }
         LOG.formatedWarning("Event file '%s' not found ", filePath);
         return null;
     }
 
     /**
-     *
      * @return
      */
     public List<SEDInboxMailStatus> getInStatuses() {
@@ -236,7 +237,7 @@ public class InMailDataView extends AbstractMailView<TableInMail, MSHInMail, MSH
         PrimeFaces.current().executeScript("PF('blockMainPanel').hide();");
         LOG.logEnd(l);
     }
-    
+
     public void exportSelectedMail() {
         long l = LOG.logStart();
         if (getSelected() != null && !getSelected().isEmpty()) {

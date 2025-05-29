@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
 import si.laurentius.commons.interfaces.SEDDaoInterface;
 import si.laurentius.msh.web.gui.UserSessionData;
@@ -114,18 +115,9 @@ public abstract class AbstractMailDataModel<T> extends LazyDataModel<T> {
     return this.messageBean;
   }
 
-  /**
-   *
-   * @param startingAt
-   * @param maxPerPage
-   * @param sortField
-   * @param sortOrder
-   * @param filters
-   * @return
-   */
+
   @Override
-  public List<T> load(int startingAt, int maxPerPage, String sortField, SortOrder sortOrder,
-      Map<String, FilterMeta> filters) {
+  public List<T> load(int startingAt, int maxPerPage, Map<String, SortMeta > sortFields, Map<String, FilterMeta> filters) {
     String strSortOrder = "DESC";
     // validate data
     Object filterObject = externalFilters();
@@ -133,7 +125,7 @@ public abstract class AbstractMailDataModel<T> extends LazyDataModel<T> {
     setRowCount((int) l);
     
     
-    mDataList = getData(startingAt, maxPerPage, sortField, sortOrder, filterObject);
+    mDataList = getData(startingAt, maxPerPage, null, null, filterObject);
     
 
     setPageSize(maxPerPage);
@@ -150,5 +142,8 @@ public abstract class AbstractMailDataModel<T> extends LazyDataModel<T> {
     mDB = db;
     this.messageBean = messageBean;
   }
-
+  @Override
+  public int count(Map<String, FilterMeta> map) {
+    return 0;
+  }
 }

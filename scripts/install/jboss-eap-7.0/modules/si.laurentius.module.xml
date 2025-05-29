@@ -10,10 +10,10 @@
     <dependencies>
         <module name="javax.annotation.api"/>
         <module name="javax.api"/>	
-        <module name="javax.ejb.api"/>
-        <module name="javax.jws.api" />
-        <module name="javax.mail.api"/>
-        <module name="javax.jms.api"/>
+        <module name="jakarta.ejb.api"/>
+        <module name="jakarta.jws.api" />
+        <module name="jakarta.mail.api"/>
+        <module name="jakarta.jms.api"/>
         <module name="javax.xml.soap.api"/>
         <module name="javax.xml.ws.api"/>
         <module name="org.apache.cxf"/>

@@ -18,11 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.*;
 import si.laurentius.cert.crl.SEDCertCRL;
 import si.laurentius.commons.utils.SEDLogger;
 
@@ -86,6 +83,7 @@ public class CRLVerifierTest {
    * Test of downloadCRL method, of class CRLVerifier.
    */
   @Test
+  @Ignore ("Not available anymore")
   public void test_B_DownloadCRL_HTTP()
           throws Exception {
     Assume.assumeTrue(networkConnected());
@@ -105,6 +103,7 @@ public class CRLVerifierTest {
    * Test of downloadCRL method, of class CRLVerifier.
    */
   @Test
+  @Ignore ("Not available anymore")
   public void test_B_DownloadCRL_LDAP()
           throws Exception {
     Assume.assumeTrue(networkConnected());

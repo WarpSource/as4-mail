@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
 
     <name>Laurentius-examples</name>
-    <url>www.sodisce.si</url>
     <organization>
         <name>Supreme Court Republic of Slovenia</name>
         <url>http://www.sodisce.si/</url>
@@ -31,7 +30,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
             <organization>Supreme Court Republic of Slovenia</organization>
             <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>

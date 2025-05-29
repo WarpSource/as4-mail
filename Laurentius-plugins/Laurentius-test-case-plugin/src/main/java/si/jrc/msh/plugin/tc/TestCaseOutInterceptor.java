@@ -15,10 +15,10 @@
 package si.jrc.msh.plugin.tc;
 
 import java.util.Properties;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;

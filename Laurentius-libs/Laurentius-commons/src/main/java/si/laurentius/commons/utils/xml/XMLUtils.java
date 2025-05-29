@@ -1,12 +1,12 @@
 /*
  * Copyright 2015, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,51 +14,11 @@
  */
 package si.laurentius.commons.utils.xml;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.io.Writer;
-import static java.lang.Boolean.TRUE;
-import static java.lang.System.out;
-import static java.util.logging.Level.SEVERE;
-import static java.util.logging.Logger.getLogger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
-import static javax.xml.bind.Marshaller.JAXB_FRAGMENT;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.util.JAXBResult;
-import javax.xml.bind.util.JAXBSource;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.ParserConfigurationException;
-import static javax.xml.transform.OutputKeys.INDENT;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPPart;
+import jakarta.xml.bind.*;
+import jakarta.xml.bind.util.JAXBResult;
+import jakarta.xml.bind.util.JAXBSource;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -72,8 +32,30 @@ import si.laurentius.commons.exception.StorageException;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StorageUtils;
 
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.*;
+
+import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
+import static jakarta.xml.bind.Marshaller.JAXB_FRAGMENT;
+import static java.lang.Boolean.TRUE;
+import static java.lang.System.out;
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Logger.getLogger;
+import static javax.xml.transform.OutputKeys.INDENT;
+
 /**
- *
  * @author Joze Rihtarsic <joze.rihtarsic@sodisce.si>
  */
 public class XMLUtils {
@@ -168,7 +150,7 @@ public class XMLUtils {
     }
 
     public static TransformerFactory getSafeTransformerFactory() {
-        TransformerFactory transformerFactory =  DOC_TRANSFORMER_FACTORY.get();
+        TransformerFactory transformerFactory = DOC_TRANSFORMER_FACTORY.get();
         try {
             transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         } catch (IllegalArgumentException e) {
@@ -190,7 +172,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param xml
      * @return
      * @throws SAXException
@@ -206,7 +187,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param fXMLFilePath
      * @param cls
      * @return
@@ -219,7 +199,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param xml
      * @param cls
      * @return
@@ -232,7 +211,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param io
      * @param cls
      * @return
@@ -245,7 +223,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param elmnt
      * @param cls
      * @return
@@ -258,7 +235,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param elmnt
      * @param xsltSource
      * @param cls
@@ -268,8 +244,8 @@ public class XMLUtils {
      * @throws TransformerException
      */
     public static synchronized Object deserialize(Element elmnt,
-            InputStream xsltSource,
-            Class cls)
+                                                  InputStream xsltSource,
+                                                  Class cls)
             throws TransformerConfigurationException, JAXBException, TransformerException {
         Object obj = null;
         JAXBContext jc = JAXBContext.newInstance(cls);
@@ -287,7 +263,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param source
      * @param xsltSource
      * @param cls
@@ -297,8 +272,8 @@ public class XMLUtils {
      * @throws TransformerException
      */
     public static synchronized Object deserialize(InputStream source,
-            InputStream xsltSource,
-            Class cls)
+                                                  InputStream xsltSource,
+                                                  Class cls)
             throws TransformerConfigurationException, JAXBException, TransformerException {
         Object obj = null;
         JAXBContext jc = JAXBContext.newInstance(cls);
@@ -316,7 +291,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param xmlIS
      * @return
      * @throws IOException
@@ -332,7 +306,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param xmlFile
      * @return
      * @throws IOException
@@ -343,14 +316,13 @@ public class XMLUtils {
             throws IOException,
             ParserConfigurationException, SAXException {
         Document doc = null;
-        try ( FileInputStream fis = new FileInputStream(xmlFile)) {
+        try (FileInputStream fis = new FileInputStream(xmlFile)) {
             doc = deserializeToDom(fis);
         }
         return doc;
     }
 
     /**
-     *
      * @param xml
      * @return
      * @throws IOException
@@ -364,7 +336,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param source
      * @param xsltSource
      * @return
@@ -376,7 +347,7 @@ public class XMLUtils {
      * @throws IOException
      */
     public static synchronized Document deserializeToDom(InputStream source,
-            InputStream xsltSource)
+                                                         InputStream xsltSource)
             throws TransformerConfigurationException, JAXBException, TransformerException,
             ParserConfigurationException, SAXException, IOException {
         Document obj;
@@ -395,7 +366,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param unformattedXml
      * @return
      */
@@ -417,7 +387,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param source
      * @param xsltSource
      * @return
@@ -426,7 +395,7 @@ public class XMLUtils {
      * @throws TransformerException
      */
     public static synchronized String getElementValue(InputStream source,
-            InputStream xsltSource)
+                                                      InputStream xsltSource)
             throws TransformerConfigurationException, JAXBException, TransformerException {
         Transformer transformer = getSafeTransformerFactory().newTransformer(new StreamSource(xsltSource));
         StringWriter sw = new StringWriter();
@@ -436,7 +405,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @return
      * @throws JAXBException
@@ -455,7 +423,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @return
      * @throws JAXBException
@@ -468,7 +435,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @param os
      * @throws JAXBException
@@ -482,7 +448,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @param filename
      * @throws JAXBException
@@ -499,7 +464,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @param file
      * @throws JAXBException
@@ -515,7 +479,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @param w
      * @throws JAXBException
@@ -531,7 +494,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @throws JAXBException
      */
@@ -544,7 +506,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param obj
      * @return
      * @throws JAXBException
@@ -561,7 +522,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param rootElement
      * @param setXmlDecl
      * @return
@@ -569,8 +529,8 @@ public class XMLUtils {
     public static String serializeToString(Element rootElement, boolean setXmlDecl) {
         DOMImplementationLS lsImpl
                 = (DOMImplementationLS) rootElement.getOwnerDocument().
-                        getImplementation()
-                        .getFeature("LS", "3.0");
+                getImplementation()
+                .getFeature("LS", "3.0");
         LSSerializer serializer = lsImpl.createLSSerializer();
         serializer.getDomConfig().setParameter("xml-declaration", setXmlDecl); // set it to false to get
         // String without
@@ -582,7 +542,7 @@ public class XMLUtils {
             throws FileNotFoundException {
         DOMImplementationLS lsImpl
                 = (DOMImplementationLS) doc.getImplementation()
-                        .getFeature("LS", "3.0");
+                .getFeature("LS", "3.0");
         LSSerializer serializer = lsImpl.createLSSerializer();
         serializer.getDomConfig().setParameter("xml-declaration", setXmlDecl); // set it to false to get
 
@@ -618,7 +578,6 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param source
      * @param xsltSource
      * @return
@@ -630,7 +589,7 @@ public class XMLUtils {
      * @throws IOException
      */
     public static synchronized Document transform(Element source,
-            InputStream xsltSource)
+                                                  InputStream xsltSource)
             throws TransformerConfigurationException, JAXBException, TransformerException,
             ParserConfigurationException, SAXException, IOException {
         Document obj = null;
@@ -644,7 +603,7 @@ public class XMLUtils {
     }
 
     public static synchronized void transform(Document source,
-            InputStream xsltSource, File fileResult)
+                                              InputStream xsltSource, File fileResult)
             throws TransformerConfigurationException, JAXBException, TransformerException,
             ParserConfigurationException, SAXException, IOException {
 
@@ -655,14 +614,13 @@ public class XMLUtils {
     }
 
     /**
-     *
      * @param jabxObj
      * @param schXsd
      * @param xsdResourceFolder
      * @return
      */
     public static String validateBySchema(Object jabxObj, InputStream schXsd,
-            String xsdResourceFolder) {
+                                          String xsdResourceFolder) {
         String res = "";
         try {
             JAXBContext jbc = JAXBContext.newInstance(jabxObj.getClass());
@@ -676,20 +634,19 @@ public class XMLUtils {
     }
 
     public static String validateBySchemaInputStream(InputStream xmlStream,
-            InputStream schXsd, String xsdResourceFolder) {
+                                                     InputStream schXsd, String xsdResourceFolder) {
         Source xml = new StreamSource(xmlStream);
         return validateBySchema(xml, schXsd, xsdResourceFolder);
     }
 
     /**
-     *
      * @param xml
      * @param schXsd
      * @param xsdResourceFolder
      * @return
      */
     public static String validateBySchema(Source xml, InputStream schXsd,
-            String xsdResourceFolder) {
+                                          String xsdResourceFolder) {
         StringWriter sw = new StringWriter();
         try {
             SchemaErrorHandler se = new SchemaErrorHandler();

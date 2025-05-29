@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query name="si.laurentius.cert.SEDCertPassword.getAll">
+        <query><![CDATA[SELECT p FROM SEDCertPassword p]]></query>
+    </named-query>
+    <named-query name="si.laurentius.cert.SEDCertPassword.getByAlias">
+        <query><![CDATA[SELECT p FROM SEDCertPassword p where p.alias=:alias]]></query>
+    </named-query>
+    <entity class="si.laurentius.cert.SEDCertPassword" access="FIELD">
+        <table name="LAU_CERT_PASSWD">
+        </table>
+        <attributes>
+            <id name="alias">
+                <column name="ALIAS" length="64"/>
+            </id>
+            <basic name="password">
+                <column name="PASSWORD" length="512"/>
+            </basic>
+            <basic name="keyPassword">
+                <column name="KEY_PASSWORD"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+<!-- ?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>    
+    <class name="si.laurentius.cert.SEDCertPassword" table="LAU_CERT_PASSWD">
+        <id column="ALIAS" name="Alias" type="java.lang.String" length="64"/>
+        <property column="PASSWORD" name="Password" type="java.lang.String" length="64" />  
+        <property column="KEY_PASSWORD" name="KeyPassword" type="java.lang.Boolean" />
+    </class>
+    <query name="si.laurentius.cert.SEDCertPassword.getAll" ><![CDATA[SELECT p FROM SEDCertPassword p]]></query>
+    <query name="si.laurentius.cert.SEDCertPassword.getByAlias" ><![CDATA[SELECT p FROM SEDCertPassword p where p.Alias=:alias]]></query>
+</hibernate-mapping -->

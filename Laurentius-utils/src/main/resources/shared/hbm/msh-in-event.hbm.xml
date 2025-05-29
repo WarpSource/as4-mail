@@ -21,7 +21,7 @@
     </class>    
     
     <sql-query name="si.laurentius.msh.inbox.event.MSHInEvent.getList">
-        <return class="si.laurentius.msh.inbox.event.MSHInEvent" />	
+        <return alias="event" class="si.laurentius.msh.inbox.event.MSHInEvent" />
    <![CDATA[SELECT 
   ev.id, 
   ev.mail_id, 
@@ -43,14 +43,4 @@ WHERE
     <query name="si.laurentius.msh.inbox.event.MSHInEvent.getMailEventList">
       <![CDATA[from MSHInEvent p where p.MailId = :mailId]]>
     </query>
-    
-    <!-- sql-query name="si.laurentius.msh.inbox.event.MSHInEvent.getMailEventList">
-        <return class="si.laurentius.msh.inbox.event.MSHInEvent" />	
-   <![CDATA[SELECT 
-  ev.*
-FROM 
-  lau_inbox_event ev
-WHERE ev.mail_id = :mailId  
-  order by id desc]]>
-    </sql-query -->
 </hibernate-mapping>

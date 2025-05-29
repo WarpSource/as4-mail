@@ -13,7 +13,7 @@
         <property column="TYPE" name="Type"  length="64" type="java.lang.String"/>
         <property column="PLUGIN" name="Plugin"  length="64" type="java.lang.String"/>
         <property column="PLUGIN_VERSION" name="PluginVersion"  length="32" type="java.lang.String"/>   
-        <bag name="sedProcessorProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+        <bag name="SEDProcessorProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
             <key not-null="true">
                 <column name="PROCESSOR_INSTANCE_ID" scale="0" />
             </key>
@@ -44,13 +44,13 @@
         <property column="ACTIVE" name="Active"   type="java.lang.Boolean"/>
         <property column="SET_DELIVERED_ON_SUCCESS" name="DeliveredOnSuccess"   type="java.lang.Boolean"/>
         
-        <bag name="sedProcessorRules"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+        <bag name="SEDProcessorRules"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
             <key not-null="true">
                 <column name="PROCESSOR_ID" scale="0" />
             </key>
             <one-to-many class="si.laurentius.process.SEDProcessorRule" />
         </bag>
-        <list name="sedProcessorInstances" access="field" cascade="all, delete-orphan" lazy="false" >
+        <list name="SEDProcessorInstances" access="field" cascade="all, delete-orphan" lazy="false" >
             <key column="PROCESSOR_ID" />
             <list-index column="IDX"/>
             <one-to-many class="si.laurentius.process.SEDProcessorInstance"/>

@@ -15,7 +15,7 @@
 package si.laurentius.commons.interfaces;
 
 import java.io.File;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import si.laurentius.commons.exception.StorageException;
 
 /**

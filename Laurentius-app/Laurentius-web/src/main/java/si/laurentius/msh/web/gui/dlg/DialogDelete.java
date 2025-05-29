@@ -1,8 +1,8 @@
 package si.laurentius.msh.web.gui.dlg;
 
 import java.io.Serializable;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 import org.primefaces.PrimeFaces;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.msh.web.abst.AbstractAdminJSFView;

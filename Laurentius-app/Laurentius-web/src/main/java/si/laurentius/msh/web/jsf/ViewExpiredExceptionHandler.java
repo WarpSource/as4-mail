@@ -17,12 +17,12 @@ package si.laurentius.msh.web.jsf;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-import javax.faces.FacesException;
-import javax.faces.context.ExceptionHandler;
-import javax.faces.context.ExceptionHandlerWrapper;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ExceptionQueuedEvent;
+import jakarta.faces.FacesException;
+import jakarta.faces.context.ExceptionHandler;
+import jakarta.faces.context.ExceptionHandlerWrapper;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ExceptionQueuedEvent;
 import si.laurentius.commons.utils.SEDLogger;
 
 /**

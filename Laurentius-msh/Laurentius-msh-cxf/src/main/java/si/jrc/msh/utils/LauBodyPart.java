@@ -5,8 +5,8 @@
  */
 package si.jrc.msh.utils;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeBodyPart;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeBodyPart;
 
 /**
  *

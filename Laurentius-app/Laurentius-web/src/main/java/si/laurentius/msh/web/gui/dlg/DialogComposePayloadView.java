@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.math.BigInteger;
 import si.laurentius.msh.web.pmode.*;
 import java.util.List;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import si.laurentius.commons.enums.MimeValue;
@@ -234,7 +234,10 @@ public class DialogComposePayloadView extends AbstractPModeJSFView<MSHOutPart> {
   }
   
   public boolean showLaurentiusProperties(){
-    return dialogCompose.showLaurentiusProperties();
+    // todo
+    //return dialogCompose.showLaurentiusProperties();
+    // fix
+    return false;
   }
   
   

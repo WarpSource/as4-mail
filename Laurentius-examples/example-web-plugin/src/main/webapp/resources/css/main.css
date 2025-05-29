@@ -1,4 +1,10 @@
-.ui-datatable-scrollable-body, 
+.calendarInputStyle{
+    width: 120px;
+}
+
+
+
+.ui-datatable-scrollable-body,
 .ui-accordion-content {
     background: #cdcfcf;
     background: -webkit-linear-gradient(bottom right,  #cdcfcf, #bdbfcf);
@@ -11,11 +17,11 @@
 h1 {
     padding: 0;
     margin: 0;
-    background: gray; 
-    color: white; 
+    background: gray;
+    color: white;
 }
 
-.ui-widget .ui-layout-unit, 
+.ui-widget .ui-layout-unit,
 .ui-widget .ui-layout-unit-content,
 .ui-tabs .ui-tabs-panel
 {
@@ -56,19 +62,15 @@ h1 {
     color: black!important;
 }
 
-.ui-tabs-panels {
-    height: 100%;
-}
-
 
 /************************************************************************/
 /*Toolbar                                                               */
 /************************************************************************/
 .ui-toolbar, .ui-accordion-header {
-    padding: 0em 0em !important; 
+    padding: 0em 0em !important;
     border: 0px none !important;
     margin:  0em 0em !important;
-    overflow: hidden !important;       
+    overflow: hidden !important;
     vertical-align: middle;
 }
 
@@ -86,10 +88,10 @@ h1 {
 /************************************************************************/
 
 .ui-datatable .ui-datatable-header,
-.ui-datatable .ui-datatable-footer, 
+.ui-datatable .ui-datatable-footer,
 .ui-datatable tbody td {
     text-align:left;
-    padding: 1px 2px;    
+    padding: 1px 2px;
     margin: 0;
     font-size: 100% !important;
 }
@@ -98,13 +100,13 @@ h1 {
 
 
 .ui-datatable-odd {
-    background: #ffffff;    
-    padding:1px 1px;  
+    background: #ffffff;
+    padding:1px 1px;
 }
 
 .ui-datatable-even {
     background: #D2D5F9;
-    padding:1px 1px;  
+    padding:1px 1px;
 }
 
 
@@ -125,7 +127,7 @@ h1 {
     color:black;
     font-size: 35px;
     line-height: 50px;
-    text-align:left;        
+    text-align:left;
     height:  350px;
 
 
@@ -148,7 +150,7 @@ h1 {
 }
 
 .toolbar-Button {
-    height: 28px;
+    height: 2rem;
 }
 
 .image-Button {
@@ -156,7 +158,6 @@ h1 {
 }
 
 .ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon {
-
     top:0;
     margin:  2px;
     padding: 2px 2px 2px 4px;
@@ -169,22 +170,22 @@ h1 {
 
 
 .ui-diagram-element {
-    border:0.1em dotted #E5E4E2; 
+    border:0.1em dotted #E5E4E2;
     background-color: #EFEEEC;
-    width:100px; 
+    width:100px;
     height:40px;
     text-align: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
 }
 .ui-diagram-seq-line {
-    border: none; 
-    border-top: 0 none white; 
+    border: none;
+    border-top: 0 none white;
     background-color: lightgrey;
-    width:20px; 
+    width:20px;
     height:50px;
     text-align: center;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
-}    
+}
 
 
 .ui-diagram-element:hover {

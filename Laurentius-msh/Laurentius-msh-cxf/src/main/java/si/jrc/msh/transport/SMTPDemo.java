@@ -7,8 +7,8 @@ package si.jrc.msh.transport;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  *

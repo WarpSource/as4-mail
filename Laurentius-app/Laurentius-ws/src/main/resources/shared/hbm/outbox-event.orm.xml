@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+
+    <named-native-query
+            name="si.laurentius.outbox.event.OutEvent.getList"
+            result-class="si.laurentius.outbox.event.OutEvent">
+        <query>
+            <![CDATA[SELECT
+    ev.id,
+    ev.mail_id,
+    ev.status,
+    ev.event_date,
+    ev.description,
+    ev.user_id,
+    ev.application_id
+  FROM
+      lau_outbox_event ev
+      JOIN
+     lau_outbox im
+        on ev.mail_id = im.id
+  WHERE im.sender_ebox = :senderEBox
+    and (ev.mail_id = :mailId or :mailId =-1)
+    order by id asc]]>
+        </query>
+    </named-native-query>
+    <named-native-query
+            name="si.laurentius.outbox.event.OutEvent.getMailEventList"
+            result-class="si.laurentius.outbox.event.OutEvent">
+        <query>
+            <![CDATA[[SELECT
+  ev.*
+FROM
+  lau_outbox_event ev
+WHERE ev.mail_id = :mailId
+  order by id desc]]>
+        </query>
+    </named-native-query>
+
+    <entity class="si.laurentius.outbox.event.OutEvent" access="FIELD">
+        <table name="LAU_OUTBOX_EVENT">
+            <index column-list="MAIL_ID" name="idx_out_event_mail_id"/>
+            <!-- index column-list="SENDER_MSG_ID" name="idx_out_even_send_msg_id"/ -->
+        </table>
+        <sequence-generator name="SequenceOutboxEvent" sequence-name="SEQ_LAU_OUTBOX_EVENT" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceOutboxEvent"/>
+            </id>
+            <basic name="mailId">
+                <column name="MAIL_ID" nullable="false" scale="0"/>
+            </basic>
+            <basic name="description">
+                <column name="DESCRIPTION" length="512"/>
+            </basic>
+            <basic name="userId">
+                <column name="USER_ID" length="64"/>
+            </basic>
+            <basic name="applicationId">
+                <column name="APPLICATION_ID" length="128"/>
+            </basic>
+            <basic name="Status">
+                <column name="STATUS" nullable="false" length="32"/>
+            </basic>
+            <basic name="date">
+                <column name="EVENT_DATE" nullable="false"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+
+        <!-- ?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+        <hibernate-mapping>
+            <class name="si.laurentius.outbox.event.OutEvent"
+                   table="LAU_OUTBOX_EVENT">
+                <id name="Id" type="java.math.BigInteger">
+                    <column name="ID" scale="0"/>
+                    <generator class="sequence">
+                        <param name="sequence_name">SEQ_LAU_OUTBOX_EVENT</param>
+                    </generator>
+                </id>
+                <property column="MAIL_ID" not-null="true" name="MailId" type="java.math.BigInteger" scale="0"
+                          index="idx_out_event_mail_id"/>
+                <property column="SENDER_MSG_ID" name="SenderMessageId" length="64" type="java.lang.String"
+                          index="idx_out_even_send_msg_id"/>
+                <!-- property column="SENDER_EBOX" name="SenderEBox"  length="64" type="java.lang.String" index="idx_out_even_sender_ebox_msg_id" / -- >
+                <property column="STATUS" name="Status" length="32" type="java.lang.String"/>
+                <property column="EVENT_DATE" name="Date" type="java.util.Date"/>
+                <property column="DESCRIPTION" name="Description" length="512" type="java.lang.String"/>
+                <property column="USER_ID" name="UserId" length="64" type="java.lang.String"/>
+                <property column="APPLICATION_ID" name="ApplicationId" length="128" type="java.lang.String"/>
+            </class>
+
+            <sql-query name="si.laurentius.outbox.event.OutEvent.getList">
+                <return alias="event" class="si.laurentius.outbox.event.OutEvent"/>
+                <![CDATA[SELECT
+                        ev.id,
+                        ev.mail_id,
+                        ev.sender_msg_id,
+                        ev.status,
+                        ev.event_date,
+                        ev.description,
+                        ev.user_id,
+                        ev.application_id
+                      FROM
+                          lau_outbox_event ev
+                          JOIN
+                         lau_outbox im
+                            on ev.mail_id = im.id
+                      WHERE im.sender_ebox = :senderEBox
+                        and (ev.mail_id = :mailId or :mailId =-1)
+                        and (ev.sender_msg_id = :senderMessageId or :senderMessageId ='')
+                        order by id asc]]>
+            </sql-query>
+            <sql-query name="si.laurentius.outbox.event.OutEvent.getMailEventList">
+                <return alias="event" class="si.laurentius.outbox.event.OutEvent"/>
+                <![CDATA[SELECT
+          ev.*
+        FROM
+          lau_outbox_event ev
+        WHERE ev.mail_id = :mailId
+          order by id desc]]>
+            </sql-query>
+        </hibernate-mapping  -->

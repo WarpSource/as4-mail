@@ -16,6 +16,8 @@ package si.laurentius.msh.web.gui;
 
 import java.math.BigInteger;
 import java.util.Calendar;
+import java.util.Objects;
+
 import si.laurentius.commons.enums.SEDInboxMailStatus;
 import si.laurentius.commons.enums.SEDOutboxMailStatus;
 import si.laurentius.msh.outbox.mail.MSHOutMail;
@@ -52,8 +54,8 @@ public class OutMailDataModel extends AbstractMailDataModel<TableOutMail> {
    * @return
    */
   @Override
-  public Object getRowKey(TableOutMail inMail) {
-    return inMail.getId();
+  public String getRowKey(TableOutMail inMail) {
+    return Objects.toString(inMail.getId());
   }
 
   /**

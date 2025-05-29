@@ -15,7 +15,7 @@
 package si.jrc.msh.interceptor;
 
 import java.util.Calendar;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.cxf.binding.soap.SoapFault;

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query name="si.laurentius.interceptor.SEDInterceptor.getAll">
+        <query><![CDATA[SELECT p FROM SEDInterceptor p order by id asc]]></query>
+    </named-query>
+    <named-query name="si.laurentius.interceptor.SEDInterceptor.getById">
+        <query><![CDATA[SELECT p FROM SEDInterceptor p WHERE p.id = :id]]></query>
+    </named-query>
+
+    <entity class="si.laurentius.interceptor.SEDInterceptor" access="FIELD">
+        <table name="LAU_INTERCEPTOR" />
+        <sequence-generator name="SequenceInterceptor" sequence-name="SEQ_LAU_INTERCEPTOR" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceInterceptor"/>
+            </id>
+
+            <basic name="name">
+                <column name="NAME" length="512"/>
+            </basic>
+            <basic name="active">
+                <column name="ACTIVE"/>
+            </basic>
+            <basic name="interceptEvent">
+                <column name="INTERCEPT_EVENT" length="32"/>
+            </basic>
+            <basic name="interceptRole">
+                <column name="INTERCEPT_ROLE" length="32"/>
+            </basic>
+            <one-to-many name="SEDInterceptorRules"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="INTERCEPTOR_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+            <embedded name="SEDInterceptorInstance" access="FIELD"/>
+        </attributes>
+    </entity>
+    <entity class="si.laurentius.interceptor.SEDInterceptorRule" access="FIELD">
+        <table name="LAU_INTERC_RULE">
+        </table>
+        <sequence-generator name="SequenceDecisionRule" sequence-name="SEQ_LAU_INTERC_RULE" allocation-size="1"/>
+
+    </entity>
+    <entity class="si.laurentius.interceptor.SEDInterceptorProperty" access="FIELD">
+        <table name="LAU_INTERC_INST_PROPERTY">
+        </table>
+        <sequence-generator name="SequenceInterceptorProperty" sequence-name="SEQ_LAU_INTERC_INST_PROP"
+                            allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceInterceptorProperty"/>
+            </id>
+            <basic name="key">
+                <column name="INTC_PROP_KEY" length="64"/>
+            </basic>
+            <basic name="value">
+                <column name="INTC_PROP_VALUE" length="512"/>
+            </basic>
+        </attributes>
+    </entity>
+    <embeddable class="si.laurentius.interceptor.SEDInterceptorInstance" access="FIELD">
+        <attributes>
+            <basic name="type">
+                <column name="INTERCEPTOR_TYPE" length="64"/>
+            </basic>
+            <basic name="plugin">
+                <column name="INTERCEPTOR_PLUGIN" length="64"/>
+            </basic>
+            <basic name="pluginVersion">
+                <column name="INTERCEPTOR_PLUGIN_VERSION" length="32"/>
+            </basic>
+            <one-to-many name="SEDInterceptorProperties"
+                         fetch="EAGER"
+                         orphan-removal="true"
+                         access="FIELD">
+                <!--order-by>ID ASC</order-by -->
+                <join-column name="INTERCEPTOR_INSTANCE_ID"/>
+                <cascade>
+                    <cascade-all/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </embeddable>
+</entity-mappings>
+        <!-- ?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+        <hibernate-mapping>
+        <class name="si.laurentius.interceptor.SEDInterceptor"
+               table="LAU_INTERCEPTOR">
+            <id name="Id" type="java.math.BigInteger" >
+                <column name="ID" scale="0" />
+                <generator class="sequence">
+                    <param name="sequence_name"> SEQ_LAU_INTERCEPTOR</param>
+                </generator>
+            </id>
+            <property column="NAME" name="Name"  length="128" type="java.lang.String" unique="true"/>
+            <property column="ACTIVE" name="Active"   type="java.lang.Boolean"/>
+            <property column="INTERCEPT_EVENT" name="InterceptEvent"  length="32" type="java.lang.String"/>
+            <property column="INTERCEPT_ROLE" name="InterceptRole"  length="32" type="java.lang.String"/>
+
+
+            <bag name="sedInterceptorRules"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+                <key not-null="true">
+                    <column name="INTERCEPTOR_ID" scale="0" />
+                </key>
+                <one-to-many class="si.laurentius.interceptor.SEDInterceptorRule" />
+            </bag>
+            <component name="SEDInterceptorInstance" class="si.laurentius.interceptor.SEDInterceptorInstance">
+                <property column="INTERCEPTOR_TYPE" name="Type"  length="64" type="java.lang.String"/>
+                <property column="INTERCEPTOR_PLUGIN" name="Plugin"  length="64" type="java.lang.String"/>
+                <property column="INTERCEPTOR_PLUGIN_VERSION" name="PluginVersion"  length="32" type="java.lang.String"/>
+                <bag name="sedInterceptorProperties"  access="field" cascade="all, delete-orphan" lazy="false" order-by="Id asc" >
+                    <key not-null="true">
+                        <column name="INTERCEPTOR_INSTANCE_ID" scale="0" />
+                    </key>
+                    <one-to-many class="si.laurentius.interceptor.SEDInterceptorProperty" />
+                </bag>
+            </component>
+
+        </class>
+        <class name="si.laurentius.interceptor.SEDInterceptorRule" table="LAU_INTERC_RULE">
+            <id name="Id" type="java.math.BigInteger">
+                <column name="ID" scale="0" />
+                <generator class="sequence">
+                    <param name="sequence_name"> SEQ_LAU_INTERC_RULE</param>
+                </generator>
+            </id>
+            <property column="RULE_PROPERTY" name="Property" type="java.lang.String"  length="64" />
+            <property column="RULE_PREDICATE" name="Predicate" type="java.lang.String" length="32" />
+            <property column="RULE_VALUE" name="Value" type="java.lang.String" length="512" />
+        </class>
+        <class name="si.laurentius.interceptor.SEDInterceptorProperty" table="LAU_INTERC_INST_PROPERTY">
+            <id name="Id" type="java.math.BigInteger">
+                <column name="ID" scale="0" />
+                <generator class="sequence">
+                    <param name="sequence_name"> SEQ_LAU_INTERC_INST_PROP</param>
+                </generator>
+            </id>
+            <property column="INTC_PROP_KEY" name="Key" type="java.lang.String"  length="64" />
+            <property column="INTC_PROP_VALUE" name="Value" type="java.lang.String" length="512" />
+        </class>
+        <query name="si.laurentius.interceptor.SEDInterceptor.getById" ><![CDATA[SELECT p FROM SEDInterceptor p WHERE p.Id = :id]]></query>
+        <query name="si.laurentius.interceptor.SEDInterceptor.getAll" ><![CDATA[SELECT p FROM SEDInterceptor p order by id asc]]></query>
+        </hibernate-mapping -->

@@ -16,11 +16,11 @@ package si.laurentius.msh.web.pmode;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import si.laurentius.commons.SEDJNDI;

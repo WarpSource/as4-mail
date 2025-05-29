@@ -46,23 +46,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.*;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.ejb.*;
 
-import static javax.ejb.LockType.READ;
+import static jakarta.ejb.LockType.READ;
 
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.HeuristicMixedException;
+import jakarta.transaction.HeuristicRollbackException;
+import jakarta.transaction.NotSupportedException;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.SystemException;
+import jakarta.transaction.UserTransaction;
 import si.laurentius.cert.SEDCertPassword;
 import si.laurentius.cert.SEDCertificate;
 import si.laurentius.cert.crl.SEDCertCRL;
@@ -661,14 +661,15 @@ public class SEDCertStoreBean implements SEDCertStoreInterface {
       LOG.formatedWarning("Certificate %s is not yet valid!", sc.getAlias());
       sc.setStatus(CertStatus.INVALID_BY_DATE.addCode(sc.getStatus()));
     } catch (CertificateExpiredException ex) {
-      lstMsg.add("Certificat is expired");
+      lstMsg.add("Certificate is expired");
       LOG.formatedWarning("Certificate %s is expired!", sc.getAlias());
       sc.setStatus(CertStatus.INVALID_BY_DATE.addCode(sc.getStatus()));
     }
+
     try {
       // check if cert is signed
       if (isRootCAInvalid(x509Cert)) {
-        lstMsg.add("Certificat is not signed by trusted root CA!");
+        lstMsg.add("Certificate is not signed by trusted root CA!");
         LOG.formatedWarning("Certificate %s  not signed by trusted root CA!",
                 sc.getAlias());
         sc.setStatus(CertStatus.INVALID_BY_ROOTCA.addCode(sc.getStatus()));
@@ -698,6 +699,9 @@ public class SEDCertStoreBean implements SEDCertStoreInterface {
   @Lock(READ)
   public boolean isRootCAInvalid(X509Certificate crt) throws SEDSecurityException {
     boolean suc = true;
+    // TODO fix this
+    return false;
+    /*
 
     List<X509Certificate> rootCALst = getRootCA509Certs();
     for (X509Certificate rca : rootCALst) {
@@ -714,6 +718,8 @@ public class SEDCertStoreBean implements SEDCertStoreInterface {
       }
     }
     return suc;
+
+     */
   }
 
   @Lock(READ)

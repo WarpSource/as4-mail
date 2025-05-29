@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <mapped-superclass class="si.laurentius.msh.mail.MSHMailType" access="FIELD">
+        <attributes>
+            <!-- just basic filed -it will be overridden on extended class as id-->
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceMessage"/>
+            </id>
+            <basic name="messageId">
+                <column name="MSG_ID" length="256"/>
+            </basic>
+            <basic name="refToMessageId">
+                <column name="REF_TO_MSG_ID" length="256"/>
+            </basic>
+            <basic name="senderMessageId">
+                <column name="SENDER_MSG_ID" length="256"/>
+            </basic>
+            <basic name="service">
+                <column name="SERVICE" length="512"/>
+            </basic>
+            <basic name="action">
+                <column name="ACTION" length="512"/>
+            </basic>
+            <basic name="conversationId">
+                <column name="CONV_ID" length="512"/>
+            </basic>
+            <basic name="subject">
+                <column name="SUBJECT" length="512"/>
+            </basic>
+            <basic name="receiverEBox">
+                <column name="RECEIVER_EBOX" length="512"/>
+            </basic>
+            <basic name="receiverName">
+                <column name="RECEIVER_NAME" length="512"/>
+            </basic>
+            <basic name="senderEBox">
+                <column name="SENDER_EBOX" length="512"/>
+            </basic>
+            <basic name="senderName">
+                <column name="SENDER_NAME" length="512"/>
+            </basic>
+            <basic name="status">
+                <column name="STATUS" length="32"/>
+            </basic>
+            <basic name="statusDate">
+                <column name="DATE_STATUS"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="submittedDate">
+                <column name="DATE_SUBMITTED"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="sentDate">
+                <column name="DATE_SENT"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="receivedDate">
+                <column name="DATE_RECEIVED"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="deliveredDate">
+                <column name="DATE_DELIVERED"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

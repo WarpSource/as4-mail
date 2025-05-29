@@ -14,19 +14,16 @@
  */
 package si.laurentius.msh.web.abst;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -35,6 +32,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.StreamedContent;
+import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.utils.ReflectUtils;
 import si.laurentius.commons.utils.SEDLogger;
 import si.laurentius.commons.utils.StringFormater;
@@ -119,13 +117,22 @@ public abstract class AbstractMailView<T, M, S> {
       }
       fw.flush();
 
-
-      return new DefaultStreamedContent(new FileInputStream(f), "text/plain",
-              "export-data.txt",
-              "utf-8");
+      return DefaultStreamedContent.builder()
+              .contentType("text/plain")
+              .contentEncoding("utf-8")
+              .name("export-data.txt")
+              .stream(() -> {
+                try {
+                  return new FileInputStream(f);
+                } catch (FileNotFoundException ex) {
+                  LOG.logError(0, ex);
+                  addError("File '" + f.getName() + "' reading error: " + ex.getMessage());
+                  return null;
+                }
+              }).build();
     } catch (IOException ex) {
        LOG.logError( "Error occrured while exporting data file!", ex);
-     
+
     }
     return null;
   }

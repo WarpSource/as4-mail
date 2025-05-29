@@ -14,7 +14,15 @@ import java.util.Objects;
 public enum SecSignatureAlgorithm {
   RSA_SHA1("http://www.w3.org/2000/09/xmldsig#rsa-sha1", "RSA-SHA1"),
   RSA_SHA256("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", "RSA-SHA256"),
-  RSA_SHA512("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "RSA-SHA512");
+  RSA_SHA512("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "RSA-SHA512"),
+  ECDSA_SHA1("http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1", "SHA1withECDSA"),
+  ECDSA_SHA224("http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha224","SHA224withECDSA"),
+  ECDSA_SHA256("http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256","SHA256withECDSA"),
+  ECDSA_SHA384("http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384","SHA384withECDSA"),
+  ECDSA_SHA512("http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512","SHA512withECDSA"),
+  ED25519("http://www.w3.org/2021/04/xmldsig-more#eddsa-ed25519","ED25519"),
+  ED448("http://www.w3.org/2021/04/xmldsig-more#eddsa-ed448","ED448");
+
 
   String mstrVal;
   String mstrDesc;

@@ -1,31 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <named-query name="si.laurentius.cron.SEDTaskExecution.getAll">
+        <query><![CDATA[SELECT p FROM SEDTaskExecution p]]></query>
+    </named-query>
+    <named-query name="si.laurentius.cron.SEDTaskExecution.getByStatusAndTypeAndCronJobId">
+        <query><![CDATA[SELECT p FROM SEDTaskExecution p  where p.cronId=:cronId and p.status=:status and p.type=:type order by p.id desc]]></query>
+    </named-query>
+    <entity class="si.laurentius.cron.SEDTaskExecution" access="FIELD">
+        <table name="LAU_TASK_EXECUTION">
+        </table>
+        <sequence-generator name="SequenceTaskExecution" sequence-name="SEQ_LAU_TASK_EXEC" allocation-size="1"/>
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceTaskExecution"/>
+            </id>
+
+            <basic name="cronId">
+                <column name="CRON_ID" scale="0"/>
+            </basic>
+            <basic name="type">
+                <column name="TASK_TYPE" length="64"/>
+            </basic>
+            <basic name="plugin">
+                <column name="TASK_PLUGIN" length="64"/>
+            </basic>
+            <basic name="pluginVersion">
+                <column name="TASK_PLUGIN_VERSION" length="32"/>
+            </basic>
+            <basic name="name">
+                <column name="NAME" length="512"/>
+            </basic>
+            <basic name="status">
+                <column name="STATUS" length="32"/>
+            </basic>
+            <basic name="result">
+                <column name="RESULT" length="32"/>
+            </basic>
+            <basic name="status">
+                <column name="STATUS" length="1024"/>
+            </basic>
+            <basic name="startTimestamp">
+                <column name="START_DATE" nullable="false"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <basic name="endTimestamp">
+                <column name="END_DATE" nullable="true"/>
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
+<!-- ?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    
     <class name="si.laurentius.cron.SEDTaskExecution"
            table="LAU_TASK_EXECUTION">
-      
+
         <id name="Id" type="java.math.BigInteger">
             <column name="ID" scale="0" />
             <generator class="sequence">
-                <param name="sequence_name"> SEQ_LAU_TASK_EXEC</param>                
+                <param name="sequence_name"> SEQ_LAU_TASK_EXEC</param>
             </generator>
-        </id>		
+        </id>
         <property column="CRON_ID" name="CronId"  type="java.math.BigInteger"/>
         <property column="TASK_TYPE" name="Type"  length="64" type="java.lang.String"/>
         <property column="TASK_PLUGIN" name="Plugin"  length="64" type="java.lang.String"/>
         <property column="TASK_PLUGIN_VERSION" name="PluginVersion"  length="32" type="java.lang.String"/>
-        <property column="NAME" name="Name" length="512" type="java.lang.String"/>  
-        <property column="STATUS" name="Status" length="32" type="java.lang.String"/>          
-        <property column="RESULT" name="Result"  length="1024" type="java.lang.String"/>          
-        <property column="START_DATE" name="StartTimestamp"  length="1024" type="java.util.Date"/>  
-        <property column="END_DATE" name="EndTimestamp"  length="1024" type="java.util.Date"/>  
-        
+        <property column="NAME" name="Name" length="512" type="java.lang.String"/>
+        <property column="STATUS" name="Status" length="32" type="java.lang.String"/>
+        <property column="RESULT" name="Result"  length="1024" type="java.lang.String"/>
+        <property column="START_DATE" name="StartTimestamp"  length="1024" type="java.util.Date"/>
+        <property column="END_DATE" name="EndTimestamp"  length="1024" type="java.util.Date"/>
+
     </class>
-    
     <query name="si.laurentius.cron.SEDTaskExecution.getAll" ><![CDATA[SELECT p FROM SEDTaskExecution p order by id asc]]></query>
     <query name="si.laurentius.cron.SEDTaskExecution.getByStatusAndTypeAndCronJobId" >
         <![CDATA[SELECT p FROM SEDTaskExecution p  where p.CronId=:cronId and p.Status=:status and p.Type=:type order by p.Id desc ]]></query>
-    
-
-</hibernate-mapping>
+</hibernate-mapping -->

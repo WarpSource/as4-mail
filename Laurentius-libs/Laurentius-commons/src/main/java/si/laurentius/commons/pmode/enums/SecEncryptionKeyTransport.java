@@ -12,7 +12,11 @@ import java.util.Objects;
  * @author sluzba
  */
 public enum SecEncryptionKeyTransport {
+  RSA_OAEP_MGF1P("http://www.w3.org/2009/xmlenc11#rsa-oaep", "RSA_OAEP_MGF1P"),
   RSA_OAEP("http://www.w3.org/2009/xmlenc11#rsa-oaep", "RSA_OAEP"),
+  KW_AES128("http://www.w3.org/2001/04/xmlenc#kw-aes128", "KW-AES128"),
+  KW_AES192("http://www.w3.org/2001/04/xmlenc#kw-aes192", "KW-AES192"),
+  KW_AES256("http://www.w3.org/2001/04/xmlenc#kw-aes256", "KW-AES256"),
   ;
 
   String mstrVal;

@@ -27,9 +27,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import si.laurentius.commons.utils.Utils;
 import static si.laurentius.lce.sign.xml.XMLSignatureUtils.XML_SIGNATURE_PROVIDER_PROP;
-import static si.laurentius.lce.sign.xml.XMLSignatureUtils.XML_SIGNATURE_PROVIDER_VALUE_1;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static si.laurentius.lce.sign.xml.XMLSignatureUtils.XML_SIGNATURE_PROVIDER_VALUE_2;
+
 import org.w3c.dom.NodeList;
 import si.laurentius.commons.exception.SEDSecurityException;
 import si.laurentius.commons.utils.xml.SchemaErrorHandler;
@@ -60,7 +61,7 @@ public class XMLSignatureUtilsTest {
     XMLSignatureFactory result = instance.getXMLSignatureFactory();
 
     System.setProperty(XML_SIGNATURE_PROVIDER_PROP,
-        XML_SIGNATURE_PROVIDER_VALUE_1);
+        XML_SIGNATURE_PROVIDER_VALUE_2);
 
     assertNotNull(result);
 

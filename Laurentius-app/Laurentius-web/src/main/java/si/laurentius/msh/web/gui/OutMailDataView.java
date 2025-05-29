@@ -1,12 +1,12 @@
 /*
  * Copyright 2016, Supreme Court Republic of Slovenia
- * 
+ *
  * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European
  * Commission - subsequent versions of the EUPL (the "Licence"); You may not use this work except in
  * compliance with the Licence. You may obtain a copy of the Licence at:
- * 
+ *
  * https://joinup.ec.europa.eu/software/page/eupl
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the Licence
  * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the Licence for the specific language governing permissions and limitations under
@@ -14,28 +14,16 @@
  */
 package si.laurentius.msh.web.gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.SEDJNDI;
+import si.laurentius.commons.enums.MimeValue;
 import si.laurentius.commons.enums.SEDOutboxMailStatus;
 import si.laurentius.commons.exception.PModeException;
 import si.laurentius.commons.exception.StorageException;
@@ -54,8 +42,15 @@ import si.laurentius.msh.pmode.Service;
 import si.laurentius.msh.table.mail.TableOutMail;
 import si.laurentius.msh.web.abst.AbstractMailView;
 
+import jakarta.annotation.PostConstruct;
+import java.io.*;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 /**
- *
  * @author Jože Rihtaršič
  */
 @SessionScoped
@@ -91,7 +86,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
             for (TableOutMail mo : molst) {
                 try {
                     Date dt = mDB.setStatusToOutMail(mo.getId(),
-                            mo.getSenderMessageId(),
                             mo.getSentDate(),
                             mo.getReceivedDate(),
                             mo.getDeliveredDate(),
@@ -108,7 +102,7 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
                     String mail = String.format(
                             "id: %d, sender: %s, receiver %s, service %s, action %s",
                             mo.getId(), mo.getSenderEBox(), mo.getReceiverEBox(), mo.
-                            getService(), mo.getAction());
+                                    getService(), mo.getAction());
                     facesContext().addMessage(null, new FacesMessage(
                             "'Napaka pri brisanju pošiljke",
                             mail));
@@ -123,7 +117,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @param filePath
      * @return
      */
@@ -132,21 +125,25 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
         long l = LOG.logStart();
         File f = StorageUtils.getFile(filePath);
         if (f.exists()) {
-            try {
-                return new DefaultStreamedContent(new FileInputStream(f), MimeValue.
-                        getMimeTypeByFileName(
-                                f.getName()),
-                        f.getName());
-            } catch (FileNotFoundException ex) {
-                LOG.logError(l, ex);
-            }
+            return DefaultStreamedContent.builder()
+                    .contentType(MimeValue.
+                            getMimeTypeByFileName(f.getName()))
+                    .name(f.getName())
+                    .stream(() -> {
+                        try {
+                            return new FileInputStream(f);
+                        } catch (FileNotFoundException ex) {
+                            LOG.logError(l, ex);
+                            addError("File '" + f.getName() + "' reading error: " + ex.getMessage());
+                            return null;
+                        }
+                    }).build();
         }
         LOG.formatedWarning("Event file '%s' not found ", filePath);
         return null;
     }
 
     /**
-     *
      * @param bi
      * @return
      */
@@ -168,21 +165,26 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
             }
         }
         if (part != null) {
-            try {
-                File f = StorageUtils.getFile(part.getFilepath());
-                return new DefaultStreamedContent(new FileInputStream(f), part.
-                        getMimeType(),
-                        part.getFilename());
-            } catch (FileNotFoundException ex) {
-                LOG.logError(l, ex);
-                addError("File '" + part.getFilepath() + "' reading error: " + ex.getMessage());
-            }
+
+            File f = StorageUtils.getFile(part.getFilepath());
+            return DefaultStreamedContent.builder()
+                    .contentType(MimeValue.
+                            getMimeTypeByFileName(f.getName()))
+                    .name(f.getName())
+                    .stream(() -> {
+                        try {
+                            return new FileInputStream(f);
+                        } catch (FileNotFoundException ex) {
+                            LOG.logError(l, ex);
+                            addError("File '" + f.getName() + "' reading error: " + ex.getMessage());
+                            return null;
+                        }
+                    }).build();
         }
         return null;
     }
 
     /**
-     *
      * @return
      */
     public OutMailDataModel getOutMailModel() {
@@ -194,7 +196,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @return
      */
     public List<SEDOutboxMailStatus> getOutStatuses() {
@@ -202,7 +203,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @param status
      * @return
      */
@@ -212,7 +212,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @return
      */
     public UserSessionData getUserSessionData() {
@@ -226,7 +225,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @throws IOException
      */
     public void resendSelectedMail()
@@ -260,7 +258,7 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
                         String mail = String.format(
                                 "id: %d, sender: %s, receiver %s, service %s, action %s\n",
                                 mo.getId(), mo.getSenderEBox(), mo.getReceiverEBox(), mo.
-                                getService(),
+                                        getService(),
                                 mo.getAction());
                         err.append(mail);
                         LOG.logError(l, ex);
@@ -294,7 +292,6 @@ public class OutMailDataView extends AbstractMailView<TableOutMail, MSHOutMail, 
     }
 
     /**
-     *
      * @param messageBean
      */
     public void setUserSessionData(UserSessionData messageBean) {

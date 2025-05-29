@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.UUID;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.util.JAXBSource;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.util.JAXBSource;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.xmlgraphics.util.MimeConstants;
 import org.junit.After;
@@ -297,7 +297,7 @@ Datum opravljene storitve : <Datum opravljene storitve>
   /**
    * Test of generateVisualization method, of class FOPUtils.
    *
-   * @throws javax.xml.bind.JAXBException
+   * @throws jakarta.xml.bind.JAXBException
    * @throws java.io.FileNotFoundException
    * @throws java.io.IOException
    * @throws si.laurentius.commons.exception.FOPException

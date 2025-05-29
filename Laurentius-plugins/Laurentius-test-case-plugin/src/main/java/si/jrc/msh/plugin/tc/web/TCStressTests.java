@@ -6,8 +6,8 @@
 package si.jrc.msh.plugin.tc.web;
 
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 import si.jrc.msh.plugin.tc.web.dlg.DialogProgress;
 import si.jrc.msh.plugin.tc.web.tc.ProcessLAOM;

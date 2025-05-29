@@ -48,7 +48,5 @@ Copyright 2016, Supreme Court Republic of Slovenia
                 <xs:documentation xml:lang="sl">Property group</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        
-        
     </xs:complexType>
 </xs:schema>

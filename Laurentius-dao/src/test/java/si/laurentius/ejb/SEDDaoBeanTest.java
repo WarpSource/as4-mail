@@ -5,30 +5,11 @@
  */
 package si.laurentius.ejb;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.QueueBrowser;
-import javax.jms.Session;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import jakarta.jms.JMSException;
 import org.junit.Assert;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import si.laurentius.commons.SEDSystemProperties;
 import si.laurentius.commons.enums.SEDInboxMailStatus;
 import si.laurentius.commons.enums.SEDMailPartSource;
@@ -39,10 +20,9 @@ import si.laurentius.commons.utils.Utils;
 import si.laurentius.cron.SEDTaskExecution;
 import si.laurentius.ejb.entity.TestEntity;
 import si.laurentius.ejb.utils.InitialContextFactoryForTest;
+import si.laurentius.ejb.utils.MockJMS;
 import si.laurentius.ejb.utils.TestLookupUtils;
 import si.laurentius.ejb.utils.TestUtils;
-import static si.laurentius.ejb.utils.TestUtils.LAU_TEST_DOMAIN;
-
 import si.laurentius.lce.DigestUtils;
 import si.laurentius.msh.inbox.event.MSHInEvent;
 import si.laurentius.msh.inbox.mail.MSHInMail;
@@ -52,16 +32,28 @@ import si.laurentius.msh.outbox.mail.MSHOutMail;
 import si.laurentius.msh.outbox.payload.MSHOutPart;
 import si.laurentius.msh.pmode.PMode;
 
+import javax.naming.Context;
+import javax.naming.NamingException;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+
 /**
- *
  * @author sluzba
  */
 public class SEDDaoBeanTest extends TestUtils {
 
     private static SEDDaoBean mTestInstance = new SEDDaoBean();
+    private static MockJMS jmsMockInstance = null;
 
     @BeforeClass
-    public static void setUpClass() throws IOException, NamingException, JMSException {
+    public static void setUpClass() throws IOException, JMSException {
 
         // create initial context factory 
         System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
@@ -71,11 +63,16 @@ public class SEDDaoBeanTest extends TestUtils {
 
         setUpStorage("target/storage/SEDDaoBeanTest");
 
-        setupJMS(S_JMS_JNDI_CF, "java:/jms/", Collections.
-                singletonList(S_JMS_QUEUE));
+        jmsMockInstance = setupJMS(S_JMS_JNDI_CF);
 
         mTestInstance.memEManager = TestUtils.createEntityManager();
     }
+
+    @Before
+    public void beforeTest() {
+        jmsMockInstance.jmsResetMessageCount();
+    }
+
 
     @Test
     public void test_A_01_SerializeOutMail_fillData() throws Exception {
@@ -83,7 +80,6 @@ public class SEDDaoBeanTest extends TestUtils {
         // start transaction in EE is JTA and this is not needed
         mTestInstance.memEManager.getTransaction().begin();
 
-        int iCount = getMessagesCountForOutQueue();
         MSHOutMail init = TestLookupUtils.createOutMail();
 
         init.setMessageId(null);
@@ -99,7 +95,7 @@ public class SEDDaoBeanTest extends TestUtils {
 
         assertNotNull(init.getId());
 
-        clearEntityManagerCahche();  // make sure to read from db
+        clearEntityManagerCache();  // make sure to read from db
         MSHOutMail fromDB = mTestInstance.
                 getMailById(MSHOutMail.class, init.getId());
         assertTrue(init != fromDB); // make sure to read from db
@@ -115,7 +111,7 @@ public class SEDDaoBeanTest extends TestUtils {
 
         assertEquals(fromDB.getSenderEBox(), fromDB.getSenderName());
         assertEquals(fromDB.getReceiverEBox(), fromDB.getReceiverName());
-        assertEquals(++iCount, getMessagesCountForOutQueue());
+        jmsMockInstance.assertJMSSendMessageCallCount(1);
 
     }
 
@@ -124,7 +120,6 @@ public class SEDDaoBeanTest extends TestUtils {
         System.out.println("test_A_01_SerializeOutMail_fillData");
         mTestInstance.memEManager.getTransaction().begin();
 
-        int iCount = getMessagesCountForOutQueue();
         MSHOutMail init = TestLookupUtils.createOutMail();
         PMode pmd = new PMode();
 
@@ -134,13 +129,12 @@ public class SEDDaoBeanTest extends TestUtils {
         mTestInstance.memEManager.getTransaction().commit();
 
         assertNotNull(init.getId());
-        clearEntityManagerCahche();  // make sure to read from db
+        clearEntityManagerCache();  // make sure to read from db
         MSHOutMail fromDB = mTestInstance.
                 getMailById(MSHOutMail.class, init.getId());
         assertTrue(init != fromDB); // make sure to read from db
 
-        assertEquals(++iCount, getMessagesCountForOutQueue());
-
+        jmsMockInstance.assertJMSSendMessageCallCount(1);
         // test event lists
         List<MSHOutEvent> leEvnt = mTestInstance.getMailEventList(MSHOutEvent.class,
                 init.getId());
@@ -161,7 +155,6 @@ public class SEDDaoBeanTest extends TestUtils {
         System.out.println("test_A_01_SerializeOutMail_Payload");
         // start transaction in EE is JTA and this is not needed
         mTestInstance.memEManager.getTransaction().begin();
-        int iCount = getMessagesCountForOutQueue();
         MSHOutMail init = TestLookupUtils.createOutMail();
         PMode pmd = new PMode();
         for (MSHOutPart op : init.getMSHOutPayload().getMSHOutParts()) {
@@ -179,13 +172,12 @@ public class SEDDaoBeanTest extends TestUtils {
         mTestInstance.memEManager.getTransaction().commit();
 
         assertNotNull(init.getId());
-        clearEntityManagerCahche();  // make sure to read from db
+        clearEntityManagerCache();  // make sure to read from db
         MSHOutMail fromDB = mTestInstance.
                 getMailById(MSHOutMail.class, init.getId());
         assertTrue(init != fromDB); // make sure to read from db
 
-        assertEquals(++iCount, getMessagesCountForOutQueue());
-
+        jmsMockInstance.assertJMSSendMessageCallCount(1);
         assertNotNull(fromDB.getMSHOutPayload());
 
         assertEquals(init.getMSHOutPayload().getMSHOutParts().size(), fromDB.
@@ -231,7 +223,7 @@ public class SEDDaoBeanTest extends TestUtils {
         mTestInstance.memEManager.getTransaction().commit();
         assertNotNull(init.getId());
 
-        clearEntityManagerCahche();  // make sure to read from db
+        clearEntityManagerCache();  // make sure to read from db
         MSHInMail fromDB = mTestInstance.
                 getMailById(MSHInMail.class, init.getId());
         assertTrue(init != fromDB); // make sure to read from db
@@ -270,7 +262,7 @@ public class SEDDaoBeanTest extends TestUtils {
         mTestInstance.memEManager.getTransaction().commit();
 
         assertNotNull(init.getId());
-        clearEntityManagerCahche();  // make sure to read from db
+        clearEntityManagerCache();  // make sure to read from db
         MSHInMail fromDB = mTestInstance.
                 getMailById(MSHInMail.class, init.getId());
         assertTrue(init != fromDB); // make sure to read from db
@@ -356,31 +348,7 @@ public class SEDDaoBeanTest extends TestUtils {
 
     }
 
-    public int getMessagesCountForOutQueue() throws NamingException, JMSException {
-        ConnectionFactory cf = (ConnectionFactory) InitialContext.doLookup(
-                S_JMS_JNDI_CF);
-
-        Connection connection = cf.createConnection();
-        connection.start();
-
-        Session session = connection.createSession(false,
-                Session.AUTO_ACKNOWLEDGE);
-        Queue queue = session
-                .createQueue(S_JMS_QUEUE);
-
-        QueueBrowser qb = session
-                .createBrowser(queue);
-        Enumeration en = qb.getEnumeration();
-        int iSize = 0;
-        while (en.hasMoreElements()) {
-            en.nextElement();
-            iSize++;
-        }
-        return iSize;
-
-    }
-
-    public void clearEntityManagerCahche() {
+    public void clearEntityManagerCache() {
         mTestInstance.memEManager.clear();
     }
 
@@ -436,16 +404,16 @@ public class SEDDaoBeanTest extends TestUtils {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -15);
         String hql
-                = "select new si.laurentius.ejb.entity.TestEntity(om.ReceiverEBox, max(om.DeliveredDate) AS DeliveredDate) "
+                = "select new si.laurentius.ejb.entity.TestEntity(om.receiverEBox, max(om.deliveredDate) AS DeliveredDate) "
                 + " from MSHOutMail om,  MSHInMail im "
-                + "  where om.ConversationId = im.ConversationId "
-                + "  and om.Service =im.Service "
-                + "  and om.Service = :service "
-                + "  and om.Action=:outAction "
-                + "  and im.Action=:inAction "
-                + "  and om.ReceivedDate >=:receivedDate "
-                + "  and om.DeliveredDate is not null "
-                + "  group by om.ReceiverEBox";
+                + "  where om.conversationId = im.conversationId "
+                + "  and om.service =im.service "
+                + "  and om.service = :service "
+                + "  and om.action=:outAction "
+                + "  and im.action=:inAction "
+                + "  and om.receivedDate >=:receivedDate "
+                + "  and om.deliveredDate is not null "
+                + "  group by om.receiverEBox";
 
         Map<String, Object> prms = new HashMap<>();
         prms.put("service", "LegalDelivery_ZPP");
@@ -459,27 +427,7 @@ public class SEDDaoBeanTest extends TestUtils {
         System.out.println("lst " + lst.size());
         for (TestEntity te : lst) {
             System.out.println("Test :" + te.getReceiverEBox() + " lastDeliveryDate" + te.getDeliveredDate() + " last  " + c1.getTime().toString());
-
         }
-
-        /*   
-    String hql2
-            = "select om"
-            + " from MSHOutMail AS om  join MSHInMail AS im "
-            + "  on om.ConversationId = im.ConversationId "
-            + "  on om.Service =im.Service "
-            + " with (im.Action=:inAction) "            
-            + "  where om.Service = :service "
-            + "  and om.Action=:outAction "
-            + "  and om.ReceivedDate > :receivedDate ";
-    
-
-    
-    
-    
-     List<MSHOutMail> lst2 = mTestInstance.
-            getDataList(MSHOutMail.class, hql2, prms);
-         */
     }
 
 }

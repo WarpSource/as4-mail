@@ -17,9 +17,9 @@ package si.laurentius.msh.web.admin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.inject.Named;
-import javax.inject.Inject;
-import javax.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.SessionScoped;
 import si.laurentius.commons.enums.SEDRulePredicate;
 import si.laurentius.commons.utils.ReflectUtils;
 

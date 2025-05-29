@@ -2,10 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -20,11 +20,11 @@
         <p:dialog  header="#{msg['XsltDialog']}" widgetVar="xsltDialog" modal="true" hideEffect="fade" resizable="false" 
                    appendTo="@(body)" width="850">
             <h:form id="xsltDialogForm" >
-                <p:layout id="xsltDetails" style="min-width:800px;min-height:400px;">
-                    <p:layoutUnit position="center" rendered="#{empty adminIMPXsltView.editable}" >
+                <div id="xsltDetails" style="min-width:800px;min-height:400px;">
+                    <div position="center" rendered="#{empty adminIMPXsltView.editable}" >
                         <h:outputText value="#{msg['SelectTableRow']}" />
-                    </p:layoutUnit>
-                    <p:layoutUnit position="center" rendered="#{not empty adminIMPXsltView.editable}"  >
+                    </div>
+                    <div position="center" rendered="#{not empty adminIMPXsltView.editable}"  >
 
                         <p:panelGrid   >
 
@@ -96,8 +96,8 @@
 
 
 
-                    </p:layoutUnit>
-                    <p:layoutUnit position="south"  size="40" minSize="40" maxSize="40" >
+                    </div>
+                    <div position="south"  size="40" minSize="40" maxSize="40" >
                         <p:toolbar 
                             styleClass="dialogButtonBar" >
                             <f:facet name="right"  >
@@ -111,8 +111,8 @@
                                                  onclick="PF('xsltDialog').hide();return false;"/>
                             </f:facet>
                         </p:toolbar>
-                    </p:layoutUnit>
-                </p:layout>               
+                    </div>
+                </div>
 
             </h:form>
         </p:dialog>

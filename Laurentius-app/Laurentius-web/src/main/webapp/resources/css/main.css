@@ -1,5 +1,131 @@
 
+html {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
 
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: #F7F7FF;
+}
+
+body .ui-toolbar {
+    background-color: var(--surface-500);
+    padding: 0.2em 1em;
+}
+
+body .ui-toolbar div > * {
+    margin: 0 2px;
+}
+
+#forms {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-100);
+}
+
+.window-toolbar {
+    flex: none;
+    background-color: var(--surface-500);
+    border-bottom: var(--surface-700) groove 0.2em;
+}
+
+.window-content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    flex-grow: 5;
+    flex-shrink: 1;
+}
+
+.window-navigation {
+    margin: 0;
+    border-right: var(--surface-700) groove 0.2em;
+    width: 380px;
+    min-width: 380px;
+    max-width: 380px;
+}
+
+.window-navigation > .ui-accordion-header {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em !important;
+}
+/* make grid cells compact (see the navigation search parameters)*/
+.ui-panelgrid .ui-panelgrid-cell {
+    padding: 2px !important;
+    border-color: inherit !important;
+    border-style: none !important;
+    border-width: 0 !important;
+}
+
+td.ui-panelgrid-cell.label {
+    text-align: right !important;
+}
+
+body .ui-inputfield {
+    padding: 0.1em;
+    width: 100%;
+}
+
+.ui-calendar {
+    display: flex;
+    flex-direction: row;
+}
+.ui-calendar.ui-inputfield {
+    flex-grow: 1;
+}
+.ui-calendar.ui-datepicker-trigger {
+    flex-grow: 0;
+}
+.ui-datepicker-trigger.ui-button-icon-only .ui-button-text {
+    padding: 0 !important;
+}
+
+.window-main {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    min-width: 600px;
+    flex: 1;
+    flex-grow: 5;
+
+}
+
+#window-status-bar {
+    height: 32px;
+    flex: none;
+    background-color: #333577;
+    border-bottom: 2px solid #0A0B3B;
+    border-top: 1px solid #0A0B3B;
+}
+
+.settings-panel {
+    display:flex;
+    flex-direction:column;
+    flex: 1;
+    min-width:400px;
+    min-height:400px;
+}
+.settings-panel-title {
+    height: 1em;
+    background-image: linear-gradient(var(--primary-500),var(--primary-300));
+}
+.settings-panel-title > label {
+    position: relative;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 0.2em 1em !important;
+    z-index: 1000 !important;
+    width: 100%;
+    top: 0.4em;
+}
 
 .settings-page-table {
     padding: 0px; 
@@ -8,369 +134,22 @@
     width: 100%    
 }
 
-input {
-    box-sizing: border-box;    
-}
-
-h1 {
-    padding: 0;
-    margin: 0;
-    background: gray; 
-    color: white; 
-}
-h2 {
-    margin: 2px 0 0 0;
-    background: #cdcfcf; 
-    color: black; 
-}
-
-h3 {
-    padding: 0;
-    margin: 2px 0 0 0;
-}
-
-.ui-panel .ui-panel-content {
-    border: 0 none;
-    padding: 0 !important;
-    
-    
-}
-
-
 .grid-label {
-    width: 130px !important; 
-    background: lightsteelblue;
+    width: 120px !important;
     text-align: right !important;
-    padding: 0;
-    margin: 1px;
+}
+
+.grid-label-small {
+    font-size: 0.8rem;
+    width: 100px !important;
+    text-align: right !important;
 }
 
 .grid-label-long {
-    width: 270px !important; 
-    background: lightsteelblue;
+    width: 180px !important;
     text-align: right !important;
-    padding: 0;
-    margin: 1px;
 }
 
-
-
-
-.ui-widget .ui-layout-unit, 
-.ui-widget .ui-layout-unit-content,
-.ui-tabs .ui-tabs-panel
-{
-    padding: 0em 0em !important;
-    margin:  0em 0em !important;
-    border: 0px none !important;
-    overflow: hidden !important;
-}
-
-.ui-widget {
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    box-sizing: border-box;   
-
-}
-
-.ui-accordion-content {
-    background: #cdcfcf;
-    background: -webkit-linear-gradient(bottom right,  #cdcfcf, #bdbfcf);
-    background:    -moz-linear-gradient(left top,#cdcfcf, #bdbfcf);
-    background:      -o-linear-gradient(left top,#cdcfcf, #bdbfcf);
-    background:         linear-gradient(45deg,#cdcfcf, #bdbfcf);
-    padding: 10px 10px !important;
-    margin:  0em 0em !important;
-    height: 100%;
-}
-
-.ui-accordion-button {
-    width:  100%;
-    padding: 3px 3px !important;
-    background-color: darkgray  !important;
-    border: 1px solid gray;
-    color: black!important;
-}
-
-.ui-accordion-button {
-    width:  100%;
-    padding: 0px 0px !important;
-    background-color: darkgray  !important;
-    border: 1px solid gray;
-    color: black!important;
-}
-
-.ui-tabs-panels {
-    height: 100%;
-}
-
-
-/************************************************************************/
-/*Toolbar                                                               */
-/************************************************************************/
-.ui-toolbar, .ui-accordion-header {
-    padding: 2px 5px !important; 
-    border: 0px none !important;
-    margin:  0em 0em !important;
-    overflow: hidden !important;       
-    vertical-align: middle;
-}
-
-.ui-tabs .ui-tabs-nav li a {
-    float: left;
-    padding: 0.1em 0.5em;
-    text-decoration: none;
-}
-
-.ui-selectonemenu {
-    box-sizing: border-box; width: 100%;
-    min-width: 50px !important;
-}
-
-.ui-selectonemenu-label-red {
-    background-color: indianred;
-    color: black;
-}
-
-.ui-selectonemenu-label-orange {
-    background-color: orange;
-    color: black;
-}
-
-.panelGridNoBorder .ui-panelgrid-even, .panelGridNoBorder .ui-panelgrid-odd, .panelGridNoBorder .ui-panelgrid-cell {
-    border-style: none;
-    padding: 1px;
-}
-.ui-panelgrid .ui-panelgrid-cell {
-    padding: 2px !important; 
-    border-color: inherit !important;
-    border-style: none !important;
-    border-width: 0 !important;    
-}
-
-td.ui-panelgrid-cell.label {
-    text-align: right !important; 
-}
-
-
-.LoginTitle {
-
-    background:  url("../images/first-page.svg")  no-repeat right top ;
-    background-position: 0 0;
-    font-family: Arial, sans-serif;
-    color:black;
-    font-size: 35px;
-    line-height: 50px;
-    text-align:left;        
-    height:  350px;
-
-
-}
-.LoginPage {
-
-    padding: 20px 20px;
-    color: black;
-    text-shadow: 0 2px 2px rgba(0, 0, 0, .1);
-
-    font-size: 30px;
-    line-height: 36px;
-    letter-spacing: 3px;
-
-    background: #cdcfff;
-    background: -webkit-linear-gradient(bottom right,  #FaFaFF, #cdcfff);
-    background:    -moz-linear-gradient(left top,#FaFaFF, #cdcfff);
-    background:      -o-linear-gradient(left top,#FaFaFF, #cdcfff);
-    background:         linear-gradient(45deg,#FaFaFF, #cdcfff);
-}
-
-.toolbar-Button {
-    height: 28px;
-}
-
-.image-Button {
-    height: 28px;
-}
-
-.ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon {
-
-    top:0;
-    margin:  1px;
-    padding: 1px 1px 1px 4px;
-    left: 0;
-}
-
-.ui-button-text-icon-left .ui-button-text {
-    padding: 1px 4px 1px 28px;
-}
-
-
-.ui-diagram-element {
-    border:0.1em dotted #E5E4E2; 
-    background-color: #EFEEEC;
-    width:100px; 
-    height:40px;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-}
-.ui-diagram-seq-line {
-    border: none; 
-    border-top: 0 none white; 
-    background-color: lightgrey;
-    width:20px; 
-    height:50px;
-    text-align: center;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
-}    
-
-
-.ui-diagram-element:hover {
-    background-color: #C7C6C4;
-}
-
-
-.searchDate input {
-    width: 120px;
-
-}
-.dialogButtonBar {
-    background-color: gray; 
-    height: 32px !important; 
-    padding: 1px !important; 
-    border-style: solid !important; 
-    border-width: 2px!important; 
-    border-color: black !important;    
-}
-
-.dialogButtonBar button{    
-    width: 90px !important;     
-}
-
-.ui-dialog .ui-widget-header {
-    text-align: left !important;   
-    vertical-align: middle !important;
-    box-sizing: border-box;   
-}
-
-
-
-
-.CodeMirror {
-    /* Set height, width, borders, and global font properties here */
-    font-family: monospace;
-    height: 570px !important;
-    color: black;
-}
-
-
-.CodeMirror-scroll {
-    height: 570px !important;
-    outline: 0 none;
-    overflow: auto;
-    position: relative;
-}
-
-.ui-toolbar-group-right {
-    display: table;
-    float: right;
-    vertical-align: middle;
-
-}
-.ui-toolbar-group-right label,
-.ui-toolbar-group-right b,
-.ui-toolbar-group-right span,
-.ui-toolbar-group-right div {
-    display: table-cell;
-    vertical-align: middle;
-
-}
-
-.ui-panel-Header{
-    color: whitesmoke;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
-    width:100%;
-    padding: 2px 15px;
-    background-color: #3d3c40;
-    margin: 0 20px
-
-}
-
-
-.ui-diagram-element {
-    border:0.1em dotted #E5E4E2; 
-    background-color: #EFEEEC;
-    width:10em; 
-    height:8em;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-}
-
-.ui-diagram-squence-head {
-    border:0.1em dotted #E5E4E2; 
-    background-color: #EFEEEC;
-    width:7em; 
-    height:3em;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-}
-
-.ui-diagram-squence-body {
-    border:0.1em dotted #E5E4E2; 
-    background-color: #EFEEEC;
-    width:1em; 
-    height:6em;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-}
-
-.ui-diagram-squence-body {
-    border:0.1em dotted #E5E4E2; 
-    background-color: #EFEEEC;
-    width:1em; 
-    height:6em;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-}
-
-
-.ui-diagram-element:hover {
-    background-color: #C7C6C4;
-}
-
-.action-connector{
-    background: whitesmoke;
-    top: -1em;
-    position: relative;
-    
-}
-
-.arrow-line-solid{
-    
-    height: 15px !important;
-    background: url("#{resource['images:/solid-line.svg']}") repeat-x 0px 100% !important;     
-    
-}
-.arrow-line-dash{
-    
-    height: 20px !important;
-    background: url("#{resource['images:/dash-line.svg']}") repeat-x 0px 100% !important;  
-   
-    
-}
-.arrow-right {   
-    height: 20px !important;
-    width: 20px !important;
-    background: url("#{resource['images:/right-arrow.svg']}")  no-repeat !important;     
-    
-}
-.arrow-left {   
-    height: 20px !important;
-    width: 20px !important;
-    background: url("#{resource['images:/left-arrow.svg']}")  no-repeat !important;     
-    
-}
-.no-arrow {   
-    height: 20px !important;
-    width: 1px !important;
-   
-    
+.grid-value {
+    text-align: right !important;
 }

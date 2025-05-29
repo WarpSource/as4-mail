@@ -19,17 +19,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.EJB;
-import javax.ejb.MessageDriven;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
+import jakarta.ejb.ActivationConfigProperty;
+import jakarta.ejb.EJB;
+import jakarta.ejb.MessageDriven;
+import jakarta.ejb.TransactionManagement;
+import jakarta.ejb.TransactionManagementType;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.NoResultException;
+import jakarta.persistence.NoResultException;
 import si.laurentius.commons.enums.SEDInboxMailStatus;
 import si.laurentius.commons.SEDJNDI;
 import si.laurentius.commons.SEDValues;
@@ -57,7 +57,7 @@ import si.laurentius.process.SEDProcessorRule;
                   propertyValue = "Auto-acknowledge")
           ,
       @ActivationConfigProperty(propertyName = "destinationType",
-                  propertyValue = "javax.jms.Queue")
+                  propertyValue = "jakarta.jms.Queue")
           ,
       @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/MSHInMailProcessQueue")
           ,

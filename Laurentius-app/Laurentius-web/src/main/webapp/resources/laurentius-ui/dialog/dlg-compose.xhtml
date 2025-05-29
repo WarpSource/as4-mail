@@ -1,285 +1,248 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:dlg="http://java.sun.com/jsf/composite/laurentius-ui/dialog"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:dlg="http://xmlns.jcp.org/jsf/composite/laurentius-ui/dialog"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
-      >
-    <h:head>
-        <title>AS4Mail</title>       
-    </h:head>
-    <composite:interface>
-    </composite:interface>
+>
+<h:head>
+    <title>AS4Mail</title>
+</h:head>
+<composite:interface>
+</composite:interface>
 
-    <composite:implementation >
-        <dlg:dlg-abstract   id="mailComposeDialog"
-                            formId="mailComposeDialogForm"
-                            dialogTitle="#{msg['MailCompose']}" 
-                            editable="#{dialogCompose.newOutMail}"
-                            width="1024"
-                            height="500"
-                            updateOnSave=":forms:MainPanel"    
-                            onConfirmAction="#{dialogCompose.sendComposedMail()}"
-                            > 
+<composite:implementation>
+    <dlg:dlg-abstract id="mailComposeDialog"
+                      formId="mailComposeDialogForm"
+                      dialogTitle="#{msg['MailCompose']}"
+                      editable="#{dialogCompose.newOutMail}"
+                      width="1024"
+                      height="500"
+                      updateOnSave=":forms:MainPanelUnit"
+                      onConfirmAction="#{dialogCompose.sendComposedMail()}"
+    >
+        <div id="mailComposeDetails" style="display: flex;flex-direction:column">
+            <div style="display: flex; flex-direction:row">
+                <p:panelGrid style="flex-grow: 1"
+                             columns="2" columnClasses="grid-label, grid-value">
+                    <h:outputText value="#{msg['SenderBox']}:"/>
+                    <p:selectOneMenu id="eboxSSender"
+                                     value="#{dialogCompose.newOutMail.senderEBox}"
+                                     style="width:355px"
+                    >
+                        <f:selectItem noSelectionOption="false"/>
+                        <f:selectItems value="#{userSessionData.userEBoxes}"
+                                       var="ebx"
+                                       itemLabel="#{ebx}#{ApplicationData.domain}"
+                                       itemValue="#{ebx}#{ApplicationData.domain}"/>
+                    </p:selectOneMenu>
 
+                    <h:outputText value="#{msg['ReceiverBox']}:"/>
+                    <p:selectOneMenu id="eboxRec"
+                                     value="#{dialogCompose.newOutMail.receiverEBox}"
+                                     editable="true"
+                                     style="width:355px">
 
+                        <f:selectItems value="#{userSessionData.userEBoxes}"
+                                       var="ebx" itemLabel="#{ebx}#{ApplicationData.domain}"
+                                       itemValue="#{ebx}#{ApplicationData.domain}"
+                        />
+                    </p:selectOneMenu>
 
-
-            <p:layout id="mailComposeDetails" style="min-width:600px;min-height:550px;">
-                <p:layoutUnit position="north" 
-                              rendered="#{not empty dialogCompose.newOutMail}"
-                              size="154"
-                              >
-
-                    <p:layout >
-                        <p:layoutUnit position="center" >
-                            <p:panelGrid style="width: 100%"  columns="2" columnClasses="grid-label, value">
-
-                                <h:outputText value="#{msg['SenderBox']}:" />
-                                <p:selectOneMenu id="eboxSSender" 
-                                                 value="#{dialogCompose.newOutMail.senderEBox}" 
-                                                 style="width:400px"
-                                                 >
-                                    <f:selectItem noSelectionOption="false"  />
-                                    <f:selectItems value="#{userSessionData.userEBoxes}"
-                                                   var="ebx"
-                                                   itemLabel="#{ebx}#{ApplicationData.domain}"
-                                                   itemValue="#{ebx}#{ApplicationData.domain}" />
-                                </p:selectOneMenu>        
-
-                                <h:outputText value="#{msg['ReceiverBox']}:" />                                
-                                <p:selectOneMenu id="eboxRec" 
-                                                 value="#{dialogCompose.newOutMail.receiverEBox}" 
-                                                 style="width:400px"
-                                                 editable="true">
-
-                                    <f:selectItems value="#{userSessionData.userEBoxes}" 
-                                                   var="ebx" itemLabel="#{ebx}#{ApplicationData.domain}"
-                                                   itemValue="#{ebx}#{ApplicationData.domain}"
-                                                   />
-                                </p:selectOneMenu> 
-
-                                <h:outputText value="#{msg['Service']}:" />
-                                <p:selectOneMenu id="cmpService" value="#{dialogCompose.newMailService}" 
-                                                 style="width:400px" >
-                                    <p:ajax update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:cmpAction 
+                    <h:outputText value="#{msg['Service']}:"/>
+                    <p:selectOneMenu id="cmpService" value="#{dialogCompose.newMailService}"
+                                     style="width:355px">
+                        <p:ajax update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:cmpAction
                                             :dlgCompose:mailComposeDialog:mailComposeDialogForm:TblMsgProperties 
                                             :dlgCompose:mailComposeDialog:mailComposeDialogForm:teSubject"/>
-                                    <f:selectItem noSelectionOption="false"  />
-                                    <f:selectItems value="#{pModeServiceView.list}" var="srv" itemLabel="#{srv.id}" itemValue="#{srv.id}"/>
-                                </p:selectOneMenu>
+                        <f:selectItem noSelectionOption="false"/>
+                        <f:selectItems value="#{pModeServiceView.list}" var="srv" itemLabel="#{srv.id}"
+                                       itemValue="#{srv.id}"/>
+                    </p:selectOneMenu>
 
-                                <h:outputText value="#{msg['Action']}:" />
-                                <p:selectOneMenu id="cmpAction" value="#{dialogCompose.newMailAction}" 
-                                                 style="width:400px" >
-                                    <p:ajax update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:TblMsgProperties"/>
-                                    <f:selectItem noSelectionOption="false"  />
-                                    <f:selectItems value="#{dialogCompose.currentServiceActionList}" var="act" 
-                                                   itemLabel="#{act.name}" itemValue="#{act.name}"/>
-                                </p:selectOneMenu>
+                    <h:outputText value="#{msg['Action']}:"/>
+                    <p:selectOneMenu id="cmpAction" value="#{dialogCompose.newMailAction}"
+                                     style="width:355px">
+                        <p:ajax update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:TblMsgProperties"/>
+                        <f:selectItem noSelectionOption="false"/>
+                        <f:selectItems value="#{dialogCompose.currentServiceActionList}" var="act"
+                                       itemLabel="#{act.name}" itemValue="#{act.name}"/>
+                    </p:selectOneMenu>
 
-                                <h:outputText id="lblSubject"  value="#{msg['Subject']}:" />
-                                <h:inputText id="teSubject" disabled="#{not dialogComposePayloadView.showLaurentiusProperties()}" value="#{dialogCompose.newOutMail.subject}" style="width: 100%"/>
+                    <h:outputText id="lblSubject" value="#{msg['Subject']}:"/>
+                    <h:inputText id="teSubject"
+                                 style="width:355px"
+                                 disabled="#{not dialogComposePayloadView.showLaurentiusProperties()}"
+                                 value="#{dialogCompose.newOutMail.subject}"/>
 
-                            </p:panelGrid>
-                        </p:layoutUnit>
-                        <p:layoutUnit position="east" size="400">
+                </p:panelGrid>
 
-                            <p:dataTable id="TblMsgProperties" 
-                                         widgetVar="msgProperties"
-                                         var="sp" 
-                                         value="#{dialogCompose.actionMessageProperties}"
-                                         style="padding: 0px; margin: 0px;box-sizing: border-box; width: 400px;height: 100%"
-                                         scrollable="true" 
-                                         scrollHeight="105"                   
-                                         editable="true"
-                                         editMode="cell"
-                                         saveOnCellBlur="true"
+                <p:dataTable id="TblMsgProperties"
+                             style="width: 450px;"
+                             widgetVar="msgProperties"
+                             var="sp"
+                             rowKey="#{sp.name}"
+                             value="#{dialogCompose.actionMessageProperties}"
 
-                                         >
+                             scrollable="true"
+                             scrollHeight="105"
+                             editable="true"
+                             editMode="cell"
+                             saveOnCellBlur="true"
 
-                                <f:facet name="header">
-                                    <strong>#{msg['MessageProperties']}</strong>
-                                </f:facet>
+                >
+
+                    <f:facet name="header">
+                        <strong>#{msg['MessageProperties']}</strong>
+                    </f:facet>
+                    <p:column headerText="#{msg['Name']}">
+                        <h:outputText value="#{sp.name}"/>
+                    </p:column>
+                    <p:column headerText="#{msg['value']}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{sp.value}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{sp.value}"
+                                                               style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                </p:dataTable>
+            </div>
+            <div style="display: flex; flex-direction:row">
+                <div style="display: flex; flex-direction: column; flex-grow: 1">
+                    <div class="window-toolbar" style="flex-grow: 0">
+                        <strong>#{msg['CreateTextPayload']}</strong><br/>
+                        <p:commandButton styleClass="toolbar-Button"
+                                         value="#{msg['AddToPayload']}"
+                                         icon="ui-icon-svg-add ui-icon-size-22"
+                                         actionListener="#{dialogCompose.addTextPayload()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
+                        <p:commandButton styleClass="toolbar-Button"
+                                         value="#{msg['Clear']}"
+                                         icon="ui-icon-svg-clear ui-icon-size-22"
+                                         actionListener="#{dialogCompose.clearTextPayload()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
+                    </div>
+
+                    <p:panelGrid style="flex-grow: 1; width: 100%"
+                                 columns="4" columnClasses="grid-label, value,grid-label, value">
 
 
-                                <p:column headerText="#{msg['Name']}" >
-                                    <h:outputText value="#{sp.name}" />
-                                </p:column>
+                        <h:outputText value="#{msg['EbmsPartId']}:"/>
+                        <p:inputText id="payloadEbmsId" value="#{dialogCompose.bodyAttachment.ebmsId}"
+                        />
 
+                        <!-- h:outputText value="#{msg['MimeType']}:" />
+                        <p:selectOneMenu id="payloadMime"
+                                         value="#{dialogCompose.bodyAttachment.mimeType}"
+                                         style="width: 160px"
+                                         filter="true"
+                                         filterMatchMode="contains"
 
-                                <p:column headerText="#{msg['value']}" >
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{sp.value}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{sp.value}" style="width:100%"/></f:facet>
-                                    </p:cellEditor>
-                                </p:column>
-                            </p:dataTable>
-                        </p:layoutUnit>
-                    </p:layout>
-                </p:layoutUnit>
-                <p:layoutUnit  
-                    rendered="#{not empty dialogCompose.newOutMail}"
-                    position="east" size="400"  >
+                                          >
+                            <f:selectItems  value="#{LookupsData.mimeValues}" var="ar"
+                                            itemLabel="#{ar.mimeType}" itemValue="#{ar.mimeType}"/>
+                        </p:selectOneMenu -->
 
+                        <h:outputText value="#{msg['Description']}:"/>
+                        <p:inputText id="payloadDesc" value="#{dialogCompose.bodyAttachment.description}"/>
 
-                    <p:dataTable id="tblAttachments" value="#{dialogComposePayloadView.list}"
-                                 scrollable="true"
-                                 scrollHeight="200"
-                                 style="padding: 0px; margin: 0px;box-sizing: border-box; width: 400px;height: 100%"
-                                 var="plpart"
-                                 selectionMode="single"
-                                 selection="#{dialogComposePayloadView.selected}"
+                        <h:outputText value="#{msg['Charset']}:"/>
+                        <p:inputText id="payloadCharset" value="#{dialogCompose.bodyAttachment.encoding}"
+
+                        />
+                    </p:panelGrid>
+                    <p:inputTextarea id="bodyEditor"
+                                     style="flex-grow: 1"
+                                     autoResize="false"
+                                     rows="10"
+                                     value="#{dialogCompose.composedMailBody}"
+                                     disabled="#{not dialogCompose.addBodyAttachment}"/>
+                </div>
+                <p:dataTable id="tblAttachments"
+                             style="flex-grow: 1; width: 450px;"
+                             value="#{dialogComposePayloadView.list}"
+                             scrollable="true"
+                             scrollHeight="200"
+                             var="plpart"
                              rowKey="#{plpart}">
-                        
-                         <p:ajax event="rowDblselect" listener="#{dialogComposePayloadView.startEditSelected()}" 
+                    selectionMode="single"
+                    selection="#{dialogComposePayloadView.selected}"
+
+                    <p:ajax event="rowDblselect" listener="#{dialogComposePayloadView.startEditSelected()}"
                             update=":dlgComposePayload:mailComposePayloadDialog:mailComposePayloadDialogForm"
                             oncomplete="PF('mailComposePayloadDialog').show()"/>
 
-                        <f:facet name="header">
-                            <strong>#{msg['Payloads']}</strong><br />
-                           
-                        
-                            <pnl:pnl-table-control 
+                    <f:facet name="header">
+                        <strong>#{msg['Payloads']}</strong><br/>
+
+
+                        <pnl:pnl-table-control
                                 dialogVar="mailComposePayloadDialog"
                                 updateDialog=":dlgComposePayload:mailComposePayloadDialog:mailComposePayloadDialogForm"
                                 updateTable=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
                                 addActionListener="#{dialogComposePayloadView.createEditable()}"
                                 editActionListener="#{dialogComposePayloadView.startEditSelected()}"
-                                removeActionListener="#{dialogComposePayloadView.removeSelectedWithWarning(':dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments')}"                            
-                                /> 
-                            <span class="ui-separator" style="display: inline-block;">
-                                <span class="ui-icon ui-icon-grip-dotted-vertical " />
+                                removeActionListener="#{dialogComposePayloadView.removeSelectedWithWarning(':dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments')}"
+                        />
+                        <span class="ui-separator" style="display: inline-block;">
+                                <span class="ui-icon ui-icon-grip-dotted-vertical "/>
                             </span>
-                            <p:commandButton  styleClass="toolbar-Button" 
-                                              icon="ui-icon-svg-top ui-icon-size-22"  
-                                              actionListener="#{dialogComposePayloadView.selectedPayloadToTop()}"
-                                              update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                              />
-                            <p:commandButton  styleClass="toolbar-Button" 
-                                              icon="ui-icon-svg-up ui-icon-size-22"  
-                                              actionListener="#{dialogComposePayloadView.selectedPayloadToUp()}"
-                                              update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                              />
-                            <p:commandButton styleClass="toolbar-Button" 
-                                             icon="ui-icon-svg-down ui-icon-size-22"  
-                                             actionListener="#{dialogComposePayloadView.selectedPayloadToDown()}"
-                                             update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                             />
-                            <p:commandButton styleClass="toolbar-Button" 
-                                             icon="ui-icon-svg-bottom ui-icon-size-22"  
-                                             actionListener="#{dialogComposePayloadView.selectedPayloadToBottom()}"
-                                             update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                             />
+                        <p:commandButton styleClass="toolbar-Button"
+                                         icon="ui-icon-svg-top ui-icon-size-22"
+                                         actionListener="#{dialogComposePayloadView.selectedPayloadToTop()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
+                        <p:commandButton styleClass="toolbar-Button"
+                                         icon="ui-icon-svg-up ui-icon-size-22"
+                                         actionListener="#{dialogComposePayloadView.selectedPayloadToUp()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
+                        <p:commandButton styleClass="toolbar-Button"
+                                         icon="ui-icon-svg-down ui-icon-size-22"
+                                         actionListener="#{dialogComposePayloadView.selectedPayloadToDown()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
+                        <p:commandButton styleClass="toolbar-Button"
+                                         icon="ui-icon-svg-bottom ui-icon-size-22"
+                                         actionListener="#{dialogComposePayloadView.selectedPayloadToBottom()}"
+                                         update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
+                        />
 
-                        </f:facet>
-
-
-                        <p:column headerText="#{msg['Name']}">
-                            <h:outputText value="#{plpart.name}" />
-                        </p:column>
-
-                        <p:column headerText="#{msg['Filename']}">
-                            <h:outputText value="#{plpart.filename}" />
-                        </p:column>
-
-                        <p:column width="60" headerText="#{msg['MimeType']}">
-                            <h:outputText value="#{plpart.mimeType}" />
-                        </p:column>
-
-                        <p:column width="60" headerText="#{msg['Size']}">
-                            <h:outputText value="#{LookupsData.getHumanReadableSize(plpart.size)}" />
-                        </p:column>
+                    </f:facet>
 
 
-                    </p:dataTable>
+                    <p:column headerText="#{msg['Name']}">
+                        <h:outputText value="#{plpart.name}"/>
+                    </p:column>
+
+                    <p:column headerText="#{msg['Filename']}">
+                        <h:outputText value="#{plpart.filename}"/>
+                    </p:column>
+
+                    <p:column width="60" headerText="#{msg['MimeType']}">
+                        <h:outputText value="#{plpart.mimeType}"/>
+                    </p:column>
+
+                    <p:column width="60" headerText="#{msg['Size']}">
+                        <h:outputText value="#{LookupsData.getHumanReadableSize(plpart.size)}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+
+        </div>
+    </dlg:dlg-abstract>
 
 
-
-                </p:layoutUnit>
-
-                <p:layoutUnit position="center"  
-                              rendered="#{not empty dialogCompose.newOutMail}"
-                              >
-                    
-                    <f:facet name="header">
-                    <strong>#{msg['CreateTextPayload']}</strong><br />
-                    <p:commandButton  styleClass="toolbar-Button" 
-                                      value="#{msg['AddToPayload']}"
-                                              icon="ui-icon-svg-add ui-icon-size-22"  
-                                              actionListener="#{dialogCompose.addTextPayload()}"
-                                              update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                              />
-                            <p:commandButton  styleClass="toolbar-Button" 
-                                              value="#{msg['Clear']}"
-                                              icon="ui-icon-svg-clear ui-icon-size-22"  
-                                              actionListener="#{dialogCompose.clearTextPayload()}"
-                                              update=":dlgCompose:mailComposeDialog:mailComposeDialogForm:tblAttachments"
-                                              />
-                            </f:facet>
-                            
-                    <p:panelGrid style="width: 100%"
-                                 columns="4" columnClasses="grid-label, value,grid-label, value">
-
-                        
-
-                        <h:outputText value="#{msg['EbmsPartId']}:" />
-                        <p:inputText id="payloadEbmsId" value="#{dialogCompose.bodyAttachment.ebmsId}" 
-                                     style="width: 200px"  
-                                     />
-
-                        <h:outputText value="#{msg['MimeType']}:" />
-                        <p:selectOneMenu id="payloadMime"
-                                         value="#{dialogCompose.bodyAttachment.mimeType}" 
-                                         style="width: 160px"  
-                                         filter="true"
-                                         filterMatchMode="contains"
-                                         
-                                         >
-
-                            <f:selectItems  value="#{LookupsData.mimeValues}" var="ar" 
-                                            itemLabel="#{ar.mimeType}" itemValue="#{ar.mimeType}"/>
-                        </p:selectOneMenu>
-                        
-                        <h:outputText value="#{msg['Description']}:" />
-                        <p:inputText id="payloadDesc" value="#{dialogCompose.bodyAttachment.description}" 
-                                     style="width: 200px"  
-                                     
-                                     />
-                        
-                        <h:outputText value="#{msg['Charset']}:" />
-                        <p:inputText id="payloadCharset" value="#{dialogCompose.bodyAttachment.encoding}" 
-                                     style="width: 160px"  
-                                     
-                                     />
-
-
-
-
-                    </p:panelGrid>
-                    <p:inputTextarea id="bodyEditor"
-                                     style="width: 100%;height: 200px;"
-                                     autoResize="false"
-                                     rows="15" 
-                                     value="#{dialogCompose.composedMailBody}"  
-                                     disabled="#{not dialogCompose.addBodyAttachment}"/>
-
-
-
-
-                </p:layoutUnit>
-
-            </p:layout>
-
-
-        </dlg:dlg-abstract>
-
-
-    </composite:implementation>
+</composite:implementation>
 
 </html>

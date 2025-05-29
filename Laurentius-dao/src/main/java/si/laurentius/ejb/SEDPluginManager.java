@@ -23,7 +23,7 @@ import si.laurentius.plugin.interceptor.MailInterceptorDef;
 import si.laurentius.plugin.interfaces.InMailProcessorInterface;
 import si.laurentius.plugin.processor.InMailProcessorDef;
 
-import javax.ejb.*;
+import jakarta.ejb.*;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.ArrayList;

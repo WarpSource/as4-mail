@@ -2,11 +2,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:pnl="http://java.sun.com/jsf/composite/laurentius-ui/panel"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pnl="http://xmlns.jcp.org/jsf/composite/laurentius-ui/panel"
       lang="#{localeManager.language}"
       >
     <h:head>
@@ -37,7 +37,7 @@
                              scrollHeight="100%"
                              rows="100" 
                              >
-                    <f:facet name="header">
+                    <f:facet name="header" style="float:right">
                        
                                 <p:commandButton value="#{msg['AddCertKey']}" styleClass="toolbar-Button"         
                                                  icon="ui-icon-svg-add ui-icon-size-22"                                                    

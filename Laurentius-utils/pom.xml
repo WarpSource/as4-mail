@@ -30,7 +30,6 @@
         <developer>
             <id>jrc</id>
             <name>Jože Rihtaršič</name>
-            <email>joze.rihtarsic@sodisce.si</email>
             <organization>Supreme Court Republic of Slovenia</organization>
             <organizationUrl>http://www.sodisce.si/</organizationUrl>
             <roles>
@@ -48,17 +47,17 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Laurentius-commons</artifactId>
-            <version>${project.version}</version>		
-            
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>javax</groupId>            
-            <artifactId>javaee-api</artifactId>                    
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         
     </dependencies>

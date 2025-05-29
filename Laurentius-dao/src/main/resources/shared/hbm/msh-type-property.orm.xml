@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_1.xsd"
+        version="3.1">
+    <mapped-superclass class="si.laurentius.msh.mail.MSHPropertyType" access="FIELD">
+        <attributes>
+            <id name="id">
+                <column name="ID" scale="0"/>
+                <generated-value strategy="SEQUENCE" generator="SequenceProperty"/>
+            </id>
+            <basic name="name">
+                <column name="NAME" length="128"/>
+            </basic>
+            <basic name="type">
+                <column name="TYPE" length="256"/>
+            </basic>
+            <basic name="value">
+                <column name="&quot;VALUE&quot;" length="512"/>
+            </basic>
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

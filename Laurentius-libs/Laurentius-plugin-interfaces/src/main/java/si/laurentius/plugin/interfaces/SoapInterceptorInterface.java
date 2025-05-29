@@ -15,7 +15,7 @@
 package si.laurentius.plugin.interfaces;
 
 import java.util.Properties;
-import javax.ejb.Local;
+import jakarta.ejb.Local;
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.interceptor.Fault;
 

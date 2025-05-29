@@ -4,13 +4,10 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="
       http://www.jboss.com/xml/ns/javaee
-      http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd">
-    
-    <!-- Realm that will be used -->
-    <!-- security-domain>java:/jaas/laurentius-realm"</security-domain -->
-    <security-domain>laurentius-realm</security-domain>
+      http://www.jboss.org/j2ee/schema/jboss-web_5_1.xsd" version="7.1">
+
     <!-- URL to access the web module -->
     <context-root>laurentius-web</context-root>
-
-	
+    <!-- Realm that will be used -->
+    <security-domain>LaurentiusDomain</security-domain>
 </jboss-web>

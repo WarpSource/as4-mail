@@ -3,16 +3,16 @@
 <hibernate-mapping>    
     <class name="si.laurentius.user.SEDUser"
            table="LAU_USER">
-        <id name="UserId" type="java.lang.String" >
+        <id name="USERID" type="java.lang.String" >
             <column name="userid" length="512" />            
         </id>        
         <property column="NAME" name="Name" length="512"  type="java.lang.String" />
         <property column="DESCRIPTION" name="Desc" length="1024"  type="java.lang.String" />
         <property column="EMAIL" name="Email" length="512"  type="java.lang.String" />
-        <property column="Active_Date_From" name="ActiveFromDate" type="java.util.Date" />       
-        <property column="Active_Date_To" name="ActiveToDate" type="java.util.Date" />        
+        <property column="ACTIVE_DATE_FROM" name="ActiveFromDate" type="java.util.Date" />
+        <property column="ACTIVE_DATE_TO" name="ActiveToDate" type="java.util.Date" />
         
-        <bag name="sedBoxes"  access="field" table="lau_user_sedbox" 
+        <bag name="sedBoxes"  access="field" table="LAU_USER_SEDBOX"
              inverse="false"  fetch="select" lazy="false" >
             <key>
                 <column name="userid" not-null="true" />

@@ -50,8 +50,8 @@ public class XMLSignatureUtils {
   private static final String ID_PREFIX_SIG_PROP = "sig-prop";
 
   public static final String XML_SIGNATURE_PROVIDER_PROP = "jsr105Provider";
-  public static final String XML_SIGNATURE_PROVIDER_VALUE_1 =
-      "org.jcp.xml.dsig.internal.dom.XMLDSigRI";
+  //public static final String XML_SIGNATURE_PROVIDER_VALUE_1 =
+  //  "org.jcp.xml.dsig.internal.dom.XMLDSigRI";
   public static final String XML_SIGNATURE_PROVIDER_VALUE_2 =
       "org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI";
 
@@ -117,10 +117,6 @@ public class XMLSignatureUtils {
     String providerName = getProperty(XML_SIGNATURE_PROVIDER_PROP);
     if (providerName != null) {
       fac = getXMLSignatureFactory(providerName);
-    }
-    // try org.jcp.xml.dsig.internal.dom.XMLDSigRI
-    if (fac == null) {
-      fac = getXMLSignatureFactory(XML_SIGNATURE_PROVIDER_VALUE_1);
     }
     // try org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI
     if (fac == null) {

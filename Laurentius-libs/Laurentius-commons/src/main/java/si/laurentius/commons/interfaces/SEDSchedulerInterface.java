@@ -14,10 +14,10 @@
  */
 package si.laurentius.commons.interfaces;
 
-import javax.ejb.Local;
-import javax.ejb.Timeout;
-import javax.ejb.Timer;
-import javax.ejb.TimerService;
+import jakarta.ejb.Local;
+import jakarta.ejb.Timeout;
+import jakarta.ejb.Timer;
+import jakarta.ejb.TimerService;
 import si.laurentius.cron.SEDCronJob;
 
 /**

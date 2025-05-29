@@ -1,37 +1,43 @@
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-                 version="2.1" 
-                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
     <persistence-unit name="ebMS_PU" transaction-type="RESOURCE_LOCAL">
-        <mapping-file>shared/hbm/msh-in-event.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/msh-in-mail.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/msh-in-payload.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/msh-out-event.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/msh-out-mail.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/msh-out-payload.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-property.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-application.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-cert-store.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-box.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-user.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-cron.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-interceptor.hbm.xml</mapping-file>
-        <mapping-file>shared/hbm/sed-process.hbm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-in-event.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-in-mail.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-in-payload.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-out-event.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-out-mail.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-out-payload.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-table-mail.hbm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-type-decision-rule.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-type-event.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-type-mail.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-type-part.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/msh-type-property.orm.xml</mapping-file>
         <mapping-file>shared/hbm/report-status.hbm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-application.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-box.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-cert-store.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-cron.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-interceptor.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-process.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-property.orm.xml</mapping-file>
+        <mapping-file>shared/hbm/sed-user.orm.xml</mapping-file>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:derby:target/msh/db/msh-as4;create=true"/>
-            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>            
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:./target/dao-tests-h2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;AUTO_SERVER=TRUE"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="test"/>
+            <property name="jakarta.persistence.jdbc.password" value="test"/>
+            <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-            <!-- property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/-->          
-            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>          
-              
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.connection.autocommit" value="false" /> 
             
-            <!-- property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
-            <property name="javax.persistence.schema-generation.scripts.create-target" value="/sluzba/create.sql"/>
-            <property name="javax.persistence.schema-generation.scripts.drop-target" value="/sluzba/drop.sql"/ -->
+            <!-- property name="jakarta.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="jakarta.persistence.schema-generation.scripts.create-target" value="/sluzba/create.sql"/>
+            <property name="jakarta.persistence.schema-generation.scripts.drop-target" value="/sluzba/drop.sql"/ -->
            
         </properties>
     </persistence-unit>

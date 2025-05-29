@@ -56,10 +56,6 @@ h1 {
     color: black!important;
 }
 
-.ui-tabs-panels {
-    height: 100%;
-}
-
 
 /************************************************************************/
 /*Toolbar                                                               */
@@ -198,7 +194,7 @@ h1 {
 
 .grid-label {
      width: 120px !important; 
-     background: lightsteelblue;
+
      text-align: right !important;
 }
 

@@ -1,0 +1,10 @@
+embed-server --server-config=${SERVER_CONFIG}
+
+if (outcome == success) of /host=master/core-service=module-loading/:list-resource-loader-paths(module=si.laurentius)
+    echo "module si.laurentius already installed, remove it"
+   run-batch --file=resources/remove-module.cli --verbose
+end-if
+echo "install module si.laurentius"
+run-batch --file=resources/deploy-module-commons.cli --verbose
+
+exit
