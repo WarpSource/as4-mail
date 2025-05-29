@@ -1,4 +1,4 @@
-FROM quay.io/wildfly/wildfly:36.0.0.Final-jdk17
+FROM quay.io/wildfly/wildfly:36.0.1.Final-jdk17
 
 ENV VERSION 2.1.0-SNAPSHOT
 ENV SERVER_VERSION wildfly-w36.1
@@ -11,9 +11,7 @@ COPY  ./Laurentius.zip $WILDFLY_HOME/Laurentius.zip
 
 user root
 
-RUN yum-config-manager --save --setopt=skip_if_unavailable=true \
-    &&  yum  install skip_if_unavailable=1 -y wget unzip  \
-    && rm -rf /var/cache/yum
+RUN microdnf install -y zip
 
 RUN cd $WILDFLY_HOME/ \
     &&  unzip  Laurentius.zip \
