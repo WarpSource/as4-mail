@@ -26,7 +26,7 @@ jobs:
           ./create-release-bundle.sh
           ls -ltr ./releases
           cp ./releases/Laurentius-*.zip ../docker/Laurentius.zip
-          ls -ltr ./docker
+          ls -ltr ../docker
 
       - name: Build and Push docker image
         # do not use docker/build-push-action@v2 because it cleans the repo
@@ -34,7 +34,8 @@ jobs:
         run: |
             export VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive  exec:exec)
             ls -ltr ./docker
-            docker build -f ./docker/Dockerfile -t warpsource/as4mail-dev:latest -t warpsource/as4mail-dev:${VERSION:-noversion} .
+            cd ./docker
+            docker build -f Dockerfile -t warpsource/as4mail-dev:latest -t warpsource/as4mail-dev:${VERSION:-noversion} .
             docker push warpsource/as4mail-dev:${VERSION:-noversion}
             docker push warpsource/as4mail-dev:latest
       - name: Image digest
