@@ -1,14 +1,12 @@
-FROM quay.io/wildfly/wildfly:31.0.0.Final-jdk17
+FROM quay.io/wildfly/wildfly:36.0.0.Final-jdk17
 
 ENV VERSION 2.1.0-SNAPSHOT
-ENV SERVER_VERSION wildfly-w31.1
+ENV SERVER_VERSION wildfly-w36.1
 ENV LAU_PROJECT .
 ENV WILDFLY_HOME /opt/jboss/wildfly
 
-
-
-# si.laurentius module libralies
-COPY  $LAU_PROJECT/scripts/releases/Laurentius-*.zip $WILDFLY_HOME/Laurentius.zip
+# si.laurentius module libraries
+COPY  ./Laurentius.zip $WILDFLY_HOME/Laurentius.zip
 
 
 user root
@@ -20,7 +18,7 @@ RUN yum-config-manager --save --setopt=skip_if_unavailable=true \
 RUN cd $WILDFLY_HOME/ \
     &&  unzip  Laurentius.zip \
     && mv Laurentius-* laurentius-deployment \
-    && cd $WILDFLY_HOME/laurentius-deployment/wildfly-31.0 \
+    && cd $WILDFLY_HOME/laurentius-deployment/wildfly-36.0 \
     && ls -ltr \
     && ./deploy-laurentius.sh --init -s "${WILDFLY_HOME}" \
     && cd "$WILDFLY_HOME/bin" \
