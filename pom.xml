@@ -83,7 +83,7 @@
         <logback-core.version>1.5.18</logback-core.version>
         <org.apache.xmlgraphics.fop.version>2.11</org.apache.xmlgraphics.fop.version>
         <org.apache.pdfbox.version>2.0.34</org.apache.pdfbox.version>
-        <org.apache.commons-lang3.version>3.17.0</org.apache.commons-lang3.version>
+        <org.apache.commons-lang3.version>3.18.0</org.apache.commons-lang3.version>
         <!-- jakarta EE includes JMS, web, jsf. -->
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
 
