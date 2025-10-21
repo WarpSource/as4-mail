@@ -11,7 +11,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <slf4j-api.version>2.0.5</slf4j-api.version>
-        <logback-core.version>1.4.5</logback-core.version>
+        <logback-core.version>1.5.19</logback-core.version>
     </properties>
     <!-- PLUGINS -->
     <dependencies>
