@@ -80,7 +80,7 @@
         <net.sf.saxon.version>10.9</net.sf.saxon.version>
         <log4j.version>2.17.2</log4j.version>
         <slf4j-api.version>2.0.17</slf4j-api.version>
-        <logback-core.version>1.5.18</logback-core.version>
+        <logback-core.version>1.5.25</logback-core.version>
         <org.apache.xmlgraphics.fop.version>2.11</org.apache.xmlgraphics.fop.version>
         <org.apache.pdfbox.version>2.0.34</org.apache.pdfbox.version>
         <org.apache.commons-lang3.version>3.17.0</org.apache.commons-lang3.version>
